@@ -1,5 +1,6 @@
 import React from 'react';
 import { withAuthorization } from '../Session';
+import * as ROLES from '../../constants/roles';
 
 const HomePage = () => (
   <div>
@@ -8,6 +9,9 @@ const HomePage = () => (
   </div>
 );
 
-const condition = authUser => !!authUser;
+const condition = authUser => {
+  debugger;
+  return authUser && !!authUser.roles.ADMIN;
+};
 
 export default withAuthorization(condition)(HomePage);
