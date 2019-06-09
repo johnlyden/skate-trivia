@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import Question from '../Question';
 const contentful = require('contentful');
 
 function Landing() {
@@ -23,7 +24,7 @@ function Landing() {
     <div>
       <h2>{round.name}</h2>
       {round.questions.map(question => (
-        <h3>{question.fields.body}</h3>
+        <Question content={question.fields.body} />
       ))}
     </div>
   );
