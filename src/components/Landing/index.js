@@ -1,9 +1,32 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+const contentful = require('contentful');
 
-const Landing = () => (
-  <div>
-    <h1> Landing </h1>
-  </div>
-);
+function Landing() {
+  const [round, setRound] = useState({});
 
-export default Landing; 
+  const client = contentful.createClient({
+    space: process.env.REACT_APP_CONTENTFUL_SPACE,
+    accessToken: process.env.REACT_APP_CONTENTFUL_TOKEN
+  });
+
+  useEffect(() => {
+    // this should get Today's quiz
+    client.getEntries({ content_type: 'round' }).then(response => {
+      const round = response.items[0].fields;
+      setRound(round);
+    });
+  }, []);
+
+  if (!round || !round.questions) return null;
+
+  return (
+    <div>
+      <h2>{round.name}</h2>
+      {round.questions.map(question => (
+        <h3>{question.fields.body}</h3>
+      ))}
+    </div>
+  );
+}
+
+export default Landing;
