@@ -25,7 +25,7 @@ function Landing() {
 
   function handleAnswerSelected(event) {
     setUserAnswer(event.currentTarget.value);
-
+    debugger;
     if (questionId < quizQuestions.length) {
       setTimeout(() => setNextQuestion(), 300);
     } else {
@@ -66,19 +66,21 @@ function Landing() {
     // this should get Today's quiz
     client.getEntries({ content_type: 'round' }).then(response => {
       const round = response.items[0].fields;
+      const quizQuestions = round.questions;
+
       setRound(round);
+      setQuestion(quizQuestions[0].fields.body);
+      setAnswerOptions(quizQuestions[0].fields.choices);
     });
 
-    const shuffledAnswerOptions = quizQuestions.map(question =>
-      shuffleArray(question.answers)
-    );
-
-    setQuestion(quizQuestions[0].question);
-    setAnswerOptions(shuffledAnswerOptions[0]);
+    // const shuffledAnswerOptions = quizQuestions.map(question =>
+    //   shuffleArray(question.answers)
+    // );
   }, []);
 
   if (!round || !round.questions) return null;
-  console.log(answersCount);
+  console.log(answerOptions);
+
   return (
     <div>
       <h2>{round.name}</h2>
