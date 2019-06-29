@@ -18,7 +18,6 @@ function Quiz(props) {
       />
     );
   }
-
   return (
     <div className="quiz">
       <QuestionCount counter={props.questionId} total={props.questionTotal} />

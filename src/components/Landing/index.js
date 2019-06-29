@@ -1,60 +1,48 @@
 import React, { useEffect, useState } from 'react';
-// import Question from '../Question';
 import Quiz from '../Quiz';
-import quizQuestions from '../../api/quizQuestions.js';
-
 const contentful = require('contentful');
 
 function Landing() {
   const [round, setRound] = useState({});
   const [answer, setAnswer] = useState('');
+  const [correctAnswer, setCorrectAnswer] = useState('');
   const [questionId, setQuestionId] = useState(1);
   const [question, setQuestion] = useState('');
+  const [quizQuestions, setQuizQuestions] = useState([]);
   const [answerOptions, setAnswerOptions] = useState([]);
   const [counter, setCounter] = useState(0);
-  const [answersCount, setAnswersCount] = useState({});
-  const [result, setResult] = useState('');
+  const [score, setScore] = useState(0);
 
   function setNextQuestion() {
     setCounter(counter + 1);
     setQuestionId(questionId + 1);
-    setQuestion(quizQuestions[counter].question);
-    setAnswerOptions(quizQuestions[counter].answers);
+    setQuestion(quizQuestions[counter + 1].fields.body);
+    setAnswerOptions(quizQuestions[counter + 1].fields.choices);
+    setCorrectAnswer(quizQuestions[counter + 1].fields.answer);
     setAnswer('');
   }
 
   function handleAnswerSelected(event) {
     setUserAnswer(event.currentTarget.value);
-    debugger;
     if (questionId < quizQuestions.length) {
       setTimeout(() => setNextQuestion(), 300);
     } else {
-      setTimeout(() => setResults(getResults()), 300);
-    }
-  }
-
-  function getResults() {
-    const answersCountKeys = Object.keys(answersCount);
-    const answersCountValues = answersCountKeys.map(key => answersCount[key]);
-    const maxAnswerCount = Math.max.apply(null, answersCountValues);
-
-    return answersCountKeys.filter(key => answersCount[key] === maxAnswerCount);
-  }
-
-  function setResults(result) {
-    if (result.length === 1) {
-      setResult(result[0]);
-    } else {
-      setResult('Undetermined');
+      // getResults();
+      // setTimeout(() => setResults(getResults()), 500);
+      // this should:
+      // add up the points earned
+      // update the record in firebase
+      // redirect to the scoreboard with updated results
     }
   }
 
   function setUserAnswer(answer) {
-    setAnswersCount({
-      ...answersCount,
-      [answer]: (answersCount[answer] || 0) + 1
-    });
+    // this shouldkeep track of the question, answer and points associated with each question
     setAnswer(answer);
+    if (answer === correctAnswer) {
+      // add points ot the points total
+      setScore(score + 1);
+    }
   }
 
   const client = contentful.createClient({
@@ -67,23 +55,20 @@ function Landing() {
     client.getEntries({ content_type: 'round' }).then(response => {
       const round = response.items[0].fields;
       const quizQuestions = round.questions;
-
+      setQuizQuestions(quizQuestions);
       setRound(round);
       setQuestion(quizQuestions[0].fields.body);
       setAnswerOptions(quizQuestions[0].fields.choices);
+      setCorrectAnswer(quizQuestions[0].fields.answer);
     });
-
-    // const shuffledAnswerOptions = quizQuestions.map(question =>
-    //   shuffleArray(question.answers)
-    // );
   }, []);
 
   if (!round || !round.questions) return null;
-  console.log(answerOptions);
 
   return (
     <div>
       <h2>{round.name}</h2>
+      <h3>{score}</h3>
       <Quiz
         answer={answer}
         answerOptions={answerOptions}
@@ -92,28 +77,8 @@ function Landing() {
         questionTotal={quizQuestions.length}
         onAnswerSelected={handleAnswerSelected}
       />
-      {/* {round.questions.map(question => (
-        <Question content={question.fields.body} />
-      ))} */}
     </div>
   );
-}
-
-function shuffleArray(array) {
-  var currentIndex = array.length,
-    temporaryValue,
-    randomIndex;
-  // While there remain elements to shuffle...
-  while (0 !== currentIndex) {
-    // Pick a remaining element...
-    randomIndex = Math.floor(Math.random() * currentIndex);
-    currentIndex -= 1;
-    // And swap it with the current element.
-    temporaryValue = array[currentIndex];
-    array[currentIndex] = array[randomIndex];
-    array[randomIndex] = temporaryValue;
-  }
-  return array;
 }
 
 export default Landing;
