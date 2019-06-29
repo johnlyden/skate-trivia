@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
+import { withRouter } from 'react-router-dom';
 import Quiz from '../Quiz';
 const contentful = require('contentful');
 
-function Landing() {
+function Landing({ history }) {
   const [round, setRound] = useState({});
   const [answer, setAnswer] = useState('');
   const [correctAnswer, setCorrectAnswer] = useState('');
@@ -11,6 +12,8 @@ function Landing() {
   const [quizQuestions, setQuizQuestions] = useState([]);
   const [answerOptions, setAnswerOptions] = useState([]);
   const [counter, setCounter] = useState(0);
+  const [pointvalue, setPointValue] = useState(0);
+  const [timeLimit, setTimeLimit] = useState(0);
   const [score, setScore] = useState(0);
 
   function setNextQuestion() {
@@ -19,6 +22,8 @@ function Landing() {
     setQuestion(quizQuestions[counter + 1].fields.body);
     setAnswerOptions(quizQuestions[counter + 1].fields.choices);
     setCorrectAnswer(quizQuestions[counter + 1].fields.answer);
+    setPointValue(quizQuestions[counter + 1].fields.pointvalue);
+    setTimeLimit(quizQuestions[counter + 1].fields.timeLimit);
     setAnswer('');
   }
 
@@ -27,6 +32,7 @@ function Landing() {
     if (questionId < quizQuestions.length) {
       setTimeout(() => setNextQuestion(), 300);
     } else {
+      setTimeout(() => history.push('/new-location'), 300);
       // getResults();
       // setTimeout(() => setResults(getResults()), 500);
       // this should:
@@ -60,6 +66,8 @@ function Landing() {
       setQuestion(quizQuestions[0].fields.body);
       setAnswerOptions(quizQuestions[0].fields.choices);
       setCorrectAnswer(quizQuestions[0].fields.answer);
+      setPointValue(quizQuestions[0].fields.pointvalue);
+      setTimeLimit(quizQuestions[0].fields.timeLimit);
     });
   }, []);
 
@@ -69,6 +77,8 @@ function Landing() {
     <div>
       <h2>{round.name}</h2>
       <h3>{score}</h3>
+      <h3>time limit: {timeLimit}</h3>
+      <h3>point value: {pointvalue}</h3>
       <Quiz
         answer={answer}
         answerOptions={answerOptions}
@@ -81,4 +91,4 @@ function Landing() {
   );
 }
 
-export default Landing;
+export default withRouter(Landing);
