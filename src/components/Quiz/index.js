@@ -1,10 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { CSSTransitionGroup } from 'react-transition-group';
-
 import AnswerOption from '../AnswerOption';
 import Question from '../Question';
 import QuestionCount from '../QuestionCount';
+import TimerProgress from '../TimerProgress';
 
 function Quiz(props) {
   function renderAnswerOptions(key) {
@@ -19,6 +19,7 @@ function Quiz(props) {
       />
     );
   }
+
   return (
     <CSSTransitionGroup
       className="container"
@@ -29,6 +30,7 @@ function Quiz(props) {
       transitionAppear
       transitionAppearTimeout={500}>
       <div className="quiz" key={props.questionId}>
+        <TimerProgress timeLimit={props.timeLimit} />
         <QuestionCount counter={props.questionId} total={props.questionTotal} />
         <Question content={props.question} />
         <ul className="answerOptions">

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { withRouter } from 'react-router-dom';
 import Quiz from '../Quiz';
+
 const contentful = require('contentful');
 
 function QuizPage({ history }) {
@@ -45,10 +46,8 @@ function QuizPage({ history }) {
   }
 
   function setUserAnswer(answer) {
-    // this shouldkeep track of the question, answer and points associated with each question
     setAnswer(answer);
     if (answer === correctAnswer) {
-      // add points ot the points total
       setScore(score + pointValue);
     }
   }
@@ -81,9 +80,11 @@ function QuizPage({ history }) {
       <h3>{score}</h3>
       <h3>time limit: {timeLimit}</h3>
       <h3>point value: {pointValue}</h3>
+
       <Quiz
         answer={answer}
         answerOptions={answerOptions}
+        timeLimit={timeLimit}
         questionId={questionId}
         question={question}
         questionTotal={quizQuestions.length}
