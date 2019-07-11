@@ -19,7 +19,9 @@ function Header() {
   return (
     <MDBNavbar color="indigo" dark expand="md">
       <MDBNavbarBrand>
-        <strong className="white-text">Skate Stumpers</strong>
+        <MDBNavLink to={ROUTES.HOME}>
+          <strong className="white-text">Skate Stumpers</strong>
+        </MDBNavLink>
       </MDBNavbarBrand>
       <MDBNavbarToggler onClick={() => setIsOpen(!isOpen)} />
       <MDBCollapse id="navbarCollapse3" isOpen={isOpen} navbar>
