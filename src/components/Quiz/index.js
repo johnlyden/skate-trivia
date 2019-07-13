@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react';
-// import PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
+import { withRouter } from 'react-router-dom';
 import { CSSTransitionGroup } from 'react-transition-group';
 import AnswerOption from '../AnswerOption';
 import Question from '../Question';
 import QuestionCount from '../QuestionCount';
 import { withFirebase } from '../Firebase';
 import TimerProgress from '../TimerProgress';
+import { compose } from 'recompose';
 
 function Quiz(props) {
   const { round } = props;
@@ -49,25 +51,19 @@ function Quiz(props) {
     if (questionId < quizQuestions.length) {
       setTimeout(() => setNextQuestion(), 300);
     } else {
-      // make a request to update the firebase record
-      // update firebase to have this roundId in its roundsPlayed array
-      /** calling set overrides all props set on this user
-       *
-       * need to just update the score prop here insteadj
-       */
-      // return props.firebase
-      //   .user(props.authUser.uid)
-      //   .set({
-      //     testingProp: 'hi There'
-      //   })
-      //   .then(authUser => {
-      //     debugger;
-      //   })
-      //   .catch(error => {
-      //     this.setState({ error });
-      //   });
-      // redirect to the home/scoreboard
-      // setTimeout(() => history.push('/new-location'), 300);
+      return props.firebase
+        .user(props.authUser.uid)
+        .update({
+          // needs to be current score plus score
+          totalScore: score
+        })
+        .then(() => {
+          // create a leaderboard and redirect there
+          setTimeout(() => props.history.push('/new-location'), 300);
+        })
+        .catch(error => {
+          // this.setState({ error });
+        });
     }
   }
 
@@ -117,12 +113,11 @@ function Quiz(props) {
 }
 
 Quiz.propTypes = {
-  // answer: PropTypes.string.isRequired,
-  // answerOptions: PropTypes.array.isRequired,
-  // question: PropTypes.string.isRequired,
-  // questionId: PropTypes.number.isRequired,
-  // questionTotal: PropTypes.number.isRequired,
-  // onAnswerSelected: PropTypes.func.isRequired
+  round: PropTypes.object.isRequired,
+  authUser: PropTypes.object.isRequired
 };
 
-export default withFirebase(Quiz);
+export default compose(
+  withRouter,
+  withFirebase
+)(Quiz);
