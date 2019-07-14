@@ -55,7 +55,7 @@ function Quiz(props) {
         .user(props.authUser.uid)
         .update({
           // needs to be current score plus score
-          totalScore: score
+          totalScore: props.authUser.totalScore + score
         })
         .then(() => {
           // create a leaderboard and redirect there
