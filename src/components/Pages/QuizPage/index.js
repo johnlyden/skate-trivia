@@ -23,7 +23,7 @@ function QuizPage({ history, firebase, authUser }) {
   }, []);
 
   if (!round) return null;
-
+  console.log('round: ', round);
   return (
     <div>
       <AuthUserContext.Consumer>

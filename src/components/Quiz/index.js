@@ -10,14 +10,8 @@ import TimerProgress from 'components/TimerProgress';
 import { compose } from 'recompose';
 
 function Quiz(props) {
-  const { questionData, onAnswerSelected } = props;
-  const {
-    question,
-    answerOptions,
-    timeLimit,
-    questionId,
-    quizLength
-  } = questionData;
+  const { questionData, onAnswerSelected, quizLength } = props;
+  const { question, answerOptions, timeLimit, questionId } = questionData;
 
   return (
     <CSSTransitionGroup

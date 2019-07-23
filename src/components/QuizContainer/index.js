@@ -35,6 +35,7 @@ const initialState = {
 function QuizContainer({ round, authUser }) {
   const [quizState, dispatch] = useReducer(reducer, initialState);
   const quizQuestions = round.fields.questions;
+  const quizLength = quizQuestions.length;
 
   useEffect(() => {
     dispatch({
@@ -44,8 +45,7 @@ function QuizContainer({ round, authUser }) {
         answerOptions: quizQuestions[0].fields.choices,
         timeLimit: quizQuestions[0].fields.timeLimit,
         pointValue: quizQuestions[0].fields.pointValue,
-        correctAnswer: quizQuestions[0].fields.answer,
-        quizLength: quizQuestions.length
+        correctAnswer: quizQuestions[0].fields.answer
       }
     });
   }, [round]);
@@ -80,7 +80,11 @@ function QuizContainer({ round, authUser }) {
   if (!quizState.loaded) return null;
 
   return (
-    <Quiz onAnswerSelected={handleAnswerSelect} questionData={quizState} />
+    <Quiz
+      onAnswerSelected={handleAnswerSelect}
+      questionData={quizState}
+      quizLength={quizLength}
+    />
   );
 }
 
