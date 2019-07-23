@@ -1,6 +1,6 @@
 import React from 'react';
 import { MDBNavLink } from 'mdbreact';
-import { withFirebase } from '../Firebase';
+import { withFirebase } from 'components/Firebase';
 
 const SignOutButton = ({ firebase }) => (
   <MDBNavLink onClick={firebase.doSignOut} to={'/'}>

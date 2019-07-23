@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { withRouter } from 'react-router-dom';
-import QuizContainer from '../QuizContainer';
-import { withFirebase } from '../Firebase';
-import { AuthUserContext } from '../Session';
+import QuizContainer from 'components/QuizContainer';
+import { withFirebase } from 'components/Firebase';
+import { AuthUserContext } from 'components/Session';
 import { compose } from 'recompose';
 
 const contentful = require('contentful');

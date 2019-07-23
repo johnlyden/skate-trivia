@@ -37,6 +37,8 @@ class Firebase {
 
   users = () => this.db.ref('users');
 
+  // TODO: create the LeaderBoard API to pull that
+
   // Merge Auth and DB User API
   onAuthUserListener = (next, fallback) =>
     this.auth.onAuthStateChanged(authUser => {

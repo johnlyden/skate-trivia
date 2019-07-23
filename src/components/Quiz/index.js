@@ -2,11 +2,11 @@ import React from 'react';
 // import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import { CSSTransitionGroup } from 'react-transition-group';
-import AnswerOption from '../AnswerOption';
-import Question from '../Question';
-import QuestionCount from '../QuestionCount';
-import { withFirebase } from '../Firebase';
-import TimerProgress from '../TimerProgress';
+import AnswerOption from 'components/AnswerOption';
+import Question from 'components/Question';
+import QuestionCount from 'components/QuestionCount';
+import { withFirebase } from 'components/Firebase';
+import TimerProgress from 'components/TimerProgress';
 import { compose } from 'recompose';
 
 function Quiz(props) {

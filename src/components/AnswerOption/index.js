@@ -2,12 +2,12 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
 function AnswerOption(props) {
+  const { answerContent, onAnswerSelected } = props;
   const [answer, setAnswer] = useState('');
-  const { answerContent } = props;
 
   function handleChange(e) {
     setAnswer(e.target.value);
-    props.onAnswerSelected(e.target.value);
+    onAnswerSelected(e.target.value);
   }
 
   return (

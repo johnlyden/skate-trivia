@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import { AuthUserContext } from '../Session';
-import * as ROUTES from '../../constants/routes';
-import * as ROLES from '../../constants/roles';
-import SignOutButton from '../SignOut';
+import { AuthUserContext } from 'components/Session';
+import * as ROUTES from 'constants/routes';
+import * as ROLES from 'constants/roles';
+import SignOutButton from 'components/SignOut';
 import {
   MDBNavbar,
   MDBNavbarBrand,

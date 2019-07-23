@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import ChangingProgressProvider from '../ChangingProgressProvider';
+import ChangingProgressProvider from 'components/ChangingProgressProvider';
 import { CircularProgressbar } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
 
