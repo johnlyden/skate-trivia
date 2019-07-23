@@ -2,14 +2,16 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 function QuestionCount(props) {
+  const { currentQuestion, quizLength } = props;
+
   return (
     <div className="questionCount">
-      Question <span>{props.counter}</span> of <span>{props.total}</span>
+      Question <span>{currentQuestion}</span> of <span>{quizLength}</span>
     </div>
   );
 }
 QuestionCount.propTypes = {
-  counter: PropTypes.number.isRequired,
-  total: PropTypes.number.isRequired
+  currentQuestion: PropTypes.number.isRequired,
+  quizLength: PropTypes.number.isRequired
 };
 export default QuestionCount;

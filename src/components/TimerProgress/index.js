@@ -10,13 +10,15 @@ function TimerProgress({ timeLimit }) {
   return (
     <div style={{ width: '20%' }}>
       <ChangingProgressProvider values={arrayOfValues}>
-        {percentage => (
-          <CircularProgressbar
-            maxValue={timeLimit}
-            value={percentage}
-            text={`${percentage}`}
-          />
-        )}
+        {percentage => {
+          return (
+            <CircularProgressbar
+              maxValue={timeLimit}
+              value={percentage}
+              text={`${percentage}`}
+            />
+          );
+        }}
       </ChangingProgressProvider>
     </div>
   );

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { withRouter } from 'react-router-dom';
-import Quiz from '../Quiz';
+import QuizContainer from '../QuizContainer';
 import { withFirebase } from '../Firebase';
 import { AuthUserContext } from '../Session';
 import { compose } from 'recompose';
@@ -30,7 +30,7 @@ function QuizPage({ history, firebase, authUser }) {
         {authUser => (
           <div>
             <h2>{round.name}</h2>
-            <Quiz round={round} authUser={authUser} />
+            <QuizContainer round={round} authUser={authUser} />
           </div>
         )}
       </AuthUserContext.Consumer>
