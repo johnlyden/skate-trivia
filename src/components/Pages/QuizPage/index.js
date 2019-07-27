@@ -22,8 +22,9 @@ function QuizPage({ history, firebase, authUser }) {
     });
   }, []);
 
+  // TODO: shape the round to only have what the quizContainer needs
   if (!round) return null;
-  console.log('round: ', round);
+
   return (
     <div>
       <AuthUserContext.Consumer>

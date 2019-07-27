@@ -14,30 +14,39 @@ function Quiz(props) {
   const { question, answerOptions, timeLimit, questionId } = questionData;
 
   return (
-    <CSSTransitionGroup
-      className="container"
-      component="div"
-      transitionName="fade"
-      transitionEnterTimeout={800}
-      transitionLeaveTimeout={500}
-      transitionAppear
-      key={question}
-      transitionAppearTimeout={500}>
-      {timeLimit && <TimerProgress timeLimit={timeLimit} />}
-      <QuestionCount currentQuestion={questionId} quizLength={quizLength} />
-      <Question content={question} />
-      <ul className="answerOptions">
-        {answerOptions.map((option, i) => {
-          return (
-            <AnswerOption
-              onAnswerSelected={onAnswerSelected}
-              answerContent={option}
-              key={option}
-            />
-          );
-        })}
-      </ul>
-    </CSSTransitionGroup>
+    <div data-testid="quiz">
+      <CSSTransitionGroup
+        className="container"
+        component="div"
+        transitionName="fade"
+        transitionEnterTimeout={800}
+        transitionLeaveTimeout={500}
+        transitionAppear
+        key={question}
+        transitionAppearTimeout={500}>
+        {timeLimit && (
+          <TimerProgress timeLimit={timeLimit} data-testid="timer" />
+        )}
+        <QuestionCount
+          currentQuestion={questionId}
+          quizLength={quizLength}
+          data-testid="question-count"
+        />
+        <Question content={question} />
+        <ul className="answerOptions">
+          {answerOptions.map((option, i) => {
+            return (
+              <AnswerOption
+                data-testid={`answer-option-${i}`}
+                onAnswerSelected={onAnswerSelected}
+                answerContent={option}
+                key={option}
+              />
+            );
+          })}
+        </ul>
+      </CSSTransitionGroup>
+    </div>
   );
 }
 

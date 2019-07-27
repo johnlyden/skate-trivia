@@ -1,4 +1,5 @@
 import React, { useEffect, useReducer } from 'react';
+
 import Quiz from 'components/Quiz';
 
 function reducer(state, action) {
