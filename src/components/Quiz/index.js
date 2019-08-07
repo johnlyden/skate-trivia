@@ -1,18 +1,23 @@
 import React from 'react';
-// import PropTypes from 'prop-types';
-import { withRouter } from 'react-router-dom';
 import { CSSTransitionGroup } from 'react-transition-group';
 import AnswerOption from 'components/AnswerOption';
 import Question from 'components/Question';
 import QuestionCount from 'components/QuestionCount';
-import { withFirebase } from 'components/Firebase';
 import TimerProgress from 'components/TimerProgress';
-import { compose } from 'recompose';
 
 function Quiz(props) {
-  const { questionData, onAnswerSelected, quizLength } = props;
-  const { question, answerOptions, timeLimit, questionId } = questionData;
+  const { questionData, onAnswerSelected } = props;
+  const {
+    question,
+    answerOptions,
+    timeLimit,
+    questionId,
+    questionLibrary
+  } = questionData;
 
+  const quizLength = questionLibrary.length;
+
+  console.log(questionData);
   return (
     <div data-testid="quiz">
       <CSSTransitionGroup
@@ -24,11 +29,9 @@ function Quiz(props) {
         transitionAppear
         key={question}
         transitionAppearTimeout={500}>
-        {timeLimit && (
-          <TimerProgress timeLimit={timeLimit} data-testid="timer" />
-        )}
+        <TimerProgress timeLimit={timeLimit} data-testid="timer" />
         <QuestionCount
-          currentQuestion={questionId}
+          currentQuestion={questionId + 1}
           quizLength={quizLength}
           data-testid="question-count"
         />
@@ -50,7 +53,4 @@ function Quiz(props) {
   );
 }
 
-export default compose(
-  withRouter,
-  withFirebase
-)(Quiz);
+export default Quiz;

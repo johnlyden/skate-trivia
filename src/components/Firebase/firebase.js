@@ -37,6 +37,19 @@ class Firebase {
 
   users = () => this.db.ref('users');
 
+  // *** Leaderboard API ***
+  leaderboard = () => this.db.ref('leaderboard');
+
+  // doMe = () => console.log('hayyy');
+  updateLeaderboard = (next, fallback) =>
+    this.leaderboard()
+      .set({
+        leader: 'johnny'
+      })
+      .then(() => {
+        debugger;
+      });
+
   // TODO: create the LeaderBoard API to pull that
 
   // Merge Auth and DB User API

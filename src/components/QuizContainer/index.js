@@ -1,6 +1,8 @@
 import React, { useEffect, useReducer } from 'react';
-
+import { withRouter } from 'react-router-dom';
+import { withFirebase } from 'components/Firebase';
 import Quiz from 'components/Quiz';
+import { compose } from 'recompose';
 
 function reducer(state, action) {
   switch (action.type) {
@@ -13,7 +15,20 @@ function reducer(state, action) {
     case 'answer':
       return {
         ...state,
-        ...action.payload
+        score: action.payload.score
+      };
+    case 'advanceQuiz':
+      const { questionLibrary } = state;
+      const { nextQuestion } = action.payload;
+
+      return {
+        ...state,
+        question: questionLibrary[nextQuestion].fields.body,
+        answerOptions: questionLibrary[nextQuestion].fields.choices,
+        timeLimit: questionLibrary[nextQuestion].fields.timeLimit,
+        pointValue: questionLibrary[nextQuestion].fields.pointValue,
+        correctAnswer: questionLibrary[nextQuestion].fields.answer,
+        questionId: nextQuestion
       };
     default:
       return state;
@@ -23,17 +38,16 @@ function reducer(state, action) {
 const initialState = {
   question: '',
   correctAnswer: '',
-  questionId: 1,
+  questionId: 0,
   answerOptions: [],
-  counter: 0,
   pointValue: 0,
   timeLimit: 0,
   score: 0,
-  totalQuestions: 0,
-  loaded: false
+  loaded: false,
+  questionLibrary: null
 };
 
-function QuizContainer({ round, authUser }) {
+function QuizContainer({ round, authUser, history, firebase, ...props }) {
   const [quizState, dispatch] = useReducer(reducer, initialState);
   const quizQuestions = round.fields.questions;
   const quizLength = quizQuestions.length;
@@ -46,47 +60,67 @@ function QuizContainer({ round, authUser }) {
         answerOptions: quizQuestions[0].fields.choices,
         timeLimit: quizQuestions[0].fields.timeLimit,
         pointValue: quizQuestions[0].fields.pointValue,
-        correctAnswer: quizQuestions[0].fields.answer
+        correctAnswer: quizQuestions[0].fields.answer,
+        questionLibrary: quizQuestions
       }
     });
   }, [round]);
 
-  function handleAnswerSelect(answerGuess) {
-    const { counter, correctAnswer, score, questionId } = quizState;
-    let payload;
-    let nextQuestion = counter + 1;
+  function updateScore(answerGuess) {
+    const { pointValue, score, correctAnswer } = quizState;
 
-    if (answerGuess === correctAnswer) {
-      payload = {
-        score: score + quizState.pointValue,
-        question: quizQuestions[nextQuestion].fields.body,
-        answerOptions: quizQuestions[nextQuestion].fields.choices,
-        timeLimit: quizQuestions[nextQuestion].fields.timeLimit,
-        pointValue: quizQuestions[nextQuestion].fields.pointValue,
-        correctAnswer: quizQuestions[nextQuestion].fields.answer,
-        counter: counter + 1,
-        questionId: questionId + 1
-      };
-      setTimeout(
-        () =>
-          dispatch({
-            type: 'answer',
-            payload: payload
-          }),
-        500
-      );
+    let earnedPoints = 0;
+
+    if (correctAnswer === answerGuess) {
+      earnedPoints = score + pointValue;
+    }
+
+    dispatch({
+      type: 'answer',
+      payload: {
+        score: earnedPoints
+      }
+    });
+  }
+
+  function updateQuestion(nextQuestion) {
+    setTimeout(() => {
+      dispatch({
+        type: 'advanceQuiz',
+        payload: {
+          nextQuestion
+        }
+      });
+    }, 500);
+  }
+
+  function endQuiz() {
+    console.log(firebase);
+    return firebase.updateLeaderboard();
+    history.push('/home');
+  }
+
+  function handleAnswerSelect(answerGuess) {
+    const { questionId } = quizState;
+    const nextQuestion = questionId + 1;
+
+    updateScore(answerGuess);
+
+    if (nextQuestion === quizLength) {
+      endQuiz();
+    } else {
+      updateQuestion(nextQuestion);
     }
   }
 
   if (!quizState.loaded) return null;
 
   return (
-    <Quiz
-      onAnswerSelected={handleAnswerSelect}
-      questionData={quizState}
-      quizLength={quizLength}
-    />
+    <Quiz onAnswerSelected={handleAnswerSelect} questionData={quizState} />
   );
 }
 
-export default QuizContainer;
+export default compose(
+  withRouter,
+  withFirebase
+)(QuizContainer);
