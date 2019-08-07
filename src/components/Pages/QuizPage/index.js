@@ -1,13 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { withRouter } from 'react-router-dom';
 import QuizContainer from 'components/QuizContainer';
-import { withFirebase } from 'components/Firebase';
 import { AuthUserContext } from 'components/Session';
-import { compose } from 'recompose';
 
 const contentful = require('contentful');
 
-function QuizPage({ history, firebase, authUser }) {
+function QuizPage() {
   const [round, setRound] = useState(null);
 
   const client = contentful.createClient({
@@ -24,14 +21,14 @@ function QuizPage({ history, firebase, authUser }) {
 
   // TODO: shape the round to only have what the quizContainer needs
   if (!round) return null;
-
+  const { name } = round.fields;
   return (
     <div>
       <AuthUserContext.Consumer>
         {authUser => (
           <div>
-            <h2>{round.name}</h2>
-            <QuizContainer round={round} authUser={authUser} />
+            <h2>{name}</h2>
+            <QuizContainer round={round} />
           </div>
         )}
       </AuthUserContext.Consumer>
@@ -39,7 +36,4 @@ function QuizPage({ history, firebase, authUser }) {
   );
 }
 
-export default compose(
-  withRouter,
-  withFirebase
-)(QuizPage);
+export default QuizPage;
