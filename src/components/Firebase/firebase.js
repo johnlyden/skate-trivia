@@ -40,7 +40,21 @@ class Firebase {
   // *** Leaderboard API ***
   leaderboard = () => this.db.ref('leaderboard');
 
-  // doMe = () => console.log('hayyy');
+  updateUserProgress = (payload, next) => {
+    const { authUser, roundId, score } = payload;
+    this.user(authUser.uid)
+      .update({
+        ...authUser,
+        roundsPlayed: {
+          [roundId]: score
+        },
+        score: authUser.score + score
+      })
+      .then(() => {
+        next();
+      });
+  };
+
   updateLeaderboard = (next, fallback) =>
     this.leaderboard()
       .set({

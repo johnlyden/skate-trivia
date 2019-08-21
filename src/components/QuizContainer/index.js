@@ -51,6 +51,9 @@ function QuizContainer({ round, authUser, history, firebase, ...props }) {
   const [quizState, dispatch] = useReducer(reducer, initialState);
   const quizQuestions = round.fields.questions;
   const quizLength = quizQuestions.length;
+  const roundId = round.sys.id;
+
+  console.log(round);
 
   useEffect(() => {
     dispatch({
@@ -95,9 +98,17 @@ function QuizContainer({ round, authUser, history, firebase, ...props }) {
   }
 
   function endQuiz() {
-    console.log(firebase);
-    return firebase.updateLeaderboard();
-    history.push('/home');
+    console.log(authUser);
+    const { score } = quizState;
+    const payload = {
+      authUser,
+      score,
+      roundId
+    };
+    return firebase.updateUserProgress(payload, () => {
+      history.push('/home');
+    });
+    // return firebase.updateLeaderboard();
   }
 
   function handleAnswerSelect(answerGuess) {

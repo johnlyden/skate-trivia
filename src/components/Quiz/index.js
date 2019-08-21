@@ -17,7 +17,6 @@ function Quiz(props) {
 
   const quizLength = questionLibrary.length;
 
-  console.log(questionData);
   return (
     <div data-testid="quiz">
       <CSSTransitionGroup

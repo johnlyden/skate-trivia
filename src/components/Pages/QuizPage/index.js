@@ -28,7 +28,7 @@ function QuizPage() {
         {authUser => (
           <div>
             <h2>{name}</h2>
-            <QuizContainer round={round} />
+            <QuizContainer round={round} authUser={authUser} />
           </div>
         )}
       </AuthUserContext.Consumer>
