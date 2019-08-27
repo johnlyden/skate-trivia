@@ -14,12 +14,12 @@ const renderComponent = () =>
   );
 
 describe('<QuizContainer />', () => {
-  describe('when a quiz is first started', () => {
+  describe('when a quiz starts', () => {
     afterEach(() => {
       cleanup();
     });
 
-    it('renders a Quiz when there is a round provided', () => {
+    it('renders a Quiz', () => {
       const { getByTestId } = renderComponent();
       expect(getByTestId('quiz')).toBeDefined();
     });

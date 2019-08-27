@@ -53,8 +53,6 @@ function QuizContainer({ round, authUser, history, firebase, ...props }) {
   const quizLength = quizQuestions.length;
   const roundId = round.sys.id;
 
-  console.log(round);
-
   useEffect(() => {
     dispatch({
       type: 'init',
@@ -98,7 +96,6 @@ function QuizContainer({ round, authUser, history, firebase, ...props }) {
   }
 
   function endQuiz() {
-    console.log(authUser);
     const { score } = quizState;
     const payload = {
       authUser,
