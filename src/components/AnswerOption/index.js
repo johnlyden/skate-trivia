@@ -1,20 +1,28 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
+import {
+  answerOption,
+  radioCustomButton,
+  radioCustomLabel
+} from './AnswerOption.module.css';
+
 function AnswerOption(props) {
   const { answerContent, onAnswerSelected } = props;
   const [answer, setAnswer] = useState('');
 
   function handleChange(e) {
-    setAnswer(e.target.value);
-    onAnswerSelected(e.target.value);
+    const { value } = e.target;
+
+    setAnswer(value);
+    onAnswerSelected(value);
   }
 
   return (
-    <li className="answerOption">
+    <li className={answerOption}>
       <input
         type="radio"
-        className="radioCustomButton"
+        className={radioCustomButton}
         name="radioGroup"
         checked={answerContent === answer}
         id={answerContent}
@@ -22,7 +30,7 @@ function AnswerOption(props) {
         disabled={answer}
         onChange={handleChange}
       />
-      <label className="radioCustomLabel" htmlFor={answerContent}>
+      <label className={radioCustomLabel} htmlFor={answerContent}>
         {answerContent}
       </label>
     </li>
