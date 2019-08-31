@@ -1,5 +1,5 @@
 import React from 'react';
-import QuizContainer from 'components/QuizContainer';
+import QuizContainer from 'containers/QuizContainer';
 import { AuthUserContext } from 'components/Session';
 import useContentful from './useContentful';
 

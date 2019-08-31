@@ -7,9 +7,8 @@ function useContentful() {
   const [isFetching, setIsFetching] = useState(false);
   const [content, setContent] = useState();
 
-  const client = initializeClient();
-
   useEffect(() => {
+    const client = initializeClient();
     setIsFetching(true);
     client.getEntries({ content_type: CONTENT_TYPE }).then(response => {
       const [round] = response.items;
@@ -17,6 +16,7 @@ function useContentful() {
       setIsFetching(false);
     });
   }, []);
+
   return {
     isFetching,
     content
