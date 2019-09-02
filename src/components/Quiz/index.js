@@ -19,6 +19,11 @@ function Quiz(props) {
 
   return (
     <div data-testid="quiz">
+      <QuestionCount
+        currentQuestion={questionId + 1}
+        quizLength={quizLength}
+        data-testid="question-count"
+      />
       <CSSTransitionGroup
         className="container"
         component="div"
@@ -29,11 +34,6 @@ function Quiz(props) {
         key={question}
         transitionAppearTimeout={500}>
         <TimerProgress timeLimit={timeLimit} data-testid="timer" />
-        <QuestionCount
-          currentQuestion={questionId + 1}
-          quizLength={quizLength}
-          data-testid="question-count"
-        />
         <Question content={question} />
         <ul className="answerOptions">
           {answerOptions.map((option, i) => {

@@ -34,8 +34,8 @@
   position: absolute;
   top: 20px;
   left: 38px;
-  /* width: 28px;
-  height: 28px; */
+  width: 28px;
+  height: 28px;
   content: '';
   display: inline-block;
   vertical-align: middle;

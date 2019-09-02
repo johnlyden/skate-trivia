@@ -1,7 +1,11 @@
 import React from 'react';
-import QuizContainer from 'containers/QuizContainer';
+
 import { AuthUserContext } from 'components/Session';
 import useContentful from './useContentful';
+import QuizContainer from 'containers/QuizContainer';
+import QuizTitle from 'components/QuizTitle';
+
+import { quizHeader } from './QuizPage.module.css';
 
 function QuizPage() {
   const { isFetching, content } = useContentful();
@@ -18,7 +22,9 @@ function QuizPage() {
         {authUser => (
           // if the authUser has the roundId from today in gamesPlayed then render leaderboard instead of quizContainer
           <div>
-            <h2>{name}</h2>
+            <div className={quizHeader}>
+              <QuizTitle title={name} />
+            </div>
             <QuizContainer round={content} authUser={authUser} />
           </div>
         )}
