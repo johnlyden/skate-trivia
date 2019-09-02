@@ -5,7 +5,7 @@ import styles from './Question.module.css';
 
 function Question(props) {
   return (
-    <div data-testid="question-text" className={styles.questions}>
+    <div data-testid="question-text" className={styles.question}>
       {props.content}
     </div>
   );
