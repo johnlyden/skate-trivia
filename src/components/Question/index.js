@@ -1,11 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import styles from './Question.module.css';
+
 function Question(props) {
   return (
-    <h2 data-testid="question-text" className="question">
+    <div data-testid="question-text" className={styles.questions}>
       {props.content}
-    </h2>
+    </div>
   );
 }
 Question.propTypes = {

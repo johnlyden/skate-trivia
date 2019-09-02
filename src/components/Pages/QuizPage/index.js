@@ -17,19 +17,16 @@ function QuizPage() {
   const { name } = content.fields;
 
   return (
-    <div>
-      <AuthUserContext.Consumer>
-        {authUser => (
-          // if the authUser has the roundId from today in gamesPlayed then render leaderboard instead of quizContainer
-          <div>
-            <div className={quizHeader}>
-              <QuizTitle title={name} />
-            </div>
-            <QuizContainer round={content} authUser={authUser} />
+    <AuthUserContext.Consumer>
+      {authUser => (
+        <>
+          <div className={quizHeader}>
+            <QuizTitle title={name} />
           </div>
-        )}
-      </AuthUserContext.Consumer>
-    </div>
+          <QuizContainer round={content} authUser={authUser} />
+        </>
+      )}
+    </AuthUserContext.Consumer>
   );
 }
 

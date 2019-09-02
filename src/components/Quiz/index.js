@@ -5,6 +5,8 @@ import Question from 'components/Question';
 import QuestionCount from 'components/QuestionCount';
 import TimerProgress from 'components/TimerProgress';
 
+import styles from './Quiz.module.css';
+
 function Quiz(props) {
   const { questionData, onAnswerSelected } = props;
   const {
@@ -33,9 +35,8 @@ function Quiz(props) {
         transitionAppear
         key={question}
         transitionAppearTimeout={500}>
-        <TimerProgress timeLimit={timeLimit} data-testid="timer" />
         <Question content={question} />
-        <ul className="answerOptions">
+        <ul className={styles.answerOptions}>
           {answerOptions.map((option, i) => {
             return (
               <AnswerOption
@@ -47,6 +48,9 @@ function Quiz(props) {
             );
           })}
         </ul>
+        <div className={styles.timerContainer}>
+          <TimerProgress timeLimit={timeLimit} data-testid="timer" />
+        </div>
       </CSSTransitionGroup>
     </div>
   );

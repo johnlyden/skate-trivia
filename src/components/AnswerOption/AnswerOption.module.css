@@ -1,6 +1,7 @@
 /* AnswerOption Component */
 .answerOption {
-  border-top: 1px solid #eee;
+  border: 1px solid blue;
+  border-radius: 12px;
 }
 
 .answerOption:hover {
@@ -24,14 +25,14 @@
   position: relative;
   width: 100%;
   margin: 0;
-  padding: 1.5rem 2.5rem;
+  padding: 1rem 2.5rem;
   font-size: 16px;
   line-height: 1.5;
   text-align: center;
 }
 
 .radioCustomButton ~ .radioCustomLabel:before {
-  position: absolute;
+  /* position: absolute;
   top: 20px;
   left: 38px;
   width: 28px;
@@ -42,12 +43,12 @@
   background: #fff;
   border: 1px solid #bbb;
   border-radius: 50%;
-  transition: all 0.3s;
+  transition: all 0.3s; */
 }
 
 .radioCustomButton:checked ~ .radioCustomLabel:before {
-  content: '';
+  /* content: '';
   background: #8bc53f url(../../svg/icon-check.svg) no-repeat;
   background-size: 27px;
-  border-color: #8bc53f;
+  border-color: #8bc53f; */
 }

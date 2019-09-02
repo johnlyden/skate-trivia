@@ -8,7 +8,7 @@ function QuestionCount(props) {
 
   return (
     <div className={questionCount}>
-      Question <span>{currentQuestion}</span> of <span>{quizLength}</span>
+      Question <span>{currentQuestion}</span>/<span>{quizLength}</span>
     </div>
   );
 }

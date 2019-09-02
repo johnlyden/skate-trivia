@@ -44,11 +44,6 @@ body {
 }
 
 /* Quiz Component */
-.answerOptions {
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
 
 /* Question Component */
 .question {

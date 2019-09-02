@@ -1,0 +1,15 @@
+.timerContainer {
+  display: flex;
+  justify-content: center;
+}
+
+.answerOptions {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  /* margin:  */
+}
+
+.answerOptions li {
+  margin-bottom: 6px;
+}
