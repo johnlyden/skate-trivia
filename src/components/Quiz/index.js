@@ -2,30 +2,16 @@ import React from 'react';
 import { CSSTransitionGroup } from 'react-transition-group';
 import AnswerOption from 'components/AnswerOption';
 import Question from 'components/Question';
-import QuestionCount from 'components/QuestionCount';
 import TimerProgress from 'components/TimerProgress';
 
 import styles from './Quiz.module.css';
 
 function Quiz(props) {
   const { questionData, onAnswerSelected } = props;
-  const {
-    question,
-    answerOptions,
-    timeLimit,
-    questionId,
-    questionLibrary
-  } = questionData;
-
-  const quizLength = questionLibrary.length;
+  const { question, answerOptions, timeLimit } = questionData;
 
   return (
     <div data-testid="quiz">
-      <QuestionCount
-        currentQuestion={questionId + 1}
-        quizLength={quizLength}
-        data-testid="question-count"
-      />
       <CSSTransitionGroup
         className="container"
         component="div"

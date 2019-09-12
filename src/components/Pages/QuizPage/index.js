@@ -1,29 +1,31 @@
-import React from 'react';
+import React, { useContext } from 'react';
 
 import { AuthUserContext } from 'components/Session';
-import useContentful from './useContentful';
+import { Context } from 'store';
 import QuizContainer from 'containers/QuizContainer';
-import QuizTitle from 'components/QuizTitle';
-
-import { quizHeader } from './QuizPage.module.css';
+import QuizHeader from 'components/QuizHeader';
 
 function QuizPage() {
-  const { isFetching, content } = useContentful();
   // TODO: shape the round to only have what the quizContainer needs
-  if (isFetching || !content) {
+  const { store } = useContext(Context);
+  const { quizContent } = store;
+
+  if (!quizContent) {
     return <h2>loading...</h2>;
   }
 
-  const { name } = content.fields;
+  const { roundQuestions, roundId } = quizContent;
 
   return (
     <AuthUserContext.Consumer>
       {authUser => (
         <>
-          <div className={quizHeader}>
-            <QuizTitle title={name} />
-          </div>
-          <QuizContainer round={content} authUser={authUser} />
+          <QuizHeader />
+          <QuizContainer
+            roundId={roundId}
+            roundQuestions={roundQuestions}
+            authUser={authUser}
+          />
         </>
       )}
     </AuthUserContext.Consumer>

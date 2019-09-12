@@ -1,74 +1,42 @@
-import React, { useEffect, useReducer } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { withRouter } from 'react-router-dom';
-import { withFirebase } from 'components/Firebase';
-import Quiz from 'components/Quiz';
 import { compose } from 'recompose';
 
-function reducer(state, action) {
-  switch (action.type) {
-    case 'init':
-      return {
-        ...state,
-        ...action.payload,
-        loaded: true
-      };
-    case 'answer':
-      return {
-        ...state,
-        score: action.payload.score
-      };
-    case 'advanceQuiz':
-      const { questionLibrary } = state;
-      const { nextQuestion } = action.payload;
+import Quiz from 'components/Quiz';
+import { withFirebase } from 'components/Firebase';
+import { Context } from 'store';
+import { INITIALIZE_QUIZ } from 'store/actions';
 
-      return {
-        ...state,
-        question: questionLibrary[nextQuestion].fields.body,
-        answerOptions: questionLibrary[nextQuestion].fields.choices,
-        timeLimit: questionLibrary[nextQuestion].fields.timeLimit,
-        pointValue: questionLibrary[nextQuestion].fields.pointValue,
-        correctAnswer: questionLibrary[nextQuestion].fields.answer,
-        questionId: nextQuestion
-      };
-    default:
-      return state;
-  }
-}
+function QuizContainer({
+  roundQuestions,
+  roundId,
+  authUser,
+  history,
+  firebase,
+  ...props
+}) {
+  const { store, dispatch } = useContext(Context);
 
-const initialState = {
-  question: '',
-  correctAnswer: '',
-  questionId: 0,
-  answerOptions: [],
-  pointValue: 0,
-  timeLimit: 0,
-  score: 0,
-  loaded: false,
-  questionLibrary: null
-};
-
-function QuizContainer({ round, authUser, history, firebase, ...props }) {
-  const [quizState, dispatch] = useReducer(reducer, initialState);
-  const quizQuestions = round.fields.questions;
-  const quizLength = quizQuestions.length;
-  const roundId = round.sys.id;
+  // const roundQuestions = round.fields.questions;
+  const quizLength = roundQuestions.length;
 
   useEffect(() => {
     dispatch({
-      type: 'init',
+      type: INITIALIZE_QUIZ,
       payload: {
-        question: quizQuestions[0].fields.body,
-        answerOptions: quizQuestions[0].fields.choices,
-        timeLimit: quizQuestions[0].fields.timeLimit,
-        pointValue: quizQuestions[0].fields.pointValue,
-        correctAnswer: quizQuestions[0].fields.answer,
-        questionLibrary: quizQuestions
+        question: roundQuestions[0].body,
+        answerOptions: roundQuestions[0].choices,
+        timeLimit: roundQuestions[0].timeLimit,
+        pointValue: roundQuestions[0].pointValue,
+        correctAnswer: roundQuestions[0].answer,
+        questionLibrary: roundQuestions
       }
     });
-  }, [round]);
+  }, []);
 
+  // TODO: move these into an actions folder
   function updateScore(answerGuess) {
-    const { pointValue, score, correctAnswer } = quizState;
+    const { pointValue, score, correctAnswer } = store;
 
     let earnedPoints = 0;
 
@@ -96,7 +64,7 @@ function QuizContainer({ round, authUser, history, firebase, ...props }) {
   }
 
   function endQuiz() {
-    const { score } = quizState;
+    const { score } = store;
     const payload = {
       authUser,
       score,
@@ -109,7 +77,7 @@ function QuizContainer({ round, authUser, history, firebase, ...props }) {
   }
 
   function handleAnswerSelect(answerGuess) {
-    const { questionId } = quizState;
+    const { questionId } = store;
     const nextQuestion = questionId + 1;
 
     updateScore(answerGuess);
@@ -121,11 +89,9 @@ function QuizContainer({ round, authUser, history, firebase, ...props }) {
     }
   }
 
-  if (!quizState.loaded) return null;
-
-  return (
-    <Quiz onAnswerSelected={handleAnswerSelect} questionData={quizState} />
-  );
+  if (!store.loaded) return null;
+  console.log('adfasdfa: ', store);
+  return <Quiz onAnswerSelected={handleAnswerSelect} questionData={store} />;
 }
 
 export default compose(

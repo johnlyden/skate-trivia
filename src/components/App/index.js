@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useReducer, useEffect } from 'react';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 
 import LandingPage from 'components/Pages/Landing';
@@ -9,25 +9,40 @@ import HomePage from 'components/Pages/Home';
 import AccountPage from 'components/Pages/Account';
 import AdminPage from 'components/Pages/Admin';
 import QuizPage from 'components/Pages/QuizPage';
-import Header from 'components/Header';
 import Layout from 'components/Layout';
 
 import * as ROUTES from 'constants/routes';
 import { withAuthentication } from 'components/Session';
 
-const App = () => (
-  <Router>
-    <Layout>
-      <Route exact path={ROUTES.LANDING} component={LandingPage} />
-      <Route path={ROUTES.SIGN_UP} component={SignUpPage} />
-      <Route path={ROUTES.SIGN_IN} component={SignInPage} />
-      <Route path={ROUTES.PASSWORD_FORGET} component={PasswordForgetPage} />
-      <Route path={ROUTES.HOME} component={HomePage} />
-      <Route path={ROUTES.ACCOUNT} component={AccountPage} />
-      <Route path={ROUTES.ADMIN} component={AdminPage} />
-      <Route path={ROUTES.QUIZ_PAGE} component={QuizPage} />
-    </Layout>
-  </Router>
-);
+import { Context, initialState, reducer } from 'store';
+import fetchContent from 'contentful/request';
+
+function App() {
+  const [store, dispatch] = useReducer(reducer, initialState);
+  const { quizContent } = store;
+
+  useEffect(() => {
+    if (!quizContent) {
+      fetchContent(dispatch);
+    }
+  }, [quizContent]);
+
+  return (
+    <Context.Provider value={{ store, dispatch }}>
+      <Router>
+        <Layout>
+          <Route exact path={ROUTES.LANDING} component={LandingPage} />
+          <Route path={ROUTES.SIGN_UP} component={SignUpPage} />
+          <Route path={ROUTES.SIGN_IN} component={SignInPage} />
+          <Route path={ROUTES.PASSWORD_FORGET} component={PasswordForgetPage} />
+          <Route path={ROUTES.HOME} component={HomePage} />
+          <Route path={ROUTES.ACCOUNT} component={AccountPage} />
+          <Route path={ROUTES.ADMIN} component={AdminPage} />
+          <Route path={ROUTES.QUIZ_PAGE} component={QuizPage} />
+        </Layout>
+      </Router>
+    </Context.Provider>
+  );
+}
 
 export default withAuthentication(App);
