@@ -9,7 +9,7 @@ import { initializeQuiz, updateScore, advanceQuiz } from './actions';
 
 function QuizContainer({ authUser, history, firebase, ...props }) {
   const { store, dispatch } = useContext(Context);
-  const { quizContent } = store;
+  const { quizContent, question, answerOptions, timeLimit } = store;
   const { roundId, roundQuestions } = quizContent;
 
   const quizLength = roundQuestions.length;
@@ -59,8 +59,15 @@ function QuizContainer({ authUser, history, firebase, ...props }) {
   }
 
   if (!store.loaded) return null;
-  console.log('store: ', store);
-  return <Quiz onAnswerSelected={handleAnswerSelect} questionData={store} />;
+
+  return (
+    <Quiz
+      onAnswerSelected={handleAnswerSelect}
+      question={question}
+      answerOptions={answerOptions}
+      timeLimit={timeLimit}
+    />
+  );
 }
 
 export default compose(

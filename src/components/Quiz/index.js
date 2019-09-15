@@ -1,26 +1,17 @@
 import React from 'react';
-import { CSSTransitionGroup } from 'react-transition-group';
 import AnswerOption from 'components/AnswerOption';
 import Question from 'components/Question';
 import TimerProgress from 'components/TimerProgress';
+import Fade from 'components/Animations/Fade';
 
 import styles from './Quiz.module.css';
 
 function Quiz(props) {
-  const { questionData, onAnswerSelected } = props;
-  const { question, answerOptions, timeLimit } = questionData;
+  const { onAnswerSelected, question, answerOptions, timeLimit } = props;
 
   return (
     <div data-testid="quiz">
-      <CSSTransitionGroup
-        className="container"
-        component="div"
-        transitionName="fade"
-        transitionEnterTimeout={800}
-        transitionLeaveTimeout={500}
-        transitionAppear
-        key={question}
-        transitionAppearTimeout={500}>
+      <Fade key={question}>
         <Question content={question} />
         <ul className={styles.answerOptions}>
           {answerOptions.map((option, i) => {
@@ -37,7 +28,7 @@ function Quiz(props) {
         <div className={styles.timerContainer}>
           <TimerProgress timeLimit={timeLimit} data-testid="timer" />
         </div>
-      </CSSTransitionGroup>
+      </Fade>
     </div>
   );
 }

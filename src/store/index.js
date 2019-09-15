@@ -27,10 +27,6 @@ export const reducer = (state, action) => {
         ...state,
         fetching: true
       };
-    case 'loaded':
-      return {
-        ...state
-      };
     case CONTENT_RECEIVED:
       return {
         ...state,
