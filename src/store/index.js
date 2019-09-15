@@ -1,5 +1,11 @@
 import React from 'react';
-import { INITIALIZE_QUIZ, CONTENT_REQUEST, CONTENT_RECEIVED } from './actions';
+import {
+  INITIALIZE_QUIZ,
+  CONTENT_REQUEST,
+  CONTENT_RECEIVED,
+  UPDATE_SCORE,
+  ADVANCE_QUIZ
+} from './actions';
 
 export const initialState = {
   question: '',
@@ -10,7 +16,6 @@ export const initialState = {
   timeLimit: 0,
   score: 0,
   loaded: false,
-  questionLibrary: null,
   quizContent: null,
   fetching: false
 };
@@ -38,22 +43,24 @@ export const reducer = (state, action) => {
         ...action.payload,
         loaded: true
       };
-    case 'answer':
+    case UPDATE_SCORE:
       return {
         ...state,
         score: action.payload.score
       };
-    case 'advanceQuiz':
-      const { questionLibrary } = state;
+    case ADVANCE_QUIZ:
+      const { quizContent } = state;
+      const { roundQuestions } = quizContent;
+
       const { nextQuestion } = action.payload;
 
       return {
         ...state,
-        question: questionLibrary[nextQuestion].body,
-        answerOptions: questionLibrary[nextQuestion].choices,
-        timeLimit: questionLibrary[nextQuestion].timeLimit,
-        pointValue: questionLibrary[nextQuestion].pointValue,
-        correctAnswer: questionLibrary[nextQuestion].answer,
+        question: roundQuestions[nextQuestion].body,
+        answerOptions: roundQuestions[nextQuestion].choices,
+        timeLimit: roundQuestions[nextQuestion].timeLimit,
+        pointValue: roundQuestions[nextQuestion].pointValue,
+        correctAnswer: roundQuestions[nextQuestion].answer,
         questionId: nextQuestion
       };
     default:

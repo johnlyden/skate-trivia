@@ -14,18 +14,12 @@ function QuizPage() {
     return <h2>loading...</h2>;
   }
 
-  const { roundQuestions, roundId } = quizContent;
-
   return (
     <AuthUserContext.Consumer>
       {authUser => (
         <>
           <QuizHeader />
-          <QuizContainer
-            roundId={roundId}
-            roundQuestions={roundQuestions}
-            authUser={authUser}
-          />
+          <QuizContainer authUser={authUser} />
         </>
       )}
     </AuthUserContext.Consumer>

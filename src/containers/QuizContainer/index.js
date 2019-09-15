@@ -5,61 +5,30 @@ import { compose } from 'recompose';
 import Quiz from 'components/Quiz';
 import { withFirebase } from 'components/Firebase';
 import { Context } from 'store';
-import { INITIALIZE_QUIZ } from 'store/actions';
+import { initializeQuiz, updateScore, advanceQuiz } from './actions';
 
-function QuizContainer({
-  roundQuestions,
-  roundId,
-  authUser,
-  history,
-  firebase,
-  ...props
-}) {
+function QuizContainer({ authUser, history, firebase, ...props }) {
   const { store, dispatch } = useContext(Context);
+  const { quizContent } = store;
+  const { roundId, roundQuestions } = quizContent;
 
-  // const roundQuestions = round.fields.questions;
   const quizLength = roundQuestions.length;
 
   useEffect(() => {
-    dispatch({
-      type: INITIALIZE_QUIZ,
-      payload: {
-        question: roundQuestions[0].body,
-        answerOptions: roundQuestions[0].choices,
-        timeLimit: roundQuestions[0].timeLimit,
-        pointValue: roundQuestions[0].pointValue,
-        correctAnswer: roundQuestions[0].answer,
-        questionLibrary: roundQuestions
-      }
-    });
+    initializeQuiz(dispatch, roundQuestions);
   }, []);
 
-  // TODO: move these into an actions folder
-  function updateScore(answerGuess) {
+  function checkAnswer(answerGuess) {
     const { pointValue, score, correctAnswer } = store;
 
-    let earnedPoints = 0;
-
     if (correctAnswer === answerGuess) {
-      earnedPoints = score + pointValue;
+      updateScore(dispatch, score + pointValue);
     }
-
-    dispatch({
-      type: 'answer',
-      payload: {
-        score: earnedPoints
-      }
-    });
   }
 
   function updateQuestion(nextQuestion) {
     setTimeout(() => {
-      dispatch({
-        type: 'advanceQuiz',
-        payload: {
-          nextQuestion
-        }
-      });
+      advanceQuiz(dispatch, nextQuestion);
     }, 500);
   }
 
@@ -80,7 +49,7 @@ function QuizContainer({
     const { questionId } = store;
     const nextQuestion = questionId + 1;
 
-    updateScore(answerGuess);
+    checkAnswer(answerGuess);
 
     if (nextQuestion === quizLength) {
       endQuiz();
@@ -90,7 +59,7 @@ function QuizContainer({
   }
 
   if (!store.loaded) return null;
-  console.log('adfasdfa: ', store);
+  console.log('store: ', store);
   return <Quiz onAnswerSelected={handleAnswerSelect} questionData={store} />;
 }
 
