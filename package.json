@@ -3,20 +3,20 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "contentful": "^7.6.0",
-    "firebase": "^5.9.3",
-    "grommet": "^2.6.5",
-    "grommet-icons": "^4.2.0",
-    "mdbreact": "^4.17.0",
+    "contentful": "^7.9.1",
+    "firebase": "^5.11.1",
+    "grommet": "^2.7.8",
+    "grommet-icons": "^4.3.0",
+    "mdbreact": "^4.19.2",
     "react": "^16.9.0",
-    "react-circular-progressbar": "^2.0.1",
+    "react-circular-progressbar": "^2.0.2",
     "react-dom": "^16.9.0",
-    "react-router-dom": "^5.0.0",
+    "react-router-dom": "^5.0.1",
     "react-scripts": "2.1.8",
     "react-test-renderer": "^16.9.0",
     "react-transition-group": "^1.2.1",
     "recompose": "^0.30.0",
-    "styled-components": "^4.2.0"
+    "styled-components": "^4.3.2"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -34,7 +34,7 @@
     "not op_mini all"
   ],
   "devDependencies": {
-    "@testing-library/react": "^8.0.6",
+    "@testing-library/react": "^8.0.9",
     "@testing-library/react-hooks": "^2.0.1"
   }
 }
