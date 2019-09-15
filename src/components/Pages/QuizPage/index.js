@@ -4,6 +4,8 @@ import { AuthUserContext } from 'components/Session';
 import { Context } from 'store';
 import QuizContainer from 'containers/QuizContainer';
 import QuizHeader from 'components/QuizHeader';
+import Layout from 'components/Layout';
+import { quizPage } from './QuizPage.module.scss';
 
 function QuizPage() {
   const { store } = useContext(Context);
@@ -16,10 +18,12 @@ function QuizPage() {
   return (
     <AuthUserContext.Consumer>
       {authUser => (
-        <>
-          <QuizHeader />
-          <QuizContainer authUser={authUser} />
-        </>
+        <div className={quizPage}>
+          <Layout>
+            <QuizHeader />
+            <QuizContainer authUser={authUser} />
+          </Layout>
+        </div>
       )}
     </AuthUserContext.Consumer>
   );

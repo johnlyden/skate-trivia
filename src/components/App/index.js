@@ -9,7 +9,6 @@ import HomePage from 'components/Pages/Home';
 import AccountPage from 'components/Pages/Account';
 import AdminPage from 'components/Pages/Admin';
 import QuizPage from 'components/Pages/QuizPage';
-import Layout from 'components/Layout';
 
 import * as ROUTES from 'constants/routes';
 import { withAuthentication } from 'components/Session';
@@ -30,16 +29,14 @@ function App() {
   return (
     <Context.Provider value={{ store, dispatch }}>
       <Router>
-        <Layout>
-          <Route exact path={ROUTES.LANDING} component={LandingPage} />
-          <Route path={ROUTES.SIGN_UP} component={SignUpPage} />
-          <Route path={ROUTES.SIGN_IN} component={SignInPage} />
-          <Route path={ROUTES.PASSWORD_FORGET} component={PasswordForgetPage} />
-          <Route path={ROUTES.HOME} component={HomePage} />
-          <Route path={ROUTES.ACCOUNT} component={AccountPage} />
-          <Route path={ROUTES.ADMIN} component={AdminPage} />
-          <Route path={ROUTES.QUIZ_PAGE} component={QuizPage} />
-        </Layout>
+        <Route exact path={ROUTES.LANDING} component={LandingPage} />
+        <Route path={ROUTES.SIGN_UP} component={SignUpPage} />
+        <Route path={ROUTES.SIGN_IN} component={SignInPage} />
+        <Route path={ROUTES.PASSWORD_FORGET} component={PasswordForgetPage} />
+        <Route path={ROUTES.HOME} component={HomePage} />
+        <Route path={ROUTES.ACCOUNT} component={AccountPage} />
+        <Route path={ROUTES.ADMIN} component={AdminPage} />
+        <Route path={ROUTES.QUIZ_PAGE} component={QuizPage} />
       </Router>
     </Context.Provider>
   );

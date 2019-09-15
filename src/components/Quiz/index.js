@@ -10,7 +10,7 @@ function Quiz(props) {
   const { onAnswerSelected, question, answerOptions, timeLimit } = props;
 
   return (
-    <div data-testid="quiz">
+    <div data-testid="quiz" className={styles.quizContainer}>
       <Fade key={question}>
         <Question content={question} />
         <ul className={styles.answerOptions}>
