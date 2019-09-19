@@ -4,7 +4,8 @@ import {
   CONTENT_REQUEST,
   CONTENT_RECEIVED,
   UPDATE_SCORE,
-  ADVANCE_QUIZ
+  ADVANCE_QUIZ,
+  UPDATE_TOTAL_SCORE
 } from './actions';
 
 export const initialState = {
@@ -17,7 +18,8 @@ export const initialState = {
   score: 0,
   loaded: false,
   quizContent: null,
-  fetching: false
+  fetching: false,
+  totalScore: null
 };
 
 export const reducer = (state, action) => {
@@ -43,6 +45,11 @@ export const reducer = (state, action) => {
       return {
         ...state,
         score: action.payload.score
+      };
+    case UPDATE_TOTAL_SCORE:
+      return {
+        ...state,
+        totalScore: action.payload.totalScore
       };
     case ADVANCE_QUIZ:
       const { quizContent } = state;

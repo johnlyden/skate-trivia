@@ -5,7 +5,12 @@ import { compose } from 'recompose';
 import Quiz from 'components/Quiz';
 import { withFirebase } from 'components/Firebase';
 import { Context } from 'store';
-import { initializeQuiz, updateScore, advanceQuiz } from './actions';
+import {
+  initializeQuiz,
+  updateScore,
+  advanceQuiz,
+  updateTotalScore
+} from './actions';
 
 function QuizContainer({ authUser, history, firebase, ...props }) {
   const { store, dispatch } = useContext(Context);
@@ -40,6 +45,7 @@ function QuizContainer({ authUser, history, firebase, ...props }) {
       roundId
     };
     return firebase.updateUserProgress(payload, () => {
+      updateTotalScore(dispatch, authUser.score + score);
       history.push('/home');
     });
     // return firebase.updateLeaderboard();

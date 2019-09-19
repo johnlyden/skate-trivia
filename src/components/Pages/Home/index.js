@@ -9,18 +9,19 @@ import { Context } from 'store';
  */
 function HomePage() {
   const { store } = useContext(Context);
-  const { quizContent } = store;
+  const { quizContent, totalScore } = store;
 
   if (!quizContent) {
     return <h2>loading...</h2>;
   }
+
   return (
     <AuthUserContext.Consumer>
       {authUser => (
         <div>
           <div>round: {quizContent.roundName}</div>
           <div>user name: {authUser.username}</div>
-          <div>total score: {authUser.totalScore}</div>
+          <div>total score: {totalScore || authUser.score}</div>
         </div>
       )}
     </AuthUserContext.Consumer>
