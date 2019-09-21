@@ -2,6 +2,7 @@ import React from 'react';
 
 import AuthUserContext from './context';
 import { withFirebase } from 'components/Firebase';
+import localStorage from 'services/localStorage';
 
 const withAuthentication = Component => {
   class WithAuthentication extends React.Component {
@@ -9,18 +10,18 @@ const withAuthentication = Component => {
       super(props);
 
       this.state = {
-        authUser: JSON.parse(localStorage.getItem('authUser'))
+        authUser: localStorage.get('authUser')
       };
     }
 
     componentDidMount() {
       this.listener = this.props.firebase.onAuthUserListener(
         authUser => {
-          localStorage.setItem('authUser', JSON.stringify(authUser));
+          localStorage.set('authUser', authUser);
           this.setState({ authUser });
         },
         () => {
-          localStorage.removeItem('authUser');
+          localStorage.remove('authUser');
           this.setState({ authUser: null });
         }
       );

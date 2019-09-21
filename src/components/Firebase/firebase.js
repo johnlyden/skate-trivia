@@ -2,6 +2,8 @@ import app from 'firebase/app';
 import 'firebase/auth';
 import 'firebase/database';
 
+import local from 'services/localStorage';
+
 const config = {
   apiKey: process.env.REACT_APP_API_KEY,
   authDomain: process.env.REACT_APP_AUTH_DOMAIN,
@@ -37,23 +39,26 @@ class Firebase {
 
   users = () => this.db.ref('users');
 
-  // *** Leaderboard API ***
-  leaderboard = () => this.db.ref('leaderboard');
-
   updateUserProgress = (payload, next) => {
     const { authUser, roundId, score } = payload;
+    const newScore = authUser.score + score;
+
     this.user(authUser.uid)
       .update({
         ...authUser,
         roundsPlayed: {
           [roundId]: score
         },
-        score: authUser.score + score
+        score: newScore
       })
       .then(() => {
+        local.update('authUser', 'score', newScore);
         next();
       });
   };
+
+  // *** Leaderboard API ***
+  leaderboard = () => this.db.ref('leaderboard');
 
   updateLeaderboard = (next, fallback) =>
     this.leaderboard()
@@ -63,8 +68,6 @@ class Firebase {
       .then(() => {
         debugger;
       });
-
-  // TODO: create the LeaderBoard API to pull that
 
   // Merge Auth and DB User API
   onAuthUserListener = (next, fallback) =>
@@ -86,7 +89,6 @@ class Firebase {
               email: authUser.email,
               ...dbUser
             };
-
             next(authUser);
           });
       } else {
