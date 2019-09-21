@@ -26,9 +26,16 @@ function QuizContainer({ authUser, history, firebase, ...props }) {
   function checkAnswer(answerGuess) {
     const { pointValue, score, correctAnswer } = store;
 
+    let currentScore = score;
+
     if (correctAnswer === answerGuess) {
-      updateScore(dispatch, score + pointValue);
+      currentScore = currentScore + pointValue;
+      updateScore(dispatch, currentScore);
     }
+    // returning this so can be used to endQuiz with corret score
+    // tried pulling score from state to update users total score, but
+    // this value was not updated when accessing score from state in endQuiz
+    return currentScore;
   }
 
   function updateQuestion(nextQuestion) {
@@ -37,15 +44,17 @@ function QuizContainer({ authUser, history, firebase, ...props }) {
     }, 500);
   }
 
-  function endQuiz() {
-    const { score } = store;
+  function endQuiz(roundScore) {
+    const userTotalScore = authUser.score + roundScore;
+
     const payload = {
       authUser,
-      score,
+      score: roundScore,
       roundId
     };
+
     return firebase.updateUserProgress(payload, () => {
-      updateTotalScore(dispatch, authUser.score + score);
+      updateTotalScore(dispatch, userTotalScore);
       history.push('/home');
     });
     // return firebase.updateLeaderboard();
@@ -55,10 +64,10 @@ function QuizContainer({ authUser, history, firebase, ...props }) {
     const { questionId } = store;
     const nextQuestion = questionId + 1;
 
-    checkAnswer(answerGuess);
+    const curRoundScore = checkAnswer(answerGuess);
 
     if (nextQuestion === quizLength) {
-      endQuiz();
+      endQuiz(curRoundScore);
     } else {
       updateQuestion(nextQuestion);
     }
