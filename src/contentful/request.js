@@ -8,16 +8,23 @@ function fetchContent(dispatch) {
 
   const client = initializeClient();
 
-  client.getEntries({ content_type: CONTENT_TYPE }).then(response => {
-    const [round] = response.items;
+  client
+    .getEntries({ content_type: CONTENT_TYPE, order: '-sys.createdAt' })
+    .then(response => {
+      const [round, ...others] = response.items;
+      const formattedContent = formatContent(round);
+      const archivedRounds = others.reduce((acc, round, i) => {
+        acc[round.sys.id] = formatContent(round);
+        return acc;
+      }, {});
+      console.log(archivedRounds);
+      // archivedRounds = { '12adsfasd' : {roundName, roundQuestions}}
 
-    const formattedContent = formatContent(round);
-
-    dispatch({
-      type: CONTENT_RECEIVED,
-      payload: formattedContent
+      dispatch({
+        type: CONTENT_RECEIVED,
+        payload: formattedContent
+      });
     });
-  });
 }
 
 function formatContent(round) {
