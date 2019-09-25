@@ -1,0 +1,15 @@
+$xsmall: 600px;
+$small: 740px;
+$medium: 1024px;
+$large: 1100px;
+
+.question {
+  font-size: 1.4rem;
+  text-align: center;
+  margin: 1rem 0;
+  min-height: 48vw;
+
+  // @media screen and (min-width: $xsmall) {
+  //   min-height: 64vw;
+  // }
+}

@@ -9,12 +9,12 @@ import {
 } from './actions';
 
 export const initialState = {
-  question: '',
-  correctAnswer: '',
-  questionId: 0,
-  answerOptions: [],
-  pointValue: 0,
-  timeLimit: 0,
+  // question: '',
+  // correctAnswer: '',
+  // questionId: 0,
+  // answerOptions: [],
+  // pointValue: 0,
+  // timeLimit: 0,
   score: 0,
   loaded: false,
   quizContent: null,
@@ -33,13 +33,8 @@ export const reducer = (state, action) => {
       return {
         ...state,
         quizContent: action.payload,
+        loaded: true,
         fetching: false
-      };
-    case INITIALIZE_QUIZ:
-      return {
-        ...state,
-        ...action.payload,
-        loaded: true
       };
     case UPDATE_SCORE:
       return {

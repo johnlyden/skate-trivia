@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { withRouter } from 'react-router-dom';
 import { compose } from 'recompose';
 
@@ -12,23 +12,29 @@ import {
   updateTotalScore
 } from './actions';
 
+import { getQuestion } from './selectors';
+
 function QuizContainer({ authUser, history, firebase, ...props }) {
   const { store, dispatch } = useContext(Context);
-  const { quizContent, question, answerOptions, timeLimit } = store;
-  const { roundId, roundQuestions } = quizContent;
 
+  const [question, setQuestion] = useState(null);
+  const [index, setIndex] = useState(0);
+
+  const { quizContent } = store;
+  const { roundId, roundQuestions } = quizContent;
   const quizLength = roundQuestions.length;
 
   useEffect(() => {
-    initializeQuiz(dispatch, roundQuestions);
+    const firstQuestion = getQuestion(store, index);
+    setQuestion(firstQuestion);
   }, []);
 
   function checkAnswer(answerGuess) {
-    const { pointValue, score, correctAnswer } = store;
-
+    const { score } = store;
+    const { pointValue, answer } = question;
     let currentScore = score;
 
-    if (correctAnswer === answerGuess) {
+    if (answer === answerGuess) {
       currentScore = currentScore + pointValue;
       updateScore(dispatch, currentScore);
     }
@@ -38,15 +44,16 @@ function QuizContainer({ authUser, history, firebase, ...props }) {
     return currentScore;
   }
 
-  function updateQuestion(nextQuestion) {
+  function updateQuestion(questionIndex) {
     setTimeout(() => {
-      advanceQuiz(dispatch, nextQuestion);
+      const nextQuestion = getQuestion(store, questionIndex);
+      setIndex(questionIndex);
+      setQuestion(nextQuestion);
     }, 500);
   }
 
   function endQuiz(roundScore) {
     const userTotalScore = authUser.score + roundScore;
-
     const payload = {
       authUser,
       score: roundScore,
@@ -61,26 +68,26 @@ function QuizContainer({ authUser, history, firebase, ...props }) {
   }
 
   function handleAnswerSelect(answerGuess) {
-    const { questionId } = store;
-    const nextQuestion = questionId + 1;
-
     const curRoundScore = checkAnswer(answerGuess);
+    const nextQuestionIndex = index + 1;
 
-    if (nextQuestion === quizLength) {
+    if (nextQuestionIndex === quizLength) {
       endQuiz(curRoundScore);
     } else {
-      updateQuestion(nextQuestion);
+      updateQuestion(nextQuestionIndex);
     }
   }
 
-  if (!store.loaded) return null;
+  console.log('question: ', question);
+
+  if (!question) return null;
 
   return (
     <Quiz
       onAnswerSelected={handleAnswerSelect}
-      question={question}
-      answerOptions={answerOptions}
-      timeLimit={timeLimit}
+      question={question.body}
+      answerOptions={question.choices}
+      timeLimit={question.timeLimit}
     />
   );
 }

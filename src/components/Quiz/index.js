@@ -8,7 +8,6 @@ import styles from './Quiz.module.css';
 
 function Quiz(props) {
   const { onAnswerSelected, question, answerOptions, timeLimit } = props;
-
   return (
     <div data-testid="quiz" className={styles.quizContainer}>
       <Fade key={question}>

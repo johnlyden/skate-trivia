@@ -2,7 +2,7 @@ import app from 'firebase/app';
 import 'firebase/auth';
 import 'firebase/database';
 
-import local from 'services/localStorage';
+import localStorage from 'services/localStorage';
 
 const config = {
   apiKey: process.env.REACT_APP_API_KEY,
@@ -52,7 +52,7 @@ class Firebase {
         score: newScore
       })
       .then(() => {
-        local.update('authUser', 'score', newScore);
+        localStorage.update('authUser', 'score', newScore);
         next();
       });
   };
@@ -65,9 +65,7 @@ class Firebase {
       .set({
         leader: 'johnny'
       })
-      .then(() => {
-        debugger;
-      });
+      .then(() => {});
 
   // Merge Auth and DB User API
   onAuthUserListener = (next, fallback) =>
@@ -75,6 +73,7 @@ class Firebase {
       if (authUser) {
         this.user(authUser.uid)
           .once('value')
+          // TODO: A READ FROM THE DB - happens
           .then(snapshot => {
             const dbUser = snapshot.val();
 
