@@ -1,25 +1,15 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import QuizTitle from 'components/QuizTitle';
-import QuestionCount from 'components/QuestionCount';
-import { Context } from 'store';
-import { quizHeader } from './QuizHeader.module.css';
+import QuizScore from 'components/QuizScore';
+import { quizHeader } from './QuizHeader.module.scss';
 
-function QuizHeader() {
-  // TODO: shape the round to only have what the quizContainer needs
-  const { store } = useContext(Context);
-  const { quizContent, questionId } = store;
-
-  const { roundName, roundQuestions } = quizContent;
-  const quizLength = roundQuestions.length;
-
+function QuizHeader({ title, timeLimit, score }) {
+  console.log({ score });
   return (
     <div className={quizHeader}>
-      <QuizTitle title={roundName} />
-      <QuestionCount
-        currentQuestion={questionId + 1}
-        quizLength={quizLength}
-        data-testid="question-count"
-      />
+      <QuizTitle title={title} />
+      <QuizScore score={score} />
+      {/* <TimerProgress timeLimit={timeLimit} /> */}
     </div>
   );
 }

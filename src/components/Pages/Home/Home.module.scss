@@ -3,16 +3,20 @@ $small: 740px;
 $medium: 1024px;
 $large: 1100px;
 
-.quizPage {
+.homePage {
   background: url(svg/gradient-bg.svg) no-repeat;
   // background-size: cover;
   background-size: 100% auto;
   // background-position: center top;
-  background-position: center -10vw;
+  background-position: center -32px;
+  transition: all 0.2s 0.2s;
 
-  @media screen and (min-width: $xsmall) {
-    background-position: center -20vw;
+  &.top {
+    background-position: center -400px;
+    transition: all 1s 0.5s;
   }
+  // @media screen and (min-width: $xsmall) {
+  // }
   // @media screen and (min-width: $small) {
   //   background-position: center -88px;
   // }

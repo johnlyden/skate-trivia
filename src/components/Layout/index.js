@@ -1,5 +1,5 @@
 import React from 'react';
-import { container } from './Layout.module.css';
+import { container } from './Layout.module.scss';
 
 function Layout(props) {
   const { children } = props;

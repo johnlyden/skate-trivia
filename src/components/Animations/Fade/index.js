@@ -4,7 +4,6 @@ import { CSSTransitionGroup } from 'react-transition-group';
 function Fade({ children }) {
   return (
     <CSSTransitionGroup
-      className="container"
       component="div"
       transitionName="fade"
       transitionEnterTimeout={800}

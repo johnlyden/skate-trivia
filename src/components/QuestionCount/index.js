@@ -7,8 +7,8 @@ function QuestionCount(props) {
   const { currentQuestion, quizLength } = props;
 
   return (
-    <div className={questionCount}>
-      Question <span>{currentQuestion}</span>/<span>{quizLength}</span>
+    <div className={questionCount} data-testid="question-count">
+      Question {currentQuestion} / {quizLength}
     </div>
   );
 }

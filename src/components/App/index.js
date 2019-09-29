@@ -15,6 +15,9 @@ import { withAuthentication } from 'components/Session';
 
 import { Context, initialState, reducer } from 'store';
 import fetchContent from 'contentful/request';
+import { AnimatedSwitch } from 'react-router-transition';
+
+import './app.css';
 
 function App() {
   const [store, dispatch] = useReducer(reducer, initialState);
@@ -29,14 +32,20 @@ function App() {
   return (
     <Context.Provider value={{ store, dispatch }}>
       <Router>
-        <Route exact path={ROUTES.LANDING} component={LandingPage} />
-        <Route path={ROUTES.SIGN_UP} component={SignUpPage} />
-        <Route path={ROUTES.SIGN_IN} component={SignInPage} />
-        <Route path={ROUTES.PASSWORD_FORGET} component={PasswordForgetPage} />
-        <Route path={ROUTES.HOME} component={HomePage} />
-        <Route path={ROUTES.ACCOUNT} component={AccountPage} />
-        <Route path={ROUTES.ADMIN} component={AdminPage} />
-        <Route path={ROUTES.QUIZ_PAGE} component={QuizPage} />
+        <AnimatedSwitch
+          atEnter={{ opacity: 0 }}
+          atLeave={{ opacity: 0 }}
+          atActive={{ opacity: 1 }}
+          className="switch-wrapper">
+          <Route exact path={ROUTES.LANDING} component={LandingPage} />
+          <Route path={ROUTES.SIGN_UP} component={SignUpPage} />
+          <Route path={ROUTES.SIGN_IN} component={SignInPage} />
+          <Route path={ROUTES.PASSWORD_FORGET} component={PasswordForgetPage} />
+          <Route path={ROUTES.HOME} component={HomePage} />
+          <Route path={ROUTES.ACCOUNT} component={AccountPage} />
+          <Route path={ROUTES.ADMIN} component={AdminPage} />
+          <Route path={ROUTES.QUIZ_PAGE} component={QuizPage} />
+        </AnimatedSwitch>
       </Router>
     </Context.Provider>
   );

@@ -5,23 +5,18 @@ import { compose } from 'recompose';
 import Quiz from 'components/Quiz';
 import { withFirebase } from 'components/Firebase';
 import { Context } from 'store';
-import {
-  initializeQuiz,
-  updateScore,
-  advanceQuiz,
-  updateTotalScore
-} from './actions';
+import { updateScore, updateTotalScore } from './actions';
 
 import { getQuestion } from './selectors';
 
 function QuizContainer({ authUser, history, firebase, ...props }) {
   const { store, dispatch } = useContext(Context);
-
   const [question, setQuestion] = useState(null);
   const [index, setIndex] = useState(0);
+  const [score, setScore] = useState(0);
 
   const { quizContent } = store;
-  const { roundId, roundQuestions } = quizContent;
+  const { roundId, roundQuestions, roundName } = quizContent;
   const quizLength = roundQuestions.length;
 
   useEffect(() => {
@@ -30,17 +25,13 @@ function QuizContainer({ authUser, history, firebase, ...props }) {
   }, []);
 
   function checkAnswer(answerGuess) {
-    const { score } = store;
     const { pointValue, answer } = question;
     let currentScore = score;
 
     if (answer === answerGuess) {
       currentScore = currentScore + pointValue;
-      updateScore(dispatch, currentScore);
+      setScore(currentScore);
     }
-    // returning this so can be used to endQuiz with corret score
-    // tried pulling score from state to update users total score, but
-    // this value was not updated when accessing score from state in endQuiz
     return currentScore;
   }
 
@@ -78,16 +69,19 @@ function QuizContainer({ authUser, history, firebase, ...props }) {
     }
   }
 
-  console.log('question: ', question);
-
   if (!question) return null;
 
   return (
+    // passing too many things - this is everything for the
     <Quiz
       onAnswerSelected={handleAnswerSelect}
       question={question.body}
       answerOptions={question.choices}
       timeLimit={question.timeLimit}
+      quizLength={quizLength}
+      questionIndex={index}
+      roundName={roundName}
+      score={score}
     />
   );
 }

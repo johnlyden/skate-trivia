@@ -20,7 +20,7 @@ function QuizPage() {
       {authUser => (
         <div className={quizPage}>
           <Layout>
-            <QuizHeader />
+            {/* <QuizHeader /> */}
             <QuizContainer authUser={authUser} />
           </Layout>
         </div>

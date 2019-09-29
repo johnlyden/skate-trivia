@@ -33,7 +33,7 @@ body {
 
 @media (min-width: 769px) {
   .container {
-    margin: 2.5rem auto;
+    /* margin: 2.5rem auto; */
   }
 }
 

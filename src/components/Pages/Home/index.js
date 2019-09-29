@@ -1,7 +1,13 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { withAuthorization } from '../../Session';
 import { AuthUserContext } from '../../Session';
+import Layout from 'components/Layout';
 import { Context } from 'store';
+import styles from './Home.module.scss';
+import { Link } from 'react-router-dom';
+// import { homePage } from './Home.module.scss';
+
+import cx from 'classnames';
 
 /**
  * in here show the leaderboard?  If you are logged in, it will show your stats also, if not it will have a link to play now
@@ -10,18 +16,33 @@ import { Context } from 'store';
 function HomePage() {
   const { store } = useContext(Context);
   const { quizContent, totalScore } = store;
+  const [BG, setBG] = useState(false);
+
+  useEffect(() => {
+    setTimeout(() => {
+      setBG(true);
+    }, 500);
+  });
 
   if (!quizContent) {
     return <h2>loading...</h2>;
   }
 
+  // className={cx(styles.homePage, { [styles.top]: BG === true })}
+
   return (
     <AuthUserContext.Consumer>
       {authUser => (
-        <div>
-          <div>round: {quizContent.roundName}</div>
-          <div>user name: {authUser.username}</div>
-          <div>total score: {totalScore || authUser.score}</div>
+        <div
+          className={cx(styles.homePage, { [styles.top]: BG === true })}
+          style={{ height: '500px' }}>
+          {/* <div> */}
+          <Layout>
+            <div>round: {quizContent.roundName}</div>
+            <div>user name: {authUser.username}</div>
+            <div>total score: {totalScore || authUser.score}</div>
+            <Link to="/quiz">TakeQuiz</Link>
+          </Layout>
         </div>
       )}
     </AuthUserContext.Consumer>

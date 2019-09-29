@@ -1,25 +1,18 @@
 import React from 'react';
 import {
-  INITIALIZE_QUIZ,
   CONTENT_REQUEST,
   CONTENT_RECEIVED,
   UPDATE_SCORE,
-  ADVANCE_QUIZ,
   UPDATE_TOTAL_SCORE
 } from './actions';
 
 export const initialState = {
-  // question: '',
-  // correctAnswer: '',
-  // questionId: 0,
-  // answerOptions: [],
-  // pointValue: 0,
-  // timeLimit: 0,
-  score: 0,
   loaded: false,
   quizContent: null,
   fetching: false,
-  totalScore: null
+  totalScore: null,
+  questionId: 1,
+  score: 0
 };
 
 export const reducer = (state, action) => {
@@ -46,21 +39,11 @@ export const reducer = (state, action) => {
         ...state,
         totalScore: action.payload.totalScore
       };
-    case ADVANCE_QUIZ:
-      const { quizContent } = state;
-      const { roundQuestions } = quizContent;
-
-      const { nextQuestion } = action.payload;
-
-      return {
-        ...state,
-        question: roundQuestions[nextQuestion].body,
-        answerOptions: roundQuestions[nextQuestion].choices,
-        timeLimit: roundQuestions[nextQuestion].timeLimit,
-        pointValue: roundQuestions[nextQuestion].pointValue,
-        correctAnswer: roundQuestions[nextQuestion].answer,
-        questionId: nextQuestion
-      };
+    // case ADVANCE_QUIZ:
+    //   return {
+    //     ...state,
+    //     questionId: state.questionId + 1
+    //   };
     default:
       return state;
   }

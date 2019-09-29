@@ -4,8 +4,12 @@ import PropTypes from 'prop-types';
 import {
   answerOption,
   radioCustomButton,
-  radioCustomLabel
-} from './AnswerOption.module.css';
+  radioCustomLabel,
+  button2,
+  bGreen
+} from './AnswerOption.module.scss';
+
+import './button.scss';
 
 function AnswerOption(props) {
   const { answerContent, onAnswerSelected } = props;
@@ -19,7 +23,7 @@ function AnswerOption(props) {
   }
 
   return (
-    <li className={answerOption}>
+    <li data-testid="answer-option">
       <input
         type="radio"
         className={radioCustomButton}
@@ -30,7 +34,7 @@ function AnswerOption(props) {
         disabled={answer}
         onChange={handleChange}
       />
-      <label className={radioCustomLabel} htmlFor={answerContent}>
+      <label className="button2 b-green rot-135" htmlFor={answerContent}>
         {answerContent}
       </label>
     </li>

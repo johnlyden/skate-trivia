@@ -46,8 +46,12 @@
   transition: all 0.3s; */
 }
 
-.radioCustomButton:checked ~ .radioCustomLabel:before {
+.radioCustomButton:checked {
+  + label {
+    filter: hue-rotate(135deg);
+  }
   /* content: '';
+
   background: #8bc53f url(../../svg/icon-check.svg) no-repeat;
   background-size: 27px;
   border-color: #8bc53f; */
