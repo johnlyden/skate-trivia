@@ -26,9 +26,7 @@ describe('useContentful', () => {
     dependency.default = jest.mock(() => {
       jest.fn();
     });
-    console.log(dependency);
     const { result } = renderHook(() => useContentful());
-    console.log(result);
     expect(client.initializeClient).toHaveBeenCalled();
   });
 });

@@ -14,6 +14,8 @@ function QuizContainer({ authUser, history, firebase, ...props }) {
   const [question, setQuestion] = useState(null);
   const [index, setIndex] = useState(0);
   const [score, setScore] = useState(0);
+  const [answered, setAnswered] = useState(false);
+  const [timeIsUp, setTimeIsUp] = useState(false);
 
   const { quizContent } = store;
   const { roundId, roundQuestions, roundName } = quizContent;
@@ -35,12 +37,33 @@ function QuizContainer({ authUser, history, firebase, ...props }) {
     return currentScore;
   }
 
+  useEffect(() => {
+    if (question) {
+      const time = Number(Number(question.timeLimit) * 1000);
+      const timer = setTimeout(() => {
+        // setIsDone(true);
+        setAnswered(true);
+        updateQuestion(index + 1);
+      }, time + 1);
+      const timer1 = setTimeout(() => {
+        setTimeIsUp(true);
+        setAnswered(true);
+      }, time);
+      return () => {
+        clearTimeout(timer1);
+        clearTimeout(timer);
+      };
+    }
+  }, [question]);
+
   function updateQuestion(questionIndex) {
     setTimeout(() => {
       const nextQuestion = getQuestion(store, questionIndex);
       setIndex(questionIndex);
       setQuestion(nextQuestion);
-    }, 500);
+      setAnswered(false);
+      setTimeIsUp(false);
+    }, 1500);
   }
 
   function endQuiz(roundScore) {
@@ -53,14 +76,20 @@ function QuizContainer({ authUser, history, firebase, ...props }) {
 
     return firebase.updateUserProgress(payload, () => {
       updateTotalScore(dispatch, userTotalScore);
-      history.push('/home');
+      setTimeout(() => {
+        history.push('/home');
+      }, 1500);
     });
     // return firebase.updateLeaderboard();
   }
 
   function handleAnswerSelect(answerGuess) {
+    if (timeIsUp) {
+      return false;
+    }
     const curRoundScore = checkAnswer(answerGuess);
     const nextQuestionIndex = index + 1;
+    setAnswered(true);
 
     if (nextQuestionIndex === quizLength) {
       endQuiz(curRoundScore);
@@ -70,10 +99,12 @@ function QuizContainer({ authUser, history, firebase, ...props }) {
   }
 
   if (!question) return null;
-
+  const { answer } = question;
   return (
     // passing too many things - this is everything for the
     <Quiz
+      answer={answer}
+      answered={answered}
       onAnswerSelected={handleAnswerSelect}
       question={question.body}
       answerOptions={question.choices}

@@ -8,11 +8,19 @@ import {
   button2,
   bGreen
 } from './AnswerOption.module.scss';
-
+import cx from 'classnames';
+import styles from './AnswerOption.module.scss';
 import './button.scss';
 
 function AnswerOption(props) {
-  const { answerContent, onAnswerSelected } = props;
+  const {
+    answerContent,
+    onAnswerSelected,
+    rightAnswer,
+    className,
+    answered,
+    done
+  } = props;
   const [answer, setAnswer] = useState('');
 
   function handleChange(e) {
@@ -26,7 +34,14 @@ function AnswerOption(props) {
     <li data-testid="answer-option">
       <input
         type="radio"
-        className={radioCustomButton}
+        className={cx(
+          radioCustomButton,
+          {
+            [styles.correct]: answer === rightAnswer || (answered && className),
+            [styles.wrong]: answer !== rightAnswer
+          },
+          className
+        )}
         name="radioGroup"
         checked={answerContent === answer}
         id={answerContent}

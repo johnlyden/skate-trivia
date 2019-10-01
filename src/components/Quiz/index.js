@@ -17,8 +17,11 @@ function Quiz(props) {
     questionIndex,
     quizLength,
     roundName,
-    score
+    score,
+    answer,
+    answered
   } = props;
+
   return (
     <div data-testid="quiz" className={styles.quizContainer}>
       <QuizHeader title={roundName} timeLimit={timeLimit} score={score} />
@@ -32,6 +35,9 @@ function Quiz(props) {
                 onAnswerSelected={onAnswerSelected}
                 answerContent={option}
                 key={option}
+                rightAnswer={answer}
+                answered={answered}
+                className={answer === option && 'correct'}
               />
             );
           })}

@@ -37,7 +37,6 @@ describe('<QuizPage />', () => {
     }));
     let contentful = require('contentful').default;
 
-    console.log('AYYY: ', contentful);
     act(() => {
       renderComponent();
     });

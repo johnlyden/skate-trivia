@@ -18,7 +18,6 @@
 .radioCustomLabel {
   display: inline-block;
   vertical-align: middle;
-  cursor: pointer;
 }
 
 .radioCustomLabel {
@@ -46,10 +45,29 @@
   transition: all 0.3s; */
 }
 
-.radioCustomButton:checked {
-  + label {
-    filter: hue-rotate(135deg);
+.radioCustomButton {
+  &.correct {
+    + label {
+      filter: hue-rotate(-74deg);
+    }
   }
+}
+
+.radioCustomButton:checked {
+  &.wrong {
+    + label {
+      filter: hue-rotate(180deg);
+      box-shadow: none;
+    }
+  }
+
+  &.correct {
+    + label {
+      box-shadow: none;
+      filter: hue-rotate(-74deg);
+    }
+  }
+
   /* content: '';
 
   background: #8bc53f url(../../svg/icon-check.svg) no-repeat;
