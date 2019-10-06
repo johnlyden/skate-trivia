@@ -59,7 +59,6 @@ describe('<QuizContainer />', () => {
   //   it.x('should submit the final score', () => {
   //     const { getAllByTestId, debug } = renderComponent();
   //     const firstChoice = getAllByTestId('answer-option')[0];
-  //     console.log(firstChoice);
   //     fireEvent.click(firstChoice);
   //     debug();
   //     expect(true).toBe(false);

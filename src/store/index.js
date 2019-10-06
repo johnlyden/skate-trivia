@@ -44,7 +44,7 @@ export const reducer = (state, action) => {
     case UPDATE_QUESTION_INDEX:
       return {
         ...state,
-        questionIndex: state.questionIndex + 1
+        questionIndex: action.payload.index
       };
     default:
       return state;

@@ -17,6 +17,7 @@ function fetchContent(dispatch) {
         acc[round.sys.id] = formatContent(round);
         return acc;
       }, {});
+      // console.log({archivedRounds});
       // TODO: add archivedRounds to the state somehow
 
       dispatch({
