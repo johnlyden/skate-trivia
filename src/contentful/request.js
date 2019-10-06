@@ -9,7 +9,7 @@ function fetchContent(dispatch) {
   const client = initializeClient();
 
   client
-    .getEntries({ content_type: CONTENT_TYPE, order: 'sys.createdAt' })
+    .getEntries({ content_type: CONTENT_TYPE, order: '-sys.createdAt' })
     .then(response => {
       const [round, ...others] = response.items;
       const formattedContent = formatContent(round);

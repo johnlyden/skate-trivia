@@ -1,15 +1,17 @@
 import React, { Component } from 'react';
 import { Link, withRouter } from 'react-router-dom';
 import { compose } from 'recompose';
-
+import Layout from 'components/Layout';
 import { withFirebase } from 'components/Firebase';
 import * as ROUTES from 'constants/routes';
 import * as ROLES from 'constants/roles';
 
 const SignUpPage = () => (
   <div>
-    <h1>SignUp</h1>
-    <SignUpForm />
+    <Layout>
+      <h1>SignUp</h1>
+      <SignUpForm />
+    </Layout>
   </div>
 );
 

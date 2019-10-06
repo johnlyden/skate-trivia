@@ -3,7 +3,7 @@ import React, { useContext } from 'react';
 import { AuthUserContext } from 'components/Session';
 import { Context } from 'store';
 import QuizContainer from 'containers/QuizContainer';
-import QuizHeader from 'components/QuizHeader';
+import { QuizHeaderContainer as QuizHeader } from 'containers/QuizHeaderContainer';
 import Layout from 'components/Layout';
 import { quizPage } from './QuizPage.module.scss';
 
@@ -20,7 +20,7 @@ function QuizPage() {
       {authUser => (
         <div className={quizPage}>
           <Layout>
-            {/* <QuizHeader /> */}
+            <QuizHeader />
             <QuizContainer authUser={authUser} />
           </Layout>
         </div>

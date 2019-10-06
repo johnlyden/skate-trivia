@@ -16,15 +16,15 @@ function Quiz(props) {
     timeLimit,
     questionIndex,
     quizLength,
-    roundName,
-    score,
+    // roundName,
+    // score,
     answer,
     answered
   } = props;
 
   return (
     <div data-testid="quiz" className={styles.quizContainer}>
-      <QuizHeader title={roundName} timeLimit={timeLimit} score={score} />
+      {/* <QuizHeader title={roundName} timeLimit={timeLimit} score={score} /> */}
       <Fade key={question}>
         <Question content={question} />
         <ul className={styles.answerOptions}>

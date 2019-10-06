@@ -3,7 +3,8 @@ import {
   CONTENT_REQUEST,
   CONTENT_RECEIVED,
   UPDATE_SCORE,
-  UPDATE_TOTAL_SCORE
+  UPDATE_TOTAL_SCORE,
+  UPDATE_QUESTION_INDEX
 } from './actions';
 
 export const initialState = {
@@ -12,7 +13,8 @@ export const initialState = {
   fetching: false,
   totalScore: null,
   questionId: 1,
-  score: 0
+  score: 0,
+  questionIndex: 0
 };
 
 export const reducer = (state, action) => {
@@ -39,11 +41,11 @@ export const reducer = (state, action) => {
         ...state,
         totalScore: action.payload.totalScore
       };
-    // case ADVANCE_QUIZ:
-    //   return {
-    //     ...state,
-    //     questionId: state.questionId + 1
-    //   };
+    case UPDATE_QUESTION_INDEX:
+      return {
+        ...state,
+        questionIndex: state.questionIndex + 1
+      };
     default:
       return state;
   }

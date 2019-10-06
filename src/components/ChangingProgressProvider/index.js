@@ -23,6 +23,9 @@ class ChangingProgressProvider extends React.Component {
           done: true
         });
       }
+      if (this.state.done) {
+        clearInterval(this.state.timerId);
+      }
     }, this.props.interval);
     this.setState({ timerId });
   }
@@ -32,7 +35,9 @@ class ChangingProgressProvider extends React.Component {
   }
 
   render() {
+    console.log('this.state.done', this.state.done);
     if (this.state.done) {
+      // console.log('doneeeeeeeeeeeeeeee');
       return this.props.children(0);
     }
     return this.props.children(this.props.values[this.state.valuesIndex]);
