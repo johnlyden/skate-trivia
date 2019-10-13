@@ -4,15 +4,15 @@ import { Context } from 'store';
 import TimerProgress from 'components/TimerProgress';
 import QuestionCount from 'components/QuestionCount';
 import Fade from 'components/Animations/Fade';
-import { getTimeLimit } from './selectors';
+import { getTimeLimit, getQuizLength } from './selectors';
+
 import * as styles from './QuizFooter.module.scss';
 
 function QuizFooterContainer() {
   const { store } = useContext(Context);
-  const { questionIndex, quizContent } = store;
-  const { roundQuestions } = quizContent;
-  const quizLength = roundQuestions.length;
+  const { questionIndex } = store;
   const timeLimit = getTimeLimit(store, questionIndex);
+  const quizLength = getQuizLength(store);
 
   return (
     <Fade key={questionIndex}>
