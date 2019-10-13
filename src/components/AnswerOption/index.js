@@ -1,13 +1,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
-import {
-  answerOption,
-  radioCustomButton,
-  radioCustomLabel,
-  button2,
-  bGreen
-} from './AnswerOption.module.scss';
+import { radioCustomButton } from './AnswerOption.module.scss';
 import cx from 'classnames';
 import styles from './AnswerOption.module.scss';
 import './button.scss';
@@ -18,14 +12,12 @@ function AnswerOption(props) {
     onAnswerSelected,
     rightAnswer,
     className,
-    answered,
-    done
+    answered
   } = props;
   const [answer, setAnswer] = useState('');
 
   function handleChange(e) {
     const { value } = e.target;
-
     setAnswer(value);
     onAnswerSelected(value);
   }

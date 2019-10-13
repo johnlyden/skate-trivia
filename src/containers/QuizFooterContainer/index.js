@@ -1,23 +1,42 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Context } from 'store';
-import QuizFooter from 'components/QuizFooter';
 import { getTimeLimit } from './selectors';
+import QuestionCount from 'components/QuestionCount';
+import TimerProgress from 'components/TimerProgress';
+import { quizFooter } from './QuizFooter.module.scss';
+import { useTimer } from 'hooks/useTimer';
 
-function QuizFooterContainer() {
+function QuizFooterContainer({
+  currentQuestionIdx,
+  totalQuestions,
+  handleTimeUp
+}) {
   const { store } = useContext(Context);
   const { quizContent, questionIndex } = store;
+  const [timeIsUp, setTimeIsUp] = useState(false);
   const { roundQuestions } = quizContent;
-  const quizLength = roundQuestions.length;
+  const question = roundQuestions[questionIndex];
+
+  useTimer(question.timeLimit * 1000, () => {
+    setTimeIsUp(true);
+    handleTimeUp();
+  });
+
   const timeLimit = getTimeLimit(store, questionIndex);
 
-  useEffect(() => {}, [questionIndex]);
+  useEffect(() => {
+    setTimeIsUp(false);
+  }, [questionIndex]);
 
+  console.log('timeLimit: ', timeLimit);
   return (
-    <QuizFooter
-      quizLength={quizLength}
-      currentQuestion={questionIndex + 1}
-      timeLimit={timeLimit}
-    />
+    <div className={quizFooter}>
+      <QuestionCount
+        currentQuestion={currentQuestionIdx + 1}
+        quizLength={totalQuestions}
+      />
+      {timeLimit && <TimerProgress timeLimit={timeLimit} timeIsUp={timeIsUp} />}
+    </div>
   );
 }
 

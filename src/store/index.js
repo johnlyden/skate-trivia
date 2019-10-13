@@ -14,7 +14,8 @@ export const initialState = {
   totalScore: null,
   questionId: 1,
   score: 0,
-  questionIndex: 0
+  questionIndex: 0,
+  answered: false
 };
 
 export const reducer = (state, action) => {
@@ -34,6 +35,7 @@ export const reducer = (state, action) => {
     case UPDATE_SCORE:
       return {
         ...state,
+        answered: true,
         score: action.payload.score
       };
     case UPDATE_TOTAL_SCORE:
@@ -44,7 +46,8 @@ export const reducer = (state, action) => {
     case UPDATE_QUESTION_INDEX:
       return {
         ...state,
-        questionIndex: action.payload.index
+        questionIndex: action.payload.index,
+        answered: false
       };
     default:
       return state;

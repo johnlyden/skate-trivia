@@ -1,12 +1,19 @@
-import React, { useContext } from 'react';
-import { Context } from 'store';
-import QuizHeader from 'components/QuizHeader';
+import React from 'react';
+import QuizTitle from 'components/QuizTitle';
+import QuizScore from 'components/QuizScore';
+import { quizHeader, right } from './QuizHeader.module.scss';
+import logo from '../../images/logo.svg';
 
-function QuizHeaderContainer() {
-  const { store } = useContext(Context);
-  const { quizContent, score } = store;
-  const { roundName } = quizContent;
-  return <QuizHeader title={roundName} score={score} />;
+function QuizHeaderContainer({ title, score }) {
+  return (
+    <div className={quizHeader}>
+      <img src={logo} />
+      <div className={right}>
+        <QuizTitle title={title} />
+        <QuizScore score={score} />
+      </div>
+    </div>
+  );
 }
 
 export { QuizHeaderContainer };
