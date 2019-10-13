@@ -8,9 +8,6 @@ import { getQuestion } from './selectors';
 import { withFirebase } from 'components/Firebase';
 import Quiz from 'components/Quiz';
 
-import { QuizHeaderContainer as QuizHeader } from 'containers/QuizHeaderContainer';
-import { QuizFooterContainer as QuizFooter } from 'containers/QuizFooterContainer';
-
 function QuizContainer({ authUser, history, firebase }) {
   const { store, dispatch } = useContext(Context);
 
@@ -97,13 +94,15 @@ function QuizContainer({ authUser, history, firebase }) {
     if (timeIsUp) {
       return false;
     }
+
     setAnswered(true);
 
-    const curRoundScore = checkAnswer(answerGuess);
+    checkAnswer(answerGuess);
     const quizIsOver = isLastQuestion();
 
     if (quizIsOver) {
-      endQuiz(curRoundScore);
+      // ending before score is updated
+      endQuiz();
     } else {
       updateQuestion();
     }
@@ -112,21 +111,18 @@ function QuizContainer({ authUser, history, firebase }) {
   if (!question) return null;
 
   return (
-    // passing too many things - this is everything for the
-    <>
-      <Quiz
-        answer={question.answer}
-        answered={answered}
-        onAnswerSelected={handleAnswerSelect}
-        question={question.body}
-        answerOptions={question.choices}
-        timeLimit={question.timeLimit}
-        quizLength={quizLength}
-        questionIndex={questionIndex}
-        roundName={roundName}
-        score={score}
-      />
-    </>
+    <Quiz
+      answer={question.answer}
+      answered={answered}
+      onAnswerSelected={handleAnswerSelect}
+      question={question.body}
+      answerOptions={question.choices}
+      timeLimit={question.timeLimit}
+      quizLength={quizLength}
+      questionIndex={questionIndex}
+      roundName={roundName}
+      score={score}
+    />
   );
 }
 
