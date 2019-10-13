@@ -4,6 +4,7 @@ import { AuthUserContext } from 'components/Session';
 import { Context } from 'store';
 import QuizContainer from 'containers/QuizContainer';
 import { QuizHeaderContainer as QuizHeader } from 'containers/QuizHeaderContainer';
+import { QuizFooterContainer as QuizFooter } from 'containers/QuizFooterContainer';
 import Layout from 'components/Layout';
 import { quizPage } from './QuizPage.module.scss';
 
@@ -22,6 +23,7 @@ function QuizPage() {
           <Layout>
             <QuizHeader />
             <QuizContainer authUser={authUser} />
+            <QuizFooter />
           </Layout>
         </div>
       )}

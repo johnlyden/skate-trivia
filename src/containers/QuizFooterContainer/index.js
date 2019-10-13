@@ -1,23 +1,29 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext } from 'react';
+
 import { Context } from 'store';
-import QuizFooter from 'components/QuizFooter';
+import TimerProgress from 'components/TimerProgress';
+import QuestionCount from 'components/QuestionCount';
+import Fade from 'components/Animations/Fade';
 import { getTimeLimit } from './selectors';
+import * as styles from './QuizFooter.module.scss';
 
 function QuizFooterContainer() {
   const { store } = useContext(Context);
-  const { quizContent, questionIndex } = store;
+  const { questionIndex, quizContent } = store;
   const { roundQuestions } = quizContent;
   const quizLength = roundQuestions.length;
   const timeLimit = getTimeLimit(store, questionIndex);
 
-  useEffect(() => {}, [questionIndex]);
-
   return (
-    <QuizFooter
-      quizLength={quizLength}
-      currentQuestion={questionIndex + 1}
-      timeLimit={timeLimit}
-    />
+    <Fade key={questionIndex}>
+      <div className={styles.timerContainer}>
+        <QuestionCount
+          currentQuestion={questionIndex + 1}
+          quizLength={quizLength}
+        />
+        <TimerProgress timeLimit={timeLimit} />
+      </div>
+    </Fade>
   );
 }
 
