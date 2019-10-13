@@ -12,7 +12,6 @@ export const initialState = {
   quizContent: null,
   fetching: false,
   totalScore: null,
-  questionId: 1,
   score: 0,
   questionIndex: 0
 };

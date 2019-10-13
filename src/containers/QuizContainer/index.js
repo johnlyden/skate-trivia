@@ -7,9 +7,11 @@ import { updateScore, updateTotalScore, updateQuestionIndex } from './actions';
 import { getQuestion } from './selectors';
 import { withFirebase } from 'components/Firebase';
 import Quiz from 'components/Quiz';
+import TimerProgress from 'components/TimerProgress';
 
 import { QuizHeaderContainer as QuizHeader } from 'containers/QuizHeaderContainer';
 import { QuizFooterContainer as QuizFooter } from 'containers/QuizFooterContainer';
+import Fade from '../../components/Animations/Fade';
 
 function QuizContainer({ authUser, history, firebase }) {
   const { store, dispatch } = useContext(Context);
@@ -126,6 +128,7 @@ function QuizContainer({ authUser, history, firebase }) {
         roundName={roundName}
         score={score}
       />
+      <Timer />
     </>
   );
 }
@@ -134,3 +137,23 @@ export default compose(
   withRouter,
   withFirebase
 )(QuizContainer);
+
+function Timer() {
+  // timer should load the appropriate time
+  // timer should reset when question changes
+  // timer should go away when it reaches 0
+  useEffect(() => {});
+
+  const { store, dispatch } = useContext(Context);
+  const { questionIndex, quizContent } = store;
+  const { roundQuestions } = quizContent;
+  const question = roundQuestions[questionIndex];
+  const { timeLimit } = question;
+
+  // timeLimit is set correctly - this one does not update
+  return (
+    <Fade key={questionIndex}>
+      <TimerProgress timeLimit={timeLimit} />
+    </Fade>
+  );
+}
