@@ -3,6 +3,7 @@ import { withRouter } from 'react-router-dom';
 import { compose } from 'recompose';
 
 import { Context } from 'store';
+import { useTimer } from 'hooks/useTimer';
 import { updateScore, updateTotalScore, updateQuestionIndex } from './actions';
 import { getQuestion } from './selectors';
 import { withFirebase } from 'components/Firebase';
@@ -12,7 +13,7 @@ function QuizContainer({ authUser, history, firebase }) {
   const { store, dispatch } = useContext(Context);
 
   const [question, setQuestion] = useState(null);
-  const [answered, setAnswered] = useState(false);
+  const [hasAnswered, setHasAnswered] = useState(false);
   const [timeIsUp, setTimeIsUp] = useState(false);
 
   const { quizContent, score, questionIndex } = store;
@@ -20,22 +21,37 @@ function QuizContainer({ authUser, history, firebase }) {
   const quizLength = roundQuestions.length;
 
   useEffect(() => {
-    const firstQuestion = getQuestion(store, questionIndex);
-    setQuestion(firstQuestion);
-  }, []);
+    const isFirstQuestion = questionIndex === 0;
+    if (hasAnswered || isFirstQuestion) {
+      updateQuiz();
+    }
+  }, [hasAnswered]);
+
+  function updateQuiz() {
+    const quizIsOver = isLastQuestion();
+    if (quizIsOver) {
+      endQuiz();
+    } else {
+      setTheNextQuestion();
+    }
+  }
+
+  function setTheNextQuestion() {
+    if (!question) {
+      const firstQuestion = getQuestion(store, questionIndex);
+      setQuestion(firstQuestion);
+    } else {
+      updateQuestion();
+    }
+  }
 
   useEffect(() => {
     if (question) {
       const time = Number(Number(question.timeLimit) * 1000 + 500);
 
       const timer = setTimeout(() => {
-        const quizIsOver = isLastQuestion();
-        if (quizIsOver) {
-          endQuiz();
-        } else {
-          updateQuestion();
-        }
-        setAnswered(true);
+        updateQuiz();
+        setHasAnswered(true); // this shows the correct answer
         setTimeIsUp(true);
       }, time);
 
@@ -46,14 +62,7 @@ function QuizContainer({ authUser, history, firebase }) {
   }, [question]);
 
   function checkAnswer(answerGuess) {
-    const { pointValue, answer } = question;
-    let currentScore = score;
-
-    if (answer === answerGuess) {
-      currentScore = currentScore + pointValue;
-      updateScore(dispatch, currentScore);
-    }
-    return currentScore;
+    return question.answer === answerGuess;
   }
 
   function updateQuestion() {
@@ -63,14 +72,13 @@ function QuizContainer({ authUser, history, firebase }) {
       updateQuestionIndex(dispatch, nextIndex);
       const nextQuestion = getQuestion(store, nextIndex);
       setQuestion(nextQuestion);
-      setAnswered(false);
+      setHasAnswered(false);
       setTimeIsUp(false);
     }, 1500);
   }
 
   function endQuiz() {
     const userTotalScore = authUser.score + score;
-
     const payload = {
       authUser,
       score,
@@ -78,8 +86,8 @@ function QuizContainer({ authUser, history, firebase }) {
     };
 
     return firebase.updateUserProgress(payload, () => {
-      updateTotalScore(dispatch, userTotalScore);
       setTimeout(() => {
+        updateTotalScore(dispatch, userTotalScore);
         history.push('/home');
       }, 1500);
     });
@@ -87,7 +95,7 @@ function QuizContainer({ authUser, history, firebase }) {
   }
 
   function isLastQuestion() {
-    return questionIndex + 1 === quizLength;
+    return questionIndex && questionIndex + 1 === quizLength;
   }
 
   function handleAnswerSelect(answerGuess) {
@@ -95,16 +103,12 @@ function QuizContainer({ authUser, history, firebase }) {
       return false;
     }
 
-    setAnswered(true);
+    setHasAnswered(true);
+    const isCorrect = checkAnswer(answerGuess);
+    const { pointValue } = question;
 
-    checkAnswer(answerGuess);
-    const quizIsOver = isLastQuestion();
-
-    if (quizIsOver) {
-      // ending before score is updated
-      endQuiz();
-    } else {
-      updateQuestion();
+    if (isCorrect) {
+      updateScore(dispatch, score + pointValue);
     }
   }
 
@@ -113,7 +117,7 @@ function QuizContainer({ authUser, history, firebase }) {
   return (
     <Quiz
       answer={question.answer}
-      answered={answered}
+      answered={hasAnswered}
       onAnswerSelected={handleAnswerSelect}
       question={question.body}
       answerOptions={question.choices}

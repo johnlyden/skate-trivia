@@ -42,7 +42,6 @@ class Firebase {
   updateUserProgress = (payload, next) => {
     const { authUser, roundId, score } = payload;
     const newScore = authUser.score + score;
-
     this.user(authUser.uid)
       .update({
         ...authUser,
