@@ -8,7 +8,6 @@ function QuizHeaderContainer() {
   const { store } = useContext(Context);
   const { score } = store;
   const roundName = getRoundName(store);
-
   return <QuizHeader title={roundName} score={score} />;
 }
 

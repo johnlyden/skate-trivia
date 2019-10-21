@@ -42,18 +42,11 @@ describe('<QuizContainer />', () => {
       const { getAllByTestId } = renderComponent();
       expect(getAllByTestId('answer-option')).toHaveLength(4);
     });
-
-    it('should set the first question time limit', () => {
-      const { getByTestId } = renderComponent();
-      expect(getByTestId('timer').innerHTML).toContain('10');
-    });
-
-    it('should set the question count to 1', () => {
-      const { debug, getByTestId } = renderComponent();
-      // get text
-      expect(getByTestId('question-count').innerHTML).toEqual('Question 1 / 1');
-    });
   });
+
+  // after answering last question it should end quiz
+
+  // if answering not last qustion, it should advance the quiz
 
   // describe('when a quiz ends', () => {
   //   it.x('should submit the final score', () => {
