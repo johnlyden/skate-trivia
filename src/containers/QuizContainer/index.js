@@ -3,7 +3,6 @@ import { withRouter } from 'react-router-dom';
 import { compose } from 'recompose';
 
 import { Context } from 'store';
-import { useTimer } from 'hooks/useTimer';
 import { updateScore, updateTotalScore, updateQuestionIndex } from './actions';
 import { getQuestion } from './selectors';
 import { withFirebase } from 'components/Firebase';

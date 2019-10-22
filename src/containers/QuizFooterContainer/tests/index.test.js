@@ -21,7 +21,7 @@ describe('<QuizFooterContainer />', () => {
 
     it('should set the question count to 1', () => {
       const { getByTestId } = renderComponent();
-      expect(getByTestId('question-count').innerHTML).toEqual('Question 1 / 1');
+      expect(getByTestId('question-count').innerHTML).toEqual('Question 1 / 2');
     });
   });
 });
