@@ -1,0 +1,27 @@
+.quizHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  img {
+    width: 30vw;
+  }
+
+  .right {
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+// .imageContainer {
+//   position: absolute;
+//   // left: 0;
+//   left: 0;
+//   right: 0;
+//   margin: 0 auto;
+
+//   max-width: 33%;
+//   img {
+//     width: 100%;
+//   }
+// }

@@ -2,84 +2,127 @@ import React, { useContext, useEffect, useState } from 'react';
 import { withRouter } from 'react-router-dom';
 import { compose } from 'recompose';
 
-import Quiz from 'components/Quiz';
-import { withFirebase } from 'components/Firebase';
 import { Context } from 'store';
-import { updateScore, updateTotalScore } from './actions';
-
+import { updateScore, updateTotalScore, updateQuestionIndex } from './actions';
 import { getQuestion } from './selectors';
+import { withFirebase } from 'components/Firebase';
+import Quiz from 'components/Quiz';
 
-function QuizContainer({ authUser, history, firebase, ...props }) {
+function QuizContainer({ authUser, history, firebase }) {
   const { store, dispatch } = useContext(Context);
-  const [question, setQuestion] = useState(null);
-  const [index, setIndex] = useState(0);
-  const [score, setScore] = useState(0);
 
-  const { quizContent } = store;
+  const [question, setQuestion] = useState(null);
+  const [hasAnswered, setHasAnswered] = useState(false);
+  const [timeIsUp, setTimeIsUp] = useState(false);
+
+  const { quizContent, score, questionIndex } = store;
   const { roundId, roundQuestions, roundName } = quizContent;
   const quizLength = roundQuestions.length;
 
   useEffect(() => {
-    const firstQuestion = getQuestion(store, index);
-    setQuestion(firstQuestion);
-  }, []);
+    const isFirstQuestion = questionIndex === 0;
+    if (hasAnswered || isFirstQuestion) {
+      updateQuiz();
+    }
+  }, [hasAnswered]);
+
+  function updateQuiz() {
+    const quizIsOver = isLastQuestion();
+    if (quizIsOver) {
+      endQuiz();
+    } else {
+      setTheNextQuestion();
+    }
+  }
+
+  function setTheNextQuestion() {
+    if (!question) {
+      const firstQuestion = getQuestion(store, questionIndex);
+      setQuestion(firstQuestion);
+    } else {
+      updateQuestion();
+    }
+  }
+
+  useEffect(() => {
+    if (question) {
+      const time = Number(Number(question.timeLimit) * 1000 + 500);
+
+      const timer = setTimeout(() => {
+        updateQuiz();
+        setHasAnswered(true); // this shows the correct answer
+        setTimeIsUp(true);
+      }, time);
+
+      return () => {
+        clearTimeout(timer);
+      };
+    }
+  }, [question]);
 
   function checkAnswer(answerGuess) {
-    const { pointValue, answer } = question;
-    let currentScore = score;
-
-    if (answer === answerGuess) {
-      currentScore = currentScore + pointValue;
-      setScore(currentScore);
-    }
-    return currentScore;
+    return question.answer === answerGuess;
   }
 
-  function updateQuestion(questionIndex) {
+  function updateQuestion() {
+    const nextIndex = questionIndex + 1;
+
     setTimeout(() => {
-      const nextQuestion = getQuestion(store, questionIndex);
-      setIndex(questionIndex);
+      updateQuestionIndex(dispatch, nextIndex);
+      const nextQuestion = getQuestion(store, nextIndex);
       setQuestion(nextQuestion);
-    }, 500);
+      setHasAnswered(false);
+      setTimeIsUp(false);
+    }, 1500);
   }
 
-  function endQuiz(roundScore) {
-    const userTotalScore = authUser.score + roundScore;
+  function endQuiz() {
+    const userTotalScore = authUser.score + score;
     const payload = {
       authUser,
-      score: roundScore,
+      score,
       roundId
     };
 
     return firebase.updateUserProgress(payload, () => {
-      updateTotalScore(dispatch, userTotalScore);
-      history.push('/home');
+      setTimeout(() => {
+        updateTotalScore(dispatch, userTotalScore);
+        history.push('/home');
+      }, 1500);
     });
     // return firebase.updateLeaderboard();
   }
 
-  function handleAnswerSelect(answerGuess) {
-    const curRoundScore = checkAnswer(answerGuess);
-    const nextQuestionIndex = index + 1;
+  function isLastQuestion() {
+    return questionIndex && questionIndex + 1 === quizLength;
+  }
 
-    if (nextQuestionIndex === quizLength) {
-      endQuiz(curRoundScore);
-    } else {
-      updateQuestion(nextQuestionIndex);
+  function handleAnswerSelect(answerGuess) {
+    if (timeIsUp) {
+      return false;
+    }
+
+    setHasAnswered(true);
+    const isCorrect = checkAnswer(answerGuess);
+    const { pointValue } = question;
+
+    if (isCorrect) {
+      updateScore(dispatch, score + pointValue);
     }
   }
 
   if (!question) return null;
 
   return (
-    // passing too many things - this is everything for the
     <Quiz
+      answer={question.answer}
+      answered={hasAnswered}
       onAnswerSelected={handleAnswerSelect}
       question={question.body}
       answerOptions={question.choices}
       timeLimit={question.timeLimit}
       quizLength={quizLength}
-      questionIndex={index}
+      questionIndex={questionIndex}
       roundName={roundName}
       score={score}
     />

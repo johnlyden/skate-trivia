@@ -9,7 +9,7 @@ function fetchContent(dispatch) {
   const client = initializeClient();
 
   client
-    .getEntries({ content_type: CONTENT_TYPE, order: 'sys.createdAt' })
+    .getEntries({ content_type: CONTENT_TYPE, order: '-sys.createdAt' })
     .then(response => {
       const [round, ...others] = response.items;
       const formattedContent = formatContent(round);
@@ -17,6 +17,7 @@ function fetchContent(dispatch) {
         acc[round.sys.id] = formatContent(round);
         return acc;
       }, {});
+      // console.log({archivedRounds});
       // TODO: add archivedRounds to the state somehow
 
       dispatch({

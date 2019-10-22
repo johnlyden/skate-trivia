@@ -2,7 +2,8 @@ import {
   INITIALIZE_QUIZ,
   UPDATE_SCORE,
   ADVANCE_QUIZ,
-  UPDATE_TOTAL_SCORE
+  UPDATE_TOTAL_SCORE,
+  UPDATE_QUESTION_INDEX
 } from 'store/actions';
 
 export const initializeQuiz = (dispatch, roundQuestions) => {
@@ -40,6 +41,15 @@ export const updateTotalScore = (dispatch, score) => {
     type: UPDATE_TOTAL_SCORE,
     payload: {
       totalScore: score
+    }
+  });
+};
+
+export const updateQuestionIndex = (dispatch, index) => {
+  dispatch({
+    type: UPDATE_QUESTION_INDEX,
+    payload: {
+      index
     }
   });
 };

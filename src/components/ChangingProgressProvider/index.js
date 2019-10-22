@@ -7,14 +7,25 @@ class ChangingProgressProvider extends React.Component {
 
   state = {
     valuesIndex: 0,
-    timerId: null
+    timerId: null,
+    done: false
   };
 
   componentDidMount() {
     const timerId = setInterval(() => {
+      const { valuesIndex } = this.state;
+      const { values } = this.props;
       this.setState({
-        valuesIndex: (this.state.valuesIndex + 1) % this.props.values.length
+        valuesIndex: (valuesIndex + 1) % values.length
       });
+      if (valuesIndex === values.length - 1) {
+        this.setState({
+          done: true
+        });
+      }
+      if (this.state.done) {
+        clearInterval(this.state.timerId);
+      }
     }, this.props.interval);
     this.setState({ timerId });
   }
@@ -24,6 +35,9 @@ class ChangingProgressProvider extends React.Component {
   }
 
   render() {
+    if (this.state.done) {
+      return this.props.children(0);
+    }
     return this.props.children(this.props.values[this.state.valuesIndex]);
   }
 }

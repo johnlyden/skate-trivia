@@ -6,7 +6,6 @@ import PasswordChangeForm from '../PasswordChange';
 import { Context } from 'store';
 const Account = () => {
   const { store } = useContext(Context);
-  console.log(store);
 
   return (
     <AuthUserContext.Consumer>

@@ -35,13 +35,14 @@ function HomePage() {
       {authUser => (
         <div
           className={cx(styles.homePage, { [styles.top]: BG === true })}
-          style={{ height: '500px' }}>
-          {/* <div> */}
+          style={{ height: '100vh', backgroundColor: '#e0f7bb' }}>
           <Layout>
-            <div>round: {quizContent.roundName}</div>
-            <div>user name: {authUser.username}</div>
-            <div>total score: {totalScore || authUser.score}</div>
-            <Link to="/quiz">TakeQuiz</Link>
+            <div className={styles.contentContainer}>
+              {/* <div>round: {quizContent.roundName}</div> */}
+              {/* <div>user name: {authUser.username}</div> */}
+              <div>total score: {totalScore || authUser.score}</div>
+              <Link to="/quiz">TakeQuiz</Link>
+            </div>
           </Layout>
         </div>
       )}
