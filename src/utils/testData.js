@@ -21,10 +21,20 @@ const quizContent = {
   ]
 };
 
-const initializedQuizStore = {
+const QuizContentOneQuestion = {
+  roundId: '1234',
+  roundName: 'round 1',
+  roundQuestions: [{ body, choices, answer, timeLimit, pointValue }]
+};
+
+export const initializedQuizStore = {
   ...initialState,
   loaded: true,
   quizContent
 };
 
-export { initializedQuizStore };
+export const initializedQuizStoreOneQuestion = {
+  ...initialState,
+  loaded: true,
+  quizContent: QuizContentOneQuestion
+};

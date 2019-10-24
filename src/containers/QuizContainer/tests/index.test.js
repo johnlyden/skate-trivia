@@ -3,20 +3,20 @@ import { cleanup, fireEvent } from '@testing-library/react';
 import { MemoryRouter as Router } from 'react-router-dom';
 
 import { renderWithStore } from 'utils/testUtils';
-import { initializedQuizStore as store } from 'utils/testData';
+import { initializedQuizStore } from 'utils/testData';
 
 import * as actions from '../actions';
+
 import QuizContainer from '..';
 
 const dispatch = jest.fn();
-const value = { dispatch, store };
 
 const renderComponent = () =>
   renderWithStore(
     <Router>
       <QuizContainer authUser={{}} />
     </Router>,
-    value
+    { dispatch, store: { ...initializedQuizStore } }
   );
 
 describe('<QuizContainer />', () => {
@@ -59,8 +59,4 @@ describe('<QuizContainer />', () => {
       expect(actions.updateScore).not.toHaveBeenCalled();
     });
   });
-
-  // after answering last question it should end quiz
-
-  // if answering not last qustion, it should advance the quiz
 });

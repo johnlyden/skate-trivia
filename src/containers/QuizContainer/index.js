@@ -8,6 +8,8 @@ import { getQuestion } from './selectors';
 import { withFirebase } from 'components/Firebase';
 import Quiz from 'components/Quiz';
 
+export const DELAY = 1500;
+
 function QuizContainer({ authUser, history, firebase }) {
   const { store, dispatch } = useContext(Context);
 
@@ -44,6 +46,7 @@ function QuizContainer({ authUser, history, firebase }) {
     }
   }
 
+  // HANDLES THE TIMER
   useEffect(() => {
     if (question) {
       const time = Number(Number(question.timeLimit) * 1000 + 500);
@@ -73,7 +76,7 @@ function QuizContainer({ authUser, history, firebase }) {
       setQuestion(nextQuestion);
       setHasAnswered(false);
       setTimeIsUp(false);
-    }, 1500);
+    }, DELAY);
   }
 
   function endQuiz() {
@@ -88,7 +91,7 @@ function QuizContainer({ authUser, history, firebase }) {
       setTimeout(() => {
         updateTotalScore(dispatch, userTotalScore);
         history.push('/home');
-      }, 1500);
+      }, DELAY);
     });
     // return firebase.updateLeaderboard();
   }
@@ -103,10 +106,11 @@ function QuizContainer({ authUser, history, firebase }) {
     }
 
     setHasAnswered(true);
+
     const isCorrect = checkAnswer(answerGuess);
-    const { pointValue } = question;
 
     if (isCorrect) {
+      const { pointValue } = question;
       updateScore(dispatch, score + pointValue);
     }
   }
