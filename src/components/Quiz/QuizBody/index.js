@@ -3,13 +3,12 @@ import AnswerOption from 'components/AnswerOption';
 import Question from 'components/Question';
 import Fade from 'components/Animations/Fade';
 
-import styles from './Quiz.module.css';
+import styles from './QuizBody.module.css';
 
-function Quiz(props) {
+function QuizBody(props) {
   const { onAnswerSelected, question, answerOptions, answer, answered } = props;
-
   return (
-    <div data-testid="quiz" className={styles.quizContainer}>
+    <div data-testid="quiz-body" className={styles.quizBody}>
       <Fade key={question}>
         <Question content={question} />
         <ul className={styles.answerOptions}>
@@ -32,4 +31,4 @@ function Quiz(props) {
   );
 }
 
-export default Quiz;
+export default QuizBody;

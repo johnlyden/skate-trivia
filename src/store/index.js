@@ -11,9 +11,9 @@ export const initialState = {
   loaded: false,
   quizContent: null,
   fetching: false,
-  totalScore: null,
-  score: 0,
-  questionIndex: 0
+  totalScore: null
+  // score: 0,
+  // questionIndex: 0
 };
 
 export const reducer = (state, action) => {
@@ -30,21 +30,21 @@ export const reducer = (state, action) => {
         loaded: true,
         fetching: false
       };
-    case UPDATE_SCORE:
-      return {
-        ...state,
-        score: action.payload.score
-      };
+    // case UPDATE_SCORE:
+    //   return {
+    //     ...state,
+    //     score: action.payload.score
+    //   };
     case UPDATE_TOTAL_SCORE:
       return {
         ...state,
         totalScore: action.payload.totalScore
       };
-    case UPDATE_QUESTION_INDEX:
-      return {
-        ...state,
-        questionIndex: action.payload.index
-      };
+    // case UPDATE_QUESTION_INDEX:
+    //   return {
+    //     ...state,
+    //     questionIndex: action.payload.index
+    //   };
     default:
       return state;
   }

@@ -12,7 +12,7 @@ const pointValue1 = 10;
 const timeLimit1 = 20;
 const answer1 = 'd';
 
-const quizContent = {
+export const quizContent = {
   roundId: '1234',
   roundName: 'round 1',
   roundQuestions: [
@@ -21,7 +21,7 @@ const quizContent = {
   ]
 };
 
-const QuizContentOneQuestion = {
+export const QuizContentOneQuestion = {
   roundId: '1234',
   roundName: 'round 1',
   roundQuestions: [{ body, choices, answer, timeLimit, pointValue }]

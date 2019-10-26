@@ -3,7 +3,11 @@ import { withRouter } from 'react-router-dom';
 import { compose } from 'recompose';
 
 import { Context } from 'store';
-import { updateScore, updateTotalScore, updateQuestionIndex } from './actions';
+import {
+  updateScore,
+  updateQuestionIndexWithTimer,
+  updateTotalScoreWithTimer
+} from './actions';
 import { getQuestion } from './selectors';
 import { withFirebase } from 'components/Firebase';
 import Quiz from 'components/Quiz';
@@ -22,14 +26,22 @@ function QuizContainer({ authUser, history, firebase }) {
   const quizLength = roundQuestions.length;
 
   useEffect(() => {
-    const isFirstQuestion = questionIndex === 0;
-    if (hasAnswered || isFirstQuestion) {
+    if (hasAnswered) {
       updateQuiz();
     }
   }, [hasAnswered]);
 
+  useEffect(() => {
+    const isFirstQuestion = questionIndex === 0;
+    if (isFirstQuestion && !question) {
+      setTheNextQuestion();
+    }
+  });
+
   function updateQuiz() {
-    const quizIsOver = isLastQuestion();
+    // const quizIsOver = isLastQuestion();
+    const quizIsOver = true;
+    // const isFirstQuestion = questionIndex === 0;
     if (quizIsOver) {
       endQuiz();
     } else {
@@ -67,37 +79,43 @@ function QuizContainer({ authUser, history, firebase }) {
     return question.answer === answerGuess;
   }
 
-  function updateQuestion() {
-    const nextIndex = questionIndex + 1;
-
-    setTimeout(() => {
-      updateQuestionIndex(dispatch, nextIndex);
-      const nextQuestion = getQuestion(store, nextIndex);
+  useEffect(() => {
+    if (questionIndex) {
+      const nextQuestion = getQuestion(store, questionIndex);
       setQuestion(nextQuestion);
       setHasAnswered(false);
       setTimeIsUp(false);
-    }, DELAY);
+    }
+  }, [questionIndex]);
+
+  function updateQuestion() {
+    const nextIndex = questionIndex + 1;
+    updateQuestionIndexWithTimer(dispatch, nextIndex);
   }
 
   function endQuiz() {
-    const userTotalScore = authUser.score + score;
+    console.log(
+      'inside endQuizzzz----------------------------------------------------'
+    );
+    console.log({ score });
+    // const userTotalScore = authUser.score + score;
     const payload = {
       authUser,
       score,
       roundId
     };
-
+    // TODO; DISPATCHING WITH A 0 AS SCORE - NEED TO HAVE THIS HAPPEN WHEN SCORE IS UPDATED
+    updateTotalScoreWithTimer(dispatch);
     return firebase.updateUserProgress(payload, () => {
       setTimeout(() => {
-        updateTotalScore(dispatch, userTotalScore);
         history.push('/home');
       }, DELAY);
     });
-    // return firebase.updateLeaderboard();
   }
 
   function isLastQuestion() {
-    return questionIndex && questionIndex + 1 === quizLength;
+    const lastQuestion = questionIndex + 1 === quizLength;
+    return lastQuestion;
   }
 
   function handleAnswerSelect(answerGuess) {
@@ -105,16 +123,20 @@ function QuizContainer({ authUser, history, firebase }) {
       return false;
     }
 
-    setHasAnswered(true);
-
     const isCorrect = checkAnswer(answerGuess);
 
     if (isCorrect) {
       const { pointValue } = question;
       updateScore(dispatch, score + pointValue);
     }
+    setHasAnswered(true);
   }
 
+  // useEffect(() => {
+  //   if (answered) {
+  //     console.log('answered in the hook');
+  //   }
+  // }, [answered])
   if (!question) return null;
 
   return (

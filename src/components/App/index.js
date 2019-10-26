@@ -8,7 +8,8 @@ import PasswordForgetPage from 'components/Pages/PasswordForget';
 import HomePage from 'components/Pages/Home';
 import AccountPage from 'components/Pages/Account';
 import AdminPage from 'components/Pages/Admin';
-import QuizPage from 'components/Pages/QuizPage';
+// import QuizPage from 'components/Pages/QuizPage';
+import QuizPageContainer from 'containers/QuizPageContainer';
 
 import * as ROUTES from 'constants/routes';
 import { withAuthentication } from 'components/Session';
@@ -44,7 +45,7 @@ function App() {
           <Route path={ROUTES.HOME} component={HomePage} />
           <Route path={ROUTES.ACCOUNT} component={AccountPage} />
           <Route path={ROUTES.ADMIN} component={AdminPage} />
-          <Route path={ROUTES.QUIZ_PAGE} component={QuizPage} />
+          <Route path={ROUTES.QUIZ_PAGE} component={QuizPageContainer} />
         </AnimatedSwitch>
       </Router>
     </Context.Provider>
