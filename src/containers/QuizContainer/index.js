@@ -19,11 +19,9 @@ function QuizContainer({ onGameOver, quizContent }) {
   const quizLength = roundQuestions.length;
 
   const [quizStore, dispatch] = useReducer(reducer, initialState);
-
   const { hasAnswered, questionIndex, score, gameOver } = quizStore;
 
   const [question, setQuestion] = useState(roundQuestions[questionIndex]);
-
   const { body, answer, choices, timeLimit, pointValue } = question;
 
   // LISTEN FOR WHEN A QUESTION HAS BEEN ANSWERED - ADVANCE OR END QUIZ
