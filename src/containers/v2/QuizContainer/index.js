@@ -1,45 +1,61 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useReducer } from 'react';
+
+import { initialState, reducer } from './actions';
 import QuizHeader from 'components/Quiz/QuizHeader';
 import QuizFooter from 'components/Quiz/QuizFooter';
 import QuizBody from 'components/Quiz/QuizBody';
+import {
+  selectedCorrectAnswer,
+  selectedWrongAnswer,
+  advanceQuizWithDelay,
+  endQuizWithDelay
+} from './actions';
 
 export const DELAY = 1500;
 
 function QuizContainer({ onGameOver, quizContent }) {
   const { roundName, roundQuestions, roundId } = quizContent;
   const quizLength = roundQuestions.length;
-  const [questionIndex, setQuestionIndex] = useState(0);
-  const [questionNumber, setQuestionNumber] = useState(1);
-  const [score, setScore] = useState(0);
+
+  const [quizStore, dispatch] = useReducer(reducer, initialState);
+
+  const { hasAnswered, questionIndex, score, gameOver } = quizStore;
+
   const [question, setQuestion] = useState(roundQuestions[questionIndex]);
-  const [hasAnswered, setHasAnswered] = useState(false);
-  const [gameOver, setGameOver] = useState(false);
 
   const { body, answer, choices, timeLimit, pointValue } = question;
 
-  // listen for the index to update to let us know we should try to go to next question
+  // LISTEN FOR WHEN A QUESTION HAS BEEN ANSWERED - ADVANCE OR END QUIZ
   useEffect(() => {
-    // if there is another question
-    if (questionIndex <= quizLength - 1) {
-      setQuestionWithDelay();
-    } else {
-      endQuizWithDelay();
+    if (hasAnswered) {
+      if (questionIndex < quizLength - 1) {
+        advanceQuizWithDelay(dispatch);
+      } else {
+        endQuizWithDelay(dispatch);
+      }
+    }
+  }, [hasAnswered]);
+
+  // LISTEN FOR WHEN TO SHOW A NEW QUESTION
+  useEffect(() => {
+    if (questionIndex) {
+      setQuestion(roundQuestions[questionIndex]);
     }
   }, [questionIndex]);
 
+  // LISTEN FOR GAME TO END
   useEffect(() => {
     if (gameOver) {
       onGameOver({ finalScore: score, roundId });
     }
   }, [gameOver]);
 
-  // HANDLES THE TIMER
+  // LISTEN FOR TIMER TO END
   useEffect(() => {
     if (question) {
       const time = Number(Number(timeLimit) * 1000 + 500);
       const timer = setTimeout(() => {
-        setHasAnswered(true);
-        setQuestionIndex(questionIndex + 1);
+        selectedWrongAnswer(dispatch);
       }, time);
 
       return () => {
@@ -48,42 +64,16 @@ function QuizContainer({ onGameOver, quizContent }) {
     }
   }, [question]);
 
-  function endQuizWithDelay() {
-    setTimeout(() => {
-      setGameOver(true);
-    }, 1500);
-  }
-
-  function setQuestionWithDelay() {
-    setTimeout(() => {
-      setQuestion(roundQuestions[questionIndex]);
-      setQuestionNumber(questionIndex + 1);
-      setHasAnswered(false);
-    }, DELAY);
-  }
-
   function handleAnswerSelect(answerGuess) {
-    if (answerGuess === answer) {
-      // update the button colors
-      setHasAnswered(true);
-      // update the score
-      setScore(score + pointValue);
-      // updating the index is the internal state of the quiz
-      // advance to the next question
-      setQuestionIndex(questionIndex + 1);
-    } else {
-      // update the button colors
-      setHasAnswered(true);
-      setQuestionIndex(questionIndex + 1);
-      // advance to the next question
+    if (hasAnswered) {
+      return false;
     }
-    // const isCorrect = checkAnswer(answerGuess);
 
-    // if (isCorrect) {
-    //   const { pointValue } = question;
-    //   updateScore(dispatch, score + pointValue);
-    // }
-    // setHasAnswered(true);
+    if (answerGuess === answer) {
+      selectedCorrectAnswer(dispatch, { pointValue });
+    } else {
+      selectedWrongAnswer(dispatch);
+    }
   }
 
   return (
@@ -97,7 +87,7 @@ function QuizContainer({ onGameOver, quizContent }) {
         onAnswerSelected={handleAnswerSelect}
       />
       <QuizFooter
-        questionIndex={questionNumber}
+        questionIndex={questionIndex + 1}
         timeLimit={timeLimit}
         quizLength={quizLength}
       />
@@ -106,3 +96,5 @@ function QuizContainer({ onGameOver, quizContent }) {
 }
 
 export default QuizContainer;
+
+//

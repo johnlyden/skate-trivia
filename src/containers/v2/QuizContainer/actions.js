@@ -1,13 +1,12 @@
-import React from 'react';
-
 const ADVANCE_QUIZ = 'ADVANCE_QUIZ';
 const END_QUIZ = 'END_QUIZ';
-const SELECT_ANSWER = 'SELECT_ANSWER';
-const TIME_UP = 'TIME_UP';
+const SELECTED_CORRECT_ANSWER = 'SELECTED_CORRECT_ANSWER';
+const SELECTED_WRONG_ANSWER = 'SELECTED_WRONG_ANSWER';
+
+export const DELAY = 1500;
 
 export const initialState = {
   questionIndex: 0,
-  questionNumber: 1,
   score: 0,
   hasAnswered: false,
   gameOver: false,
@@ -16,25 +15,22 @@ export const initialState = {
 
 export const reducer = (state, action) => {
   switch (action.type) {
-    case SELECT_ANSWER:
+    case SELECTED_CORRECT_ANSWER:
       return {
         ...state,
-        hasAnswered: true,
-        questionIndex: state.questionIndex + 1
+        score: state.score + action.payload.pointValue,
+        hasAnswered: true
       };
-    case TIME_UP:
+    case SELECTED_WRONG_ANSWER:
       return {
         ...state,
-        hasAnswered: true,
-        questionIndex: state.questionIndex + 1
+        hasAnswered: true
       };
     case ADVANCE_QUIZ:
-      // const { questionNumber } = action.payload;
       return {
         ...state,
-        questionNumber: state.questionIndex + 1,
-        hasAnswered: false,
-        shouldAdvance: true
+        questionIndex: state.questionIndex + 1,
+        hasAnswered: false
       };
     case END_QUIZ:
       return {
@@ -46,38 +42,31 @@ export const reducer = (state, action) => {
   }
 };
 
-export const showTimeIsUp = dispatch => {
+export const selectedCorrectAnswer = (dispatch, payload) => {
   dispatch({
-    type: TIME_UP
+    type: SELECTED_CORRECT_ANSWER,
+    payload
   });
 };
 
-export const selectAnswer = dispatch => {
+export const selectedWrongAnswer = dispatch => {
   dispatch({
-    type: SELECT_ANSWER
+    type: SELECTED_WRONG_ANSWER
   });
 };
 
-export const requestSetQuestionWithDelay = dispatch => {
-  return setTimeout(() => {
+export const advanceQuizWithDelay = dispatch => {
+  setTimeout(() => {
     dispatch({
       type: ADVANCE_QUIZ
     });
-  }, 1500);
-};
-export const requestAdvanceQuiz = (dispatch, { questionNumber }) => {
-  return setTimeout(() => {
-    dispatch({
-      type: ADVANCE_QUIZ,
-      payload: { questionNumber }
-    });
-  }, 1500);
+  }, DELAY);
 };
 
-export const requestEndQuiz = dispatch => {
+export const endQuizWithDelay = dispatch => {
   setTimeout(() => {
     dispatch({
       type: END_QUIZ
     });
-  }, 1500);
+  }, DELAY);
 };
