@@ -1,51 +1,35 @@
-import {
-  UPDATE_SCORE,
-  UPDATE_TOTAL_SCORE,
-  UPDATE_QUESTION_INDEX
-} from 'store/actions';
+export const ADVANCE_QUIZ = 'ADVANCE_QUIZ';
+export const END_QUIZ = 'END_QUIZ';
+export const SELECTED_CORRECT_ANSWER = 'SELECTED_CORRECT_ANSWER';
+export const SELECTED_WRONG_ANSWER = 'SELECTED_WRONG_ANSWER';
 
-import { DELAY } from './index';
+export const DELAY = 1500;
 
-export const updateScore = (dispatch, earnedPoints) =>
+export const selectedCorrectAnswer = (dispatch, payload) => {
   dispatch({
-    type: UPDATE_SCORE,
-    payload: {
-      score: earnedPoints
-    }
+    type: SELECTED_CORRECT_ANSWER,
+    payload
   });
-
-export const updateTotalScore = score => {
-  return {
-    type: UPDATE_TOTAL_SCORE,
-    payload: {
-      totalScore: score
-    }
-  };
 };
 
-export const updateQuestionIndex = index => {
-  return {
-    type: UPDATE_QUESTION_INDEX,
-    payload: {
-      index
-    }
-  };
-  // dispatch({
-  //   type: UPDATE_QUESTION_INDEX,
-  //   payload: {
-  //     index
-  //   }
-  // });
+export const selectedWrongAnswer = dispatch => {
+  dispatch({
+    type: SELECTED_WRONG_ANSWER
+  });
 };
 
-export const updateQuestionIndexWithTimer = (dispatch, index) => {
+export const advanceQuizWithDelay = dispatch => {
   setTimeout(() => {
-    dispatch(updateQuestionIndex(index));
+    dispatch({
+      type: ADVANCE_QUIZ
+    });
   }, DELAY);
 };
 
-export const updateTotalScoreWithTimer = (dispatch, score) => {
+export const endQuizWithDelay = dispatch => {
   setTimeout(() => {
-    dispatch(updateTotalScore(score));
+    dispatch({
+      type: END_QUIZ
+    });
   }, DELAY);
 };

@@ -5,11 +5,11 @@ import { withRouter } from 'react-router-dom';
 import { AuthUserContext } from 'components/Session';
 import { withFirebase } from 'components/Firebase';
 import { Context } from 'store';
-import QuizContainer from 'containers/v2/QuizContainer';
-import Layout from 'components/Layout';
-import { quizPage } from './QuizPageContainer.module.scss';
 
-import { DELAY } from '../v2/QuizContainer';
+import QuizContainer, { DELAY } from 'containers/QuizContainer';
+import Layout from 'components/Layout';
+
+import { quizPage } from './QuizPageContainer.module.scss';
 
 function QuizPage({ firebase, history }) {
   const { store } = useContext(Context);

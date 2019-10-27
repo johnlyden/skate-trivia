@@ -1,72 +1,62 @@
-import React, { useContext, useEffect, useState } from 'react';
-import { withRouter } from 'react-router-dom';
-import { compose } from 'recompose';
+import React, { useState, useEffect, useReducer } from 'react';
 
-import { Context } from 'store';
+import QuizHeader from 'components/Quiz/QuizHeader';
+import QuizFooter from 'components/Quiz/QuizFooter';
+import QuizBody from 'components/Quiz/QuizBody';
+
+import { initialState, reducer } from './reducer';
 import {
-  updateScore,
-  updateQuestionIndexWithTimer,
-  updateTotalScoreWithTimer
+  selectedCorrectAnswer,
+  selectedWrongAnswer,
+  advanceQuizWithDelay,
+  endQuizWithDelay
 } from './actions';
-import { getQuestion } from './selectors';
-import { withFirebase } from 'components/Firebase';
-import Quiz from 'components/Quiz';
 
 export const DELAY = 1500;
 
-function QuizContainer({ authUser, history, firebase }) {
-  const { store, dispatch } = useContext(Context);
-
-  const [question, setQuestion] = useState(null);
-  const [hasAnswered, setHasAnswered] = useState(false);
-  const [timeIsUp, setTimeIsUp] = useState(false);
-
-  const { quizContent, score, questionIndex } = store;
-  const { roundId, roundQuestions, roundName } = quizContent;
+function QuizContainer({ onGameOver, quizContent }) {
+  const { roundName, roundQuestions, roundId } = quizContent;
   const quizLength = roundQuestions.length;
 
+  const [quizStore, dispatch] = useReducer(reducer, initialState);
+
+  const { hasAnswered, questionIndex, score, gameOver } = quizStore;
+
+  const [question, setQuestion] = useState(roundQuestions[questionIndex]);
+
+  const { body, answer, choices, timeLimit, pointValue } = question;
+
+  // LISTEN FOR WHEN A QUESTION HAS BEEN ANSWERED - ADVANCE OR END QUIZ
   useEffect(() => {
     if (hasAnswered) {
-      updateQuiz();
+      if (questionIndex < quizLength - 1) {
+        advanceQuizWithDelay(dispatch);
+      } else {
+        endQuizWithDelay(dispatch);
+      }
     }
   }, [hasAnswered]);
 
+  // LISTEN FOR WHEN TO SHOW A NEW QUESTION
   useEffect(() => {
-    const isFirstQuestion = questionIndex === 0;
-    if (isFirstQuestion && !question) {
-      setTheNextQuestion();
+    if (questionIndex) {
+      setQuestion(roundQuestions[questionIndex]);
     }
-  });
+  }, [questionIndex]);
 
-  function updateQuiz() {
-    // const quizIsOver = isLastQuestion();
-    const quizIsOver = true;
-    // const isFirstQuestion = questionIndex === 0;
-    if (quizIsOver) {
-      endQuiz();
-    } else {
-      setTheNextQuestion();
+  // LISTEN FOR GAME TO END
+  useEffect(() => {
+    if (gameOver) {
+      onGameOver({ finalScore: score, roundId });
     }
-  }
+  }, [gameOver]);
 
-  function setTheNextQuestion() {
-    if (!question) {
-      const firstQuestion = getQuestion(store, questionIndex);
-      setQuestion(firstQuestion);
-    } else {
-      updateQuestion();
-    }
-  }
-
-  // HANDLES THE TIMER
+  // LISTEN FOR TIMER TO END
   useEffect(() => {
     if (question) {
-      const time = Number(Number(question.timeLimit) * 1000 + 500);
-
+      const time = Number(Number(timeLimit) * 1000 + 500);
       const timer = setTimeout(() => {
-        updateQuiz();
-        setHasAnswered(true); // this shows the correct answer
-        setTimeIsUp(true);
+        selectedWrongAnswer(dispatch);
       }, time);
 
       return () => {
@@ -75,87 +65,35 @@ function QuizContainer({ authUser, history, firebase }) {
     }
   }, [question]);
 
-  function checkAnswer(answerGuess) {
-    return question.answer === answerGuess;
-  }
-
-  useEffect(() => {
-    if (questionIndex) {
-      const nextQuestion = getQuestion(store, questionIndex);
-      setQuestion(nextQuestion);
-      setHasAnswered(false);
-      setTimeIsUp(false);
-    }
-  }, [questionIndex]);
-
-  function updateQuestion() {
-    const nextIndex = questionIndex + 1;
-    updateQuestionIndexWithTimer(dispatch, nextIndex);
-  }
-
-  function endQuiz() {
-    console.log(
-      'inside endQuizzzz----------------------------------------------------'
-    );
-    console.log({ score });
-    // const userTotalScore = authUser.score + score;
-    const payload = {
-      authUser,
-      score,
-      roundId
-    };
-    // TODO; DISPATCHING WITH A 0 AS SCORE - NEED TO HAVE THIS HAPPEN WHEN SCORE IS UPDATED
-    updateTotalScoreWithTimer(dispatch);
-    return firebase.updateUserProgress(payload, () => {
-      setTimeout(() => {
-        history.push('/home');
-      }, DELAY);
-    });
-  }
-
-  function isLastQuestion() {
-    const lastQuestion = questionIndex + 1 === quizLength;
-    return lastQuestion;
-  }
-
   function handleAnswerSelect(answerGuess) {
-    if (timeIsUp) {
+    if (hasAnswered) {
       return false;
     }
 
-    const isCorrect = checkAnswer(answerGuess);
-
-    if (isCorrect) {
-      const { pointValue } = question;
-      updateScore(dispatch, score + pointValue);
+    if (answerGuess === answer) {
+      selectedCorrectAnswer(dispatch, { pointValue });
+    } else {
+      selectedWrongAnswer(dispatch);
     }
-    setHasAnswered(true);
   }
 
-  // useEffect(() => {
-  //   if (answered) {
-  //     console.log('answered in the hook');
-  //   }
-  // }, [answered])
-  if (!question) return null;
-
   return (
-    <Quiz
-      answer={question.answer}
-      answered={hasAnswered}
-      onAnswerSelected={handleAnswerSelect}
-      question={question.body}
-      answerOptions={question.choices}
-      timeLimit={question.timeLimit}
-      quizLength={quizLength}
-      questionIndex={questionIndex}
-      roundName={roundName}
-      score={score}
-    />
+    <>
+      <QuizHeader title={roundName} score={score} />
+      <QuizBody
+        question={body}
+        answerOptions={choices}
+        answer={answer}
+        answered={hasAnswered}
+        onAnswerSelected={handleAnswerSelect}
+      />
+      <QuizFooter
+        questionIndex={questionIndex + 1}
+        timeLimit={timeLimit}
+        quizLength={quizLength}
+      />
+    </>
   );
 }
 
-export default compose(
-  withRouter,
-  withFirebase
-)(QuizContainer);
+export default QuizContainer;

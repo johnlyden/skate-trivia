@@ -1,9 +1,9 @@
-const ADVANCE_QUIZ = 'ADVANCE_QUIZ';
-const END_QUIZ = 'END_QUIZ';
-const SELECTED_CORRECT_ANSWER = 'SELECTED_CORRECT_ANSWER';
-const SELECTED_WRONG_ANSWER = 'SELECTED_WRONG_ANSWER';
-
-export const DELAY = 1500;
+import {
+  ADVANCE_QUIZ,
+  END_QUIZ,
+  SELECTED_CORRECT_ANSWER,
+  SELECTED_WRONG_ANSWER
+} from './actions';
 
 export const initialState = {
   questionIndex: 0,
@@ -40,33 +40,4 @@ export const reducer = (state, action) => {
     default:
       return state;
   }
-};
-
-export const selectedCorrectAnswer = (dispatch, payload) => {
-  dispatch({
-    type: SELECTED_CORRECT_ANSWER,
-    payload
-  });
-};
-
-export const selectedWrongAnswer = dispatch => {
-  dispatch({
-    type: SELECTED_WRONG_ANSWER
-  });
-};
-
-export const advanceQuizWithDelay = dispatch => {
-  setTimeout(() => {
-    dispatch({
-      type: ADVANCE_QUIZ
-    });
-  }, DELAY);
-};
-
-export const endQuizWithDelay = dispatch => {
-  setTimeout(() => {
-    dispatch({
-      type: END_QUIZ
-    });
-  }, DELAY);
 };
