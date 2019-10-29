@@ -9,8 +9,7 @@ export const initialState = {
   questionIndex: 0,
   score: 0,
   hasAnswered: false,
-  gameOver: false,
-  shouldAdvance: false
+  gameOver: false
 };
 
 export const reducer = (state, action) => {
