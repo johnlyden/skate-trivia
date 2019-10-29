@@ -7,6 +7,9 @@ import { PasswordForgetLink } from 'components/Pages/PasswordForget';
 import { withFirebase } from 'components/Firebase';
 import * as ROUTES from 'constants/routes';
 
+import * as styles from './SignIn.module.scss';
+import Input from 'components/Input';
+
 const SignInPage = () => (
   <div>
     <Layout>
@@ -57,20 +60,23 @@ class SignInFormBase extends Component {
     const isInvalid = password === '' || email === '';
 
     return (
-      <form onSubmit={this.onSubmit}>
-        <input
+      <form onSubmit={this.onSubmit} className={styles.form}>
+        <Input
           name="email"
           value={email}
           onChange={this.onChange}
           type="text"
           placeholder="Email Address"
+          required={true}
+          className={styles.input}
         />
-        <input
+        <Input
           name="password"
           value={password}
           onChange={this.onChange}
           type="password"
           placeholder="Password"
+          required={true}
         />
         <button disabled={isInvalid} type="submit">
           Sign In
