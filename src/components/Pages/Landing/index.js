@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import logo from 'images/skatestompers.png';
 import Layout from 'components/Layout';
 
@@ -12,21 +13,12 @@ function Landing() {
         <div className={styles.logoContainer}>
           <img src={logo} alt="skate stumpers logo" />
         </div>
+        <Link to="/quiz">TakeQuiz</Link>
+        <br />
+        <Link to="/signin">Sign In</Link>
       </Layout>
     </div>
   );
 }
 
 export default Landing;
-
-{
-  /* <div className={quizPage}>
-  <Layout>
-    <QuizContainer
-      onGameOver={handleOnGameOver}
-      quizContent={quizContent}
-      authUser={authUser}
-    />
-  </Layout>
-</div>; */
-}
