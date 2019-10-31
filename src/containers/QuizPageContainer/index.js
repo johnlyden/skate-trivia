@@ -8,6 +8,7 @@ import { Context } from 'store';
 
 import QuizContainer, { DELAY } from 'containers/QuizContainer';
 import Layout from 'components/Layout';
+import LoadingSpinner from 'components/LoadingSpinner';
 
 import { quizPage } from './QuizPageContainer.module.scss';
 
@@ -16,10 +17,6 @@ function QuizPage({ firebase, history }) {
   const authUser = useContext(AuthUserContext);
 
   const { quizContent } = store;
-
-  if (!quizContent) {
-    return <h2>loading...</h2>;
-  }
 
   function handleOnGameOver({ finalScore, roundId }) {
     return firebase.updateUserProgress(
@@ -33,13 +30,17 @@ function QuizPage({ firebase, history }) {
   }
 
   return (
-    <div className={quizPage}>
+    <div className={quizPage} data-testid="quiz-page">
       <Layout>
-        <QuizContainer
-          onGameOver={handleOnGameOver}
-          quizContent={quizContent}
-          authUser={authUser}
-        />
+        {quizContent ? (
+          <QuizContainer
+            onGameOver={handleOnGameOver}
+            quizContent={quizContent}
+            authUser={authUser}
+          />
+        ) : (
+          <LoadingSpinner />
+        )}
       </Layout>
     </div>
   );

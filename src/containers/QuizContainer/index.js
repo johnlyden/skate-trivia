@@ -76,7 +76,7 @@ function QuizContainer({ onGameOver, quizContent }) {
   }
 
   return (
-    <>
+    <div data-testid="quiz-container">
       <QuizHeader title={roundName} score={score} />
       <QuizBody
         question={body}
@@ -90,7 +90,7 @@ function QuizContainer({ onGameOver, quizContent }) {
         timeLimit={timeLimit}
         quizLength={quizLength}
       />
-    </>
+    </div>
   );
 }
 
