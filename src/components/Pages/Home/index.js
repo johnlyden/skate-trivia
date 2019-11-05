@@ -16,6 +16,7 @@ import cx from 'classnames';
 function HomePage() {
   const { store } = useContext(Context);
   const { quizContent, totalScore } = store;
+  console.log({ totalScore });
   const [BG, setBG] = useState(false);
 
   useEffect(() => {
@@ -27,8 +28,6 @@ function HomePage() {
   if (!quizContent) {
     return <h2>loading...</h2>;
   }
-
-  // className={cx(styles.homePage, { [styles.top]: BG === true })}
 
   return (
     <AuthUserContext.Consumer>

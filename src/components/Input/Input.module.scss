@@ -1,4 +1,4 @@
-.inputContainer {
+.input {
   position: relative;
 
   label {
@@ -14,7 +14,8 @@
     pointer-events: none;
   }
 
-  input[type='text'] {
+  input[type='text'],
+  input[type='password'] {
     margin-right: 0;
     -webkit-appearance: none;
     -moz-appearance: none;
@@ -37,18 +38,25 @@
     color: black;
   }
 
-  input[type='text']:focus {
+  input[type='text']:focus,
+  input[type='password']:focus {
     border-bottom: #00b192 2px solid;
   }
 
   input[type='text']:focus ~ label,
   input[type='password']:focus ~ label,
-  input[type='text']:valid ~ label {
+  input[type='text']:valid ~ label,
+  input[type='password']:valid ~ label {
     top: -1.6rem;
     position: absolute;
     font-size: 1em;
     -webkit-transition: all 0.15s ease-in-out;
     -moz-transition: all 0.15s ease-in-out;
     transition: all 0.15s ease-in-out;
+  }
+
+  input:invalid:not(:focus) ~ label {
+    left: 8px;
+    top: 2px;
   }
 }

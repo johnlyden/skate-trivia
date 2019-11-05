@@ -2,8 +2,10 @@ import React, { useState } from 'react';
 import { withRouter } from 'react-router-dom';
 import { compose } from 'recompose';
 import { withFirebase } from 'components/Firebase';
+import Button from 'components/Button';
 import * as ROUTES from 'constants/routes';
 import * as styles from './SignInContainer.module.scss';
+
 import Input from 'components/Input';
 
 function SignInFormBase({ history, firebase }) {
@@ -20,7 +22,7 @@ function SignInFormBase({ history, firebase }) {
         history.push(ROUTES.HOME);
       })
       .catch(err => {
-        setError({ error: err });
+        setError(err.message);
       });
 
     event.preventDefault();
@@ -30,28 +32,30 @@ function SignInFormBase({ history, firebase }) {
 
   return (
     <form onSubmit={onSubmit} className={styles.form}>
-      <Input
-        name="email"
-        value={email}
-        onChange={e => setEmail(e.target.value)}
-        type="text"
-        placeholder="Email Address"
-        required={true}
-        className={styles.input}
-      />
-      <Input
-        name="password"
-        value={password}
-        onChange={e => setPassword(e.target.value)}
-        type="password"
-        placeholder="Password"
-        required={true}
-      />
-      <button disabled={isInvalid} type="submit">
-        Sign In
-      </button>
-
-      {error && <p>{error.message}</p>}
+      <div className={styles.inputContainer}>
+        <Input
+          name="email"
+          value={email}
+          onChange={e => setEmail(e.target.value)}
+          type="text"
+          label="Email Address"
+          required={true}
+        />
+      </div>
+      <div className={styles.inputContainer}>
+        <Input
+          name="password"
+          value={password}
+          onChange={e => setPassword(e.target.value)}
+          type="password"
+          label="Password"
+          required={true}
+        />
+      </div>
+      {error && <p className="error-message">{error}</p>}
+      <Button disabled={isInvalid} type="submit">
+        Sign In binch
+      </Button>
     </form>
   );
 }

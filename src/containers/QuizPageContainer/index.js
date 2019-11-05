@@ -11,9 +11,10 @@ import Layout from 'components/Layout';
 import LoadingSpinner from 'components/LoadingSpinner';
 
 import { quizPage } from './QuizPageContainer.module.scss';
+import { UPDATE_TOTAL_SCORE } from '../../store/actions';
 
 function QuizPage({ firebase, history }) {
-  const { store } = useContext(Context);
+  const { dispatch, store } = useContext(Context);
   const authUser = useContext(AuthUserContext);
 
   const { quizContent } = store;
@@ -23,6 +24,12 @@ function QuizPage({ firebase, history }) {
       { finalScore, authUser, roundId },
       () => {
         setTimeout(() => {
+          dispatch({
+            type: UPDATE_TOTAL_SCORE,
+            payload: {
+              totalScore: authUser.score + finalScore
+            }
+          });
           history.push('/home');
         }, DELAY);
       }

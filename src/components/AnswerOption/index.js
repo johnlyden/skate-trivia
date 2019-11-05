@@ -24,8 +24,9 @@ function AnswerOption(props) {
   }
 
   return (
-    <li data-testid="answer-option">
+    <li>
       <input
+        data-test-id="answer-option"
         type="radio"
         className={cx(
           radioCustomButton,

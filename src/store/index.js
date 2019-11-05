@@ -12,8 +12,6 @@ export const initialState = {
   quizContent: null,
   fetching: false,
   totalScore: null
-  // score: 0,
-  // questionIndex: 0
 };
 
 export const reducer = (state, action) => {
@@ -36,6 +34,7 @@ export const reducer = (state, action) => {
     //     score: action.payload.score
     //   };
     case UPDATE_TOTAL_SCORE:
+      console.log('updating total score: ', action.payload.totalScore);
       return {
         ...state,
         totalScore: action.payload.totalScore

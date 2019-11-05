@@ -1,0 +1,71 @@
+.button {
+  border: none;
+  display: inline-block;
+  font-size: 1.4rem;
+  margin-bottom: 0.5em;
+  padding: 0.5em;
+  border-radius: 30px;
+  filter: hue-rotate(0deg);
+  color: #443535;
+  text-decoration: none;
+  width: 100%;
+  text-align: center;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+  transition: transform 0.5s, box-shadow 0.5s;
+
+  &:hover,
+  &:focus {
+    filter: hue-rotate(135deg);
+    box-shadow: none;
+    cursor: pointer;
+  }
+}
+
+/*GREEN*/
+.bGreen {
+  background: rgba(73, 155, 234, 1);
+  background: -moz-linear-gradient(
+    45deg,
+    rgba(73, 155, 234, 1) 0%,
+    rgba(26, 188, 156, 1) 100%
+  );
+  background: -webkit-gradient(
+    left bottom,
+    right top,
+    color-stop(0%, rgba(73, 155, 234, 1)),
+    color-stop(100%, rgba(26, 188, 156, 1))
+  );
+  background: -webkit-linear-gradient(
+    45deg,
+    rgba(73, 155, 234, 1) 0%,
+    rgba(26, 188, 156, 1) 100%
+  );
+  background: -o-linear-gradient(
+    45deg,
+    rgba(73, 155, 234, 1) 0%,
+    rgba(26, 188, 156, 1) 100%
+  );
+  background: -ms-linear-gradient(
+    45deg,
+    rgba(73, 155, 234, 1) 0%,
+    rgba(26, 188, 156, 1) 100%
+  );
+  background: linear-gradient(
+    45deg,
+    rgba(73, 155, 234, 1) 0%,
+    rgba(26, 188, 156, 1) 100%
+  );
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#499bea', endColorstr='#1abc9c', GradientType=1 );
+}
+
+/*END BASE BUTTON*/
+/*ROTATE*/
+.rot-360-noscoop:hover {
+  filter: hue-rotate(360deg);
+  transform: rotate(360deg);
+}
+
+.rot-90:hover {
+  filter: hue-rotate(90deg);
+}
+/*END ROTATE*/
