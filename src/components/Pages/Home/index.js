@@ -5,6 +5,7 @@ import Layout from 'components/Layout';
 import { Context } from 'store';
 import styles from './Home.module.scss';
 import { Link } from 'react-router-dom';
+import SignOut from 'components/SignOut';
 // import { homePage } from './Home.module.scss';
 
 import cx from 'classnames';
@@ -41,6 +42,7 @@ function HomePage() {
               {/* <div>user name: {authUser.username}</div> */}
               <div>total score: {totalScore || authUser.score}</div>
               <Link to="/quiz">TakeQuiz</Link>
+              <SignOut />
             </div>
           </Layout>
         </div>
@@ -49,8 +51,6 @@ function HomePage() {
   );
 }
 
-const condition = authUser => {
-  return authUser && !!authUser.roles.ADMIN;
-};
+const condition = authUser => !!authUser;
 
 export default withAuthorization(condition)(HomePage);

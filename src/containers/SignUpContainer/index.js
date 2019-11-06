@@ -5,6 +5,11 @@ import { withFirebase } from 'components/Firebase';
 import * as ROUTES from 'constants/routes';
 import * as ROLES from 'constants/roles';
 
+import Input from 'components/Input';
+import Button from 'components/Button';
+
+import * as styles from './SignUpContainer.module.scss';
+
 function SignUpFormBase({ history, firebase }) {
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
@@ -27,7 +32,8 @@ function SignUpFormBase({ history, firebase }) {
         return firebase.user(authUser.user.uid).set({
           username,
           email,
-          roles
+          roles,
+          score: 0
         });
       })
       .then(authUser => {
@@ -53,49 +59,52 @@ function SignUpFormBase({ history, firebase }) {
     username === '';
 
   return (
-    <form onSubmit={onSubmit}>
-      <input
-        name="username"
-        value={username}
-        onChange={e => setUsername(e.target.value)}
-        type="text"
-        placeholder="Full Name"
-      />
-      <input
-        name="email"
-        value={email}
-        onChange={e => setEmail(e.target.value)}
-        type="text"
-        placeholder="Email Address"
-      />
-      <input
-        name="passwordOne"
-        value={passwordOne}
-        onChange={e => setPasswordOne(e.target.value)}
-        type="password"
-        placeholder="Password"
-      />
-      <input
-        name="passwordTwo"
-        value={passwordTwo}
-        onChange={e => setPasswordTwo(e.target.value)}
-        type="password"
-        placeholder="Confirm Password"
-      />
-      <label>
-        Admin:
-        <input
-          name="isAdmin"
-          type="checkbox"
-          checked={isAdmin}
-          onChange={e => setIsAdmin(!isAdmin)}
+    <form onSubmit={onSubmit} className={styles.form}>
+      <div className={styles.inputContainer}>
+        <Input
+          name="username"
+          value={username}
+          onChange={e => setUsername(e.target.value)}
+          type="text"
+          label="Full Name"
+          required={true}
         />
-      </label>
-      <button disabled={isInvalid} type="submit">
+      </div>
+      <div className={styles.inputContainer}>
+        <Input
+          name="email"
+          value={email}
+          onChange={e => setEmail(e.target.value)}
+          type="text"
+          label="Email Address"
+          required={true}
+        />
+      </div>
+      <div className={styles.inputContainer}>
+        <Input
+          name="passwordOne"
+          value={passwordOne}
+          onChange={e => setPasswordOne(e.target.value)}
+          type="password"
+          label="Password"
+          required={true}
+        />
+      </div>
+      <div className={styles.inputContainer}>
+        <Input
+          name="passwordTwo"
+          value={passwordTwo}
+          onChange={e => setPasswordTwo(e.target.value)}
+          type="password"
+          label="Confirm Password"
+          required={true}
+        />
+      </div>
+      <Button disabled={isInvalid} type="submit">
         Sign Up
-      </button>
+      </Button>
 
-      {error && <p>{error.message}</p>}
+      {error && <p className="error-message">{error}</p>}
     </form>
   );
 }

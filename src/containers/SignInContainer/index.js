@@ -14,6 +14,7 @@ function SignInFormBase({ history, firebase }) {
   const [error, setError] = useState(null);
 
   function onSubmit(event) {
+    console.log('submitting the signup');
     firebase
       .doSignInWithEmailAndPassword(email, password)
       .then(() => {
