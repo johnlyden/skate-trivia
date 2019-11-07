@@ -1,10 +1,35 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import cx from 'classnames';
 
 import styles from './Button.module.scss';
 
-function Button({ children, color, disabled, onClick, size, type }) {
+function Button({
+  children,
+  color,
+  disabled,
+  onClick,
+  size,
+  type,
+  to,
+  ...extraProps
+}) {
   const className = cx(styles.button, styles.bGreen);
+
+  const handleClick = event => {
+    if (onClick) {
+      onClick(event);
+    }
+  };
+
+  if (to) {
+    return (
+      <Link to={to} onClick={handleClick} {...extraProps} className={className}>
+        {children}
+      </Link>
+    );
+  }
+
   return (
     <button
       className={className}

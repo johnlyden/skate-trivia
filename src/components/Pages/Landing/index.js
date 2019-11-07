@@ -1,7 +1,8 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import logo from 'images/skatestompers.png';
+import Button from 'components/Button';
 import Layout from 'components/Layout';
+import PageTitle from 'components/PageTitle';
 
 import * as styles from './Landing.module.scss';
 
@@ -9,13 +10,13 @@ function Landing() {
   return (
     <div className={styles.landingPage}>
       <Layout>
-        <h2>Daily Skate Trivia</h2>
+        <PageTitle>Daily Skate Trivia</PageTitle>
         <div className={styles.logoContainer}>
           <img src={logo} alt="skate stumpers logo" />
         </div>
-        <Link to="/quiz">TakeQuiz</Link>
+        <Button to="/quiz">TakeQuiz</Button>
         <br />
-        <Link to="/signin">Sign In</Link>
+        <Button to="/signin">Sign In</Button>
       </Layout>
     </div>
   );
