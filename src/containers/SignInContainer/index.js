@@ -54,7 +54,7 @@ function SignInFormBase({ history, firebase }) {
         />
       </div>
       {error && <p className="error-message">{error}</p>}
-      <Button disabled={isInvalid} type="submit">
+      <Button disabled={isInvalid} type="submit" data-testid="sign-in-button">
         Sign In binch
       </Button>
     </form>

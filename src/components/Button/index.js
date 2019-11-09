@@ -24,7 +24,7 @@ function Button({
 
   if (to) {
     return (
-      <Link to={to} onClick={handleClick} {...extraProps} className={className}>
+      <Link to={to} onClick={handleClick} className={className} {...extraProps}>
         {children}
       </Link>
     );
@@ -37,7 +37,8 @@ function Button({
       disabled={disabled}
       onClick={onClick}
       size={size}
-      type={type}>
+      type={type}
+      {...extraProps}>
       {children}
     </button>
   );

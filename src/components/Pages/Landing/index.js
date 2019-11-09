@@ -17,6 +17,7 @@ function Landing() {
         <Button to="/quiz">TakeQuiz</Button>
         <br />
         <Button to="/signin">Sign In</Button>
+        <p>New quiz everyday bitch</p>
       </Layout>
     </div>
   );

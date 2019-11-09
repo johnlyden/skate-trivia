@@ -20,6 +20,12 @@ function QuizPage({ firebase, history }) {
   const { quizContent } = store;
 
   function handleOnGameOver({ finalScore, roundId }) {
+    if (!authUser) {
+      console.log('no auth user');
+      // TODO: take to a page where they have to sign up to persist
+      history.push('/signup');
+      return;
+    }
     return firebase.updateUserProgress(
       { finalScore, authUser, roundId },
       () => {
