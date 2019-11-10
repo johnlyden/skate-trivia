@@ -21,7 +21,6 @@ function QuizPage({ firebase, history }) {
 
   function handleOnGameOver({ finalScore, roundId }) {
     if (!authUser) {
-      console.log('no auth user');
       // TODO: take to a page where they have to sign up to persist
       history.push('/signup');
       return;
