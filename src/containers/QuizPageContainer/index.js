@@ -21,6 +21,12 @@ function QuizPage({ firebase, history }) {
 
   function handleOnGameOver({ finalScore, roundId }) {
     if (!authUser) {
+      dispatch({
+        type: UPDATE_TOTAL_SCORE,
+        payload: {
+          totalScore: finalScore
+        }
+      });
       // TODO: take to a page where they have to sign up to persist
       history.push('/signup');
       return;

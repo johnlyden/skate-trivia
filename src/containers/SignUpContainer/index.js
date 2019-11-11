@@ -10,7 +10,7 @@ import Button from 'components/Button';
 
 import * as styles from './SignUpContainer.module.scss';
 
-function SignUpFormBase({ history, firebase }) {
+function SignUpFormBase({ history, firebase, initialData }) {
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [passwordOne, setPasswordOne] = useState('');
@@ -28,12 +28,16 @@ function SignUpFormBase({ history, firebase }) {
     firebase
       .doCreateUserWithEmailAndPassword(email, passwordOne)
       .then(authUser => {
+        console.log('just made a user: ', initialData);
         // Create a user in your Firebase realtime database
         return firebase.user(authUser.user.uid).set({
           username,
           email,
           roles,
-          score: 0
+          score: initialData.totalScore || 0,
+          roundsPlayed: {
+            [initialData.roundId]: initialData.totalScore
+          }
         });
       })
       .then(authUser => {
