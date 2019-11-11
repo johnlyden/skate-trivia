@@ -47,7 +47,7 @@ function SignUpFormBase({ history, firebase, initialData }) {
         setPasswordTwo('');
         setError(null);
         setIsAdmin(false);
-        history.push(ROUTES.HOME);
+        history.push(ROUTES.ACCOUNT);
       })
       .catch(err => {
         setError(err.message);
