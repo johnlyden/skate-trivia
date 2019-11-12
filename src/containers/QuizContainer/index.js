@@ -1,16 +1,16 @@
-import React, { useState, useEffect, useReducer } from 'react';
+import React, { useState, useEffect, useReducer } from "react";
 
-import QuizHeader from 'components/Quiz/QuizHeader';
-import QuizFooter from 'components/Quiz/QuizFooter';
-import QuizBody from 'components/Quiz/QuizBody';
+import QuizHeader from "components/Quiz/QuizHeader";
+import QuizFooter from "components/Quiz/QuizFooter";
+import QuizBody from "components/Quiz/QuizBody";
 
-import { initialState, reducer } from './reducer';
+import { initialState, reducer } from "./reducer";
 import {
   selectedCorrectAnswer,
   selectedWrongAnswer,
   advanceQuizWithDelay,
   endQuizWithDelay
-} from './actions';
+} from "./actions";
 
 export const DELAY = 1500;
 
@@ -54,7 +54,7 @@ function QuizContainer({ onGameOver, quizContent }) {
     if (question) {
       const time = Number(Number(timeLimit) * 1000 + 500);
       const timer = setTimeout(() => {
-        selectedWrongAnswer(dispatch);
+        // selectedWrongAnswer(dispatch);
       }, time);
 
       return () => {
@@ -77,7 +77,12 @@ function QuizContainer({ onGameOver, quizContent }) {
 
   return (
     <div data-testid="quiz-container">
-      <QuizHeader title={roundName} score={score} />
+      <QuizHeader
+        quizLength={quizLength}
+        title={roundName}
+        score={score}
+        questionIndex={questionIndex + 1}
+      />
       <QuizBody
         question={body}
         answerOptions={choices}

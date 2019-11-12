@@ -41,13 +41,13 @@ function HomePage() {
             style={{ height: "100vh" }}
           >
             <Layout>
+              <Confetti numberOfPieces={200} recycle={false} />
               <div className={styles.contentContainer}>
-                {authUser.username && (
+                {/* {authUser.username && (
                   <div className={styles.circle}>
                     <h2>{authUser.username[0]}</h2>
-                    <Confetti numberOfPieces={200} recycle={false} />
                   </div>
-                )}
+                )} */}
                 {/* <div>round: {quizContent.roundName}</div> */}
                 {/* <div>user name: {authUser.username}</div> */}
                 <div ref={scoreRef}>

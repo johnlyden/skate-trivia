@@ -1,19 +1,14 @@
-import React from 'react';
+import React from "react";
 
-import TimerProgress from 'components/TimerProgress';
-import QuestionCount from 'components/QuestionCount';
-import Fade from 'components/Animations/Fade';
+import TimerProgress from "components/TimerProgress";
+import Fade from "components/Animations/Fade";
 
-import * as styles from './QuizFooter.module.scss';
+import * as styles from "./QuizFooter.module.scss";
 
-function QuizFooter({ questionIndex, timeLimit, quizLength }) {
+function QuizFooter({ questionIndex, timeLimit }) {
   return (
     <Fade key={questionIndex}>
       <div className={styles.timerContainer}>
-        <QuestionCount
-          currentQuestion={questionIndex}
-          quizLength={quizLength}
-        />
         <TimerProgress timeLimit={timeLimit} />
       </div>
     </Fade>

@@ -1,14 +1,15 @@
-import React from 'react';
-import Fade from 'components/Animations/Fade';
+import React from "react";
+import Fade from "components/Animations/Fade";
 
 const QuizScore = ({ score }) => (
   <Fade key={score}>
-    <h3
+    <div
       data-testid="quiz-score"
-      style={{ fontWeight: '500', marginBottom: '0', fontSize: '1rem' }}
-      className="points">
+      style={{ fontSize: "0.8rem" }}
+      className="points"
+    >
       {score} points
-    </h3>
+    </div>
   </Fade>
 );
 
