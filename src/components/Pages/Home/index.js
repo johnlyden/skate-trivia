@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect, createRef } from "react";
-import Confetti from "react-confetti";
+// import Confetti from "react-confetti";
 import { withAuthorization } from "../../Session";
 import { AuthUserContext } from "../../Session";
 import Layout from "components/Layout";
@@ -41,7 +41,7 @@ function HomePage() {
             style={{ height: "100vh" }}
           >
             <Layout>
-              <Confetti numberOfPieces={200} recycle={false} />
+              {/* <Confetti numberOfPieces={200} recycle={false} /> */}
               <div className={styles.contentContainer}>
                 {/* {authUser.username && (
                   <div className={styles.circle}>
