@@ -21,6 +21,12 @@
     color: #fff;
     text-decoration: none;
   }
+
+  &:disabled {
+    filter: none;
+    background: #cccccc;
+    color: #666666;
+  }
 }
 
 /*GREEN*/

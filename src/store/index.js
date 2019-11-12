@@ -1,11 +1,9 @@
-import React from 'react';
+import React from "react";
 import {
   CONTENT_REQUEST,
   CONTENT_RECEIVED,
-  UPDATE_SCORE,
-  UPDATE_TOTAL_SCORE,
-  UPDATE_QUESTION_INDEX
-} from './actions';
+  UPDATE_TOTAL_SCORE
+} from "./actions";
 
 export const initialState = {
   loaded: false,
@@ -28,22 +26,11 @@ export const reducer = (state, action) => {
         loaded: true,
         fetching: false
       };
-    // case UPDATE_SCORE:
-    //   return {
-    //     ...state,
-    //     score: action.payload.score
-    //   };
     case UPDATE_TOTAL_SCORE:
-      console.log('updating total score: ', action.payload.totalScore);
       return {
         ...state,
         totalScore: action.payload.totalScore
       };
-    // case UPDATE_QUESTION_INDEX:
-    //   return {
-    //     ...state,
-    //     questionIndex: action.payload.index
-    //   };
     default:
       return state;
   }

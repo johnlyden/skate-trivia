@@ -33,3 +33,18 @@ $large: 1100px;
 
   align-items: center;
 }
+
+.circle {
+  border-radius: 50%;
+  text-align: center;
+  width: 64px;
+  height: 64px;
+  background-color: #e5a1c0;
+
+  h2 {
+    line-height: 64px;
+    color: white;
+    text-shadow: 2px 2px black;
+    text-transform: uppercase;
+  }
+}

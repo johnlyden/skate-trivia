@@ -1,34 +1,27 @@
-import React, { useState } from 'react';
-import { compose } from 'recompose';
-import { Link, withRouter } from 'react-router-dom';
-import { withFirebase } from 'components/Firebase';
-import * as ROUTES from 'constants/routes';
-import * as ROLES from 'constants/roles';
+import React, { useState } from "react";
+import { compose } from "recompose";
+import { Link, withRouter } from "react-router-dom";
+import { withFirebase } from "components/Firebase";
+import * as ROUTES from "constants/routes";
 
-import Input from 'components/Input';
-import Button from 'components/Button';
+import Input from "components/Input";
+import Button from "components/Button";
 
-import * as styles from './SignUpContainer.module.scss';
+import * as styles from "./SignUpContainer.module.scss";
 
 function SignUpFormBase({ history, firebase, initialData }) {
-  const [username, setUsername] = useState('');
-  const [email, setEmail] = useState('');
-  const [passwordOne, setPasswordOne] = useState('');
-  const [passwordTwo, setPasswordTwo] = useState('');
+  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
+  const [passwordOne, setPasswordOne] = useState("");
+  const [passwordTwo, setPasswordTwo] = useState("");
   const [error, setError] = useState(null);
-  const [isAdmin, setIsAdmin] = useState(false);
 
   function onSubmit(event) {
     const roles = {};
 
-    if (isAdmin) {
-      roles[ROLES.ADMIN] = ROLES.ADMIN;
-    }
-
     firebase
       .doCreateUserWithEmailAndPassword(email, passwordOne)
       .then(authUser => {
-        console.log('just made a user: ', initialData);
         // Create a user in your Firebase realtime database
         return firebase.user(authUser.user.uid).set({
           username,
@@ -41,12 +34,11 @@ function SignUpFormBase({ history, firebase, initialData }) {
         });
       })
       .then(authUser => {
-        setUsername('');
-        setEmail('');
-        setPasswordOne('');
-        setPasswordTwo('');
+        setUsername("");
+        setEmail("");
+        setPasswordOne("");
+        setPasswordTwo("");
         setError(null);
-        setIsAdmin(false);
         history.push(ROUTES.ACCOUNT);
       })
       .catch(err => {
@@ -58,9 +50,9 @@ function SignUpFormBase({ history, firebase, initialData }) {
 
   const isInvalid =
     passwordOne !== passwordTwo ||
-    passwordOne === '' ||
-    email === '' ||
-    username === '';
+    passwordOne === "" ||
+    email === "" ||
+    username === "";
 
   return (
     <form onSubmit={onSubmit} className={styles.form}>
@@ -119,10 +111,7 @@ const SignUpLink = () => (
   </p>
 );
 
-const SignUpForm = compose(
-  withRouter,
-  withFirebase
-)(SignUpFormBase);
+const SignUpForm = compose(withRouter, withFirebase)(SignUpFormBase);
 
 export default SignUpForm;
 

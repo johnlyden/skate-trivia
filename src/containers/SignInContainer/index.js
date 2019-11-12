@@ -1,25 +1,27 @@
-import React, { useState } from 'react';
-import { withRouter } from 'react-router-dom';
-import { compose } from 'recompose';
-import { withFirebase } from 'components/Firebase';
-import Button from 'components/Button';
-import * as ROUTES from 'constants/routes';
-import * as styles from './SignInContainer.module.scss';
+import React, { useState } from "react";
+import { withRouter } from "react-router-dom";
+import { compose } from "recompose";
+import { withFirebase } from "components/Firebase";
+import Button from "components/Button";
+import * as ROUTES from "constants/routes";
+import * as styles from "./SignInContainer.module.scss";
 
-import Input from 'components/Input';
+import Input from "components/Input";
 
 function SignInFormBase({ history, firebase }) {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
 
   function onSubmit(event) {
-    console.log('submitting the signup');
+    if (password === "" || email === "") {
+      return false;
+    }
     firebase
       .doSignInWithEmailAndPassword(email, password)
       .then(() => {
-        setEmail('');
-        setPassword('');
+        setEmail("");
+        setPassword("");
         history.push(ROUTES.HOME);
       })
       .catch(err => {
@@ -29,7 +31,7 @@ function SignInFormBase({ history, firebase }) {
     event.preventDefault();
   }
 
-  const isInvalid = password === '' || email === '';
+  const isInvalid = password === "" || email === "";
 
   return (
     <form onSubmit={onSubmit} className={styles.form}>
@@ -61,9 +63,6 @@ function SignInFormBase({ history, firebase }) {
   );
 }
 
-const SignInForm = compose(
-  withRouter,
-  withFirebase
-)(SignInFormBase);
+const SignInForm = compose(withRouter, withFirebase)(SignInFormBase);
 
 export default SignInForm;
