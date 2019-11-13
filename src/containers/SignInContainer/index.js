@@ -8,7 +8,7 @@ import * as styles from "./SignInContainer.module.scss";
 
 import Input from "components/Input";
 
-function SignInFormBase({ history, firebase }) {
+export function SignInFormBase({ history, firebase }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
@@ -17,6 +17,7 @@ function SignInFormBase({ history, firebase }) {
     if (password === "" || email === "") {
       return false;
     }
+
     firebase
       .doSignInWithEmailAndPassword(email, password)
       .then(() => {
