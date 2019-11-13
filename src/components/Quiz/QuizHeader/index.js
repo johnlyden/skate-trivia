@@ -2,8 +2,7 @@ import React from "react";
 import QuestionCount from "components/QuestionCount";
 import QuizTitle from "components/QuizTitle";
 import QuizScore from "components/QuizScore";
-import { quizHeader, imageContainer } from "./QuizHeader.module.scss";
-import logo from "images/skate-stumpers-1.jpg";
+import { quizHeader } from "./QuizHeader.module.scss";
 
 function QuizHeader({ title, score, questionIndex, quizLength }) {
   return (

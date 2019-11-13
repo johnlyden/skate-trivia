@@ -90,11 +90,7 @@ function QuizContainer({ onGameOver, quizContent }) {
         answered={hasAnswered}
         onAnswerSelected={handleAnswerSelect}
       />
-      <QuizFooter
-        questionIndex={questionIndex + 1}
-        timeLimit={timeLimit}
-        quizLength={quizLength}
-      />
+      <QuizFooter timeLimit={timeLimit} />
     </div>
   );
 }

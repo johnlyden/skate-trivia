@@ -1,5 +1,5 @@
-import React from 'react';
-import * as styles from './Input.module.scss';
+import React from "react";
+import * as styles from "./Input.module.scss";
 
 function Input({ name, value, onChange, type, placeholder, required, label }) {
   return (
@@ -11,6 +11,7 @@ function Input({ name, value, onChange, type, placeholder, required, label }) {
         type={type}
         required={required}
         placeholder={placeholder}
+        data-testid={`${name}-input`}
       />
       <label htmlFor={name}>{label}</label>
     </div>

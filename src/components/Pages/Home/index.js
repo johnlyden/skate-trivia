@@ -53,7 +53,6 @@ function HomePage() {
             style={{ height: "100vh" }}
           >
             <Layout>
-              {/* <Confetti numberOfPieces={200} recycle={false} /> */}
               <div className={styles.contentContainer}>
                 <Confetti config={config} active={BG} />
                 {authUser && authUser.username && (
@@ -61,8 +60,6 @@ function HomePage() {
                     <h2>{authUser.username[0]}</h2>
                   </div>
                 )}
-                {/* <div>round: {quizContent.roundName}</div> */}
-                {/* <div>user name: {authUser.username}</div> */}
                 <div ref={scoreRef}>
                   total score: {totalScore || authUser.score}
                 </div>

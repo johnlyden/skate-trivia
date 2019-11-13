@@ -1,18 +1,37 @@
 import React from "react";
 import "@testing-library/jest-dom/extend-expect";
 import SignInContainer from "../";
-import { render, fireEvent } from "@testing-library/react";
+import { render, fireEvent, cleanup } from "@testing-library/react";
 import { BrowserRouter as Router } from "react-router-dom";
 
 describe("SignInContainer", () => {
+  afterEach(cleanup);
   describe("when the username and password fields are blank", () => {
-    it("should not log the user in", () => {
+    it("should have a disabled submit button", () => {
       const { getByTestId } = render(
         <Router>
           <SignInContainer firebase={{}} />
         </Router>
       );
-      fireEvent.submit(getByTestId("sign-in-button"));
+      expect(getByTestId("sign-in-button").disabled).toBe(true);
+    });
+  });
+
+  describe("when the username and password fields are valid", () => {
+    it("should have an enabled submit button", () => {
+      const { getByTestId } = render(
+        <Router>
+          <SignInContainer firebase={{}} />
+        </Router>
+      );
+
+      const email = getByTestId("email-input");
+      const password = getByTestId("password-input");
+
+      fireEvent.change(email, { target: { value: "user@test.com" } });
+      fireEvent.change(password, { target: { value: "password" } });
+
+      expect(getByTestId("sign-in-button").disabled).toBe(false);
     });
   });
   // it("should not", () => {
@@ -32,14 +51,14 @@ describe("SignInContainer", () => {
   //   // expect(firebase.doSignInWithEmailAndPassword).toHaveBeenCalled();
   // });
 
-  it("should have a disabled submit button when email and password are blank", () => {
-    const mockFirebase = jest.fn();
-    const { getByTestId } = render(
-      <Router>
-        <SignInContainer firebase={mockFirebase} />
-      </Router>
-    );
+  // it("should have a disabled submit button when email and password are blank", () => {
+  //   const mockFirebase = jest.fn();
+  //   const { getByTestId } = render(
+  //     <Router>
+  //       <SignInContainer firebase={mockFirebase} />
+  //     </Router>
+  //   );
 
-    expect(getByTestId("sign-in-button")).toHaveAttribute("disabled");
-  });
+  //   expect(getByTestId("sign-in-button")).toHaveAttribute("disabled");
+  // });
 });
