@@ -1,7 +1,7 @@
-import initializeClient from './client';
-import { CONTENT_REQUEST, CONTENT_RECEIVED } from 'store/actions';
+import initializeClient from "./client";
+import { CONTENT_REQUEST, CONTENT_RECEIVED } from "store/actions";
 
-const CONTENT_TYPE = 'round';
+const CONTENT_TYPE = "round";
 
 function fetchContent(dispatch) {
   dispatch({ type: CONTENT_REQUEST });
@@ -9,20 +9,21 @@ function fetchContent(dispatch) {
   const client = initializeClient();
 
   client
-    .getEntries({ content_type: CONTENT_TYPE, order: '-sys.createdAt' })
+    .getEntries({ content_type: CONTENT_TYPE, order: "-sys.createdAt" })
     .then(response => {
-      const [round, ...others] = response.items;
-      const formattedContent = formatContent(round);
+      const [round, round2, ...others] = response.items;
+      const quizContent = formatContent(round);
       const archivedRounds = others.reduce((acc, round, i) => {
         acc[round.sys.id] = formatContent(round);
         return acc;
       }, {});
-      // console.log({archivedRounds});
-      // TODO: add archivedRounds to the state somehow
 
       dispatch({
         type: CONTENT_RECEIVED,
-        payload: formattedContent
+        payload: {
+          quizContent,
+          archivedRounds
+        }
       });
     });
 }

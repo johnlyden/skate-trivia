@@ -7,7 +7,6 @@ import { Context } from "store";
 import styles from "./Home.module.scss";
 import { Link } from "react-router-dom";
 import SignOut from "components/SignOut";
-// import { homePage } from './Home.module.scss';
 
 import cx from "classnames";
 
@@ -15,7 +14,7 @@ const config = {
   angle: 90,
   spread: "69",
   startVelocity: 45,
-  elementCount: "101",
+  elementCount: "100",
   dragFriction: 0.1,
   duration: "3690",
   stagger: 0,
@@ -30,7 +29,7 @@ const config = {
  */
 function HomePage() {
   const { store } = useContext(Context);
-  const { quizContent, totalScore } = store;
+  const { quizContent, totalScore, archivedRounds } = store;
   const [BG, setBG] = useState(false);
   const scoreRef = createRef(null);
 
@@ -43,7 +42,6 @@ function HomePage() {
   if (!quizContent) {
     return <h2>loading...</h2>;
   }
-
   return (
     <AuthUserContext.Consumer>
       {authUser => {
@@ -65,6 +63,22 @@ function HomePage() {
                 </div>
                 <Link to="/quiz">TakeQuiz</Link>
                 <SignOut />
+                <h2>Past Rounds</h2>
+                <ul>
+                  {authUser.roundsPlayed &&
+                    archivedRounds &&
+                    Object.keys(authUser.roundsPlayed).map(round => {
+                      console.log({ authUser });
+                      return (
+                        <li>
+                          {archivedRounds[round]
+                            ? archivedRounds[round].roundName
+                            : quizContent.roundName}
+                          : {authUser.roundsPlayed[round]}
+                        </li>
+                      );
+                    })}
+                </ul>
               </div>
             </Layout>
           </div>

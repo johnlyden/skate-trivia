@@ -8,6 +8,7 @@ import {
 export const initialState = {
   loaded: false,
   quizContent: null,
+  archivedRounds: null,
   fetching: false,
   totalScore: null
 };
@@ -22,7 +23,8 @@ export const reducer = (state, action) => {
     case CONTENT_RECEIVED:
       return {
         ...state,
-        quizContent: action.payload,
+        quizContent: action.payload.quizContent,
+        archivedRounds: action.payload.archivedRounds,
         loaded: true,
         fetching: false
       };
