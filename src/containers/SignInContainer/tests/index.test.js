@@ -7,7 +7,7 @@ import { mockFirebase as firebase } from "utils/testUtils";
 describe("SignInContainer", () => {
   afterEach(cleanup);
 
-  describe("when the username and password fields are invalid", () => {
+  describe("when the username and password fields are blank", () => {
     it("should have a disabled submit button", () => {
       const { getByTestId } = render(<SignInContainer firebase={{}} />);
       expect(getByTestId("sign-in-button").disabled).toBe(true);

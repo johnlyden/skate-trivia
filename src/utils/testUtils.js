@@ -16,5 +16,19 @@ export const mockFirebase = {
       }),
       catch: jest.fn(() => {})
     };
+  }),
+  doCreateUserWithEmailAndPassword: jest.fn(() => {
+    return {
+      then: jest.fn(() => {
+        return {
+          then: jest.fn(() => {
+            return {
+              catch: jest.fn(() => {})
+            };
+          })
+        };
+      }),
+      catch: jest.fn(() => {})
+    };
   })
 };

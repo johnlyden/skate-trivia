@@ -9,7 +9,7 @@ import Button from "components/Button";
 
 import * as styles from "./SignUpContainer.module.scss";
 
-function SignUpFormBase({ history, firebase, initialData }) {
+export function SignUpFormBase({ history, firebase, initialData }) {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [passwordOne, setPasswordOne] = useState("");
@@ -96,7 +96,7 @@ function SignUpFormBase({ history, firebase, initialData }) {
           required={true}
         />
       </div>
-      <Button disabled={isInvalid} type="submit">
+      <Button disabled={isInvalid} type="submit" data-testid="sign-up-button">
         Sign Up
       </Button>
 
