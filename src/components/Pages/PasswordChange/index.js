@@ -1,10 +1,12 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 
-import { withFirebase } from '../../Firebase';
-
+import { withFirebase } from "../../Firebase";
+import Input from "components/Input";
+import Button from "components/Button";
+import * as styles from "./PasswordChange.module.scss";
 const INITIAL_STATE = {
-  passwordOne: '',
-  passwordTwo: '',
+  passwordOne: "",
+  passwordTwo: "",
   error: null
 };
 
@@ -37,27 +39,31 @@ class PasswordChangeForm extends Component {
   render() {
     const { passwordOne, passwordTwo, error } = this.state;
 
-    const isInvalid = passwordOne !== passwordTwo || passwordOne === '';
+    const isInvalid = passwordOne !== passwordTwo || passwordOne === "";
 
     return (
-      <form onSubmit={this.onSubmit}>
-        <input
-          name="passwordOne"
-          value={passwordOne}
-          onChange={this.onChange}
-          type="password"
-          placeholder="New Password"
-        />
-        <input
-          name="passwordTwo"
-          value={passwordTwo}
-          onChange={this.onChange}
-          type="password"
-          placeholder="Confirm New Password"
-        />
-        <button disabled={isInvalid} type="submit">
-          Reset My Password
-        </button>
+      <form onSubmit={this.onSubmit} className={styles.form}>
+        <div className={styles.inputContainer}>
+          <Input
+            name="passwordOne"
+            value={passwordOne}
+            onChange={this.onChange}
+            type="password"
+            required={true}
+            label="password"
+          />
+        </div>
+        <div className={styles.inputContainer}>
+          <Input
+            name="passwordTwo"
+            value={passwordTwo}
+            onChange={this.onChange}
+            type="password"
+            required={true}
+            label="confirm password"
+          />
+        </div>
+        <Button type="submit">Reset My Password</Button>
 
         {error && <p>{error.message}</p>}
       </form>

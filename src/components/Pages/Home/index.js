@@ -7,6 +7,7 @@ import { Context } from "store";
 import styles from "./Home.module.scss";
 import { Link } from "react-router-dom";
 import SignOut from "components/SignOut";
+import Button from "components/Button";
 
 import cx from "classnames";
 
@@ -32,7 +33,6 @@ function HomePage() {
   const { quizContent, totalScore, archivedRounds } = store;
   const [BG, setBG] = useState(false);
   const scoreRef = createRef(null);
-
   useEffect(() => {
     setTimeout(() => {
       setBG(true);
@@ -42,6 +42,19 @@ function HomePage() {
   if (!quizContent) {
     return <h2>loading...</h2>;
   }
+
+  const { roundId: currentRound } = quizContent;
+
+  let allContent = {};
+
+  if (quizContent) {
+    allContent = { [quizContent["roundId"]]: quizContent };
+  }
+
+  if (archivedRounds) {
+    allContent = { ...allContent, ...archivedRounds };
+  }
+
   return (
     <AuthUserContext.Consumer>
       {authUser => {
@@ -61,20 +74,23 @@ function HomePage() {
                 <div ref={scoreRef}>
                   total score: {totalScore || authUser.score}
                 </div>
-                <Link to="/quiz">TakeQuiz</Link>
-                <SignOut />
+
+                {!!authUser.roundsPlayed[currentRound] && (
+                  <Button to="/quiz">Play Today</Button>
+                )}
+                <Button to="/leaderboard">Leaderboard</Button>
+
+                {/* <SignOut /> */}
                 <h2>Past Rounds</h2>
                 <ul>
                   {authUser.roundsPlayed &&
                     archivedRounds &&
                     Object.keys(authUser.roundsPlayed).map(round => {
-                      console.log({ authUser });
                       return (
                         <li>
-                          {archivedRounds[round]
-                            ? archivedRounds[round].roundName
-                            : quizContent.roundName}
-                          : {authUser.roundsPlayed[round]}
+                          {allContent[round]
+                            ? `${allContent[round].roundName} : ${authUser.roundsPlayed[round]}`
+                            : null}
                         </li>
                       );
                     })}
