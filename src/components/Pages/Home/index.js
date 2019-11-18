@@ -85,7 +85,7 @@ function HomePage() {
 
                 {/* <Button to="/leaderboard">Leaderboard</Button> */}
 
-                {/* <SignOut /> */}
+                <SignOut />
 
                 {/* <h2>Past Rounds</h2>
                 <ul>

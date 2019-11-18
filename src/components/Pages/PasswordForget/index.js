@@ -5,12 +5,13 @@ import { withFirebase } from "components/Firebase";
 import * as ROUTES from "constants/routes";
 import Input from "components/Input";
 import Button from "components/Button";
+import Layout from "components/Layout";
 
 const PasswordForgetPage = () => (
-  <div>
+  <Layout>
     <h1>PasswordForget</h1>
     <PasswordForgetForm />
-  </div>
+  </Layout>
 );
 
 const INITIAL_STATE = {
