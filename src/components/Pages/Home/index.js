@@ -60,28 +60,34 @@ function HomePage() {
       {authUser => {
         return (
           <div
-            className={cx(styles.homePage, { [styles.top]: BG === true })}
+            className={styles.HomePage}
+            // className={cx(styles.homePage, { [styles.top]: BG === true })}
             style={{ height: "100vh" }}
           >
             <Layout>
               <div className={styles.contentContainer}>
-                <Confetti config={config} active={BG} />
+                <div>
+                  <h3>Leaderboard</h3>
+                </div>
+                {totalScore && <Confetti config={config} active={BG} />}
                 {authUser && authUser.username && (
                   <div className={styles.circle}>
                     <h2>{authUser.username[0]}</h2>
                   </div>
                 )}
                 <div ref={scoreRef}>
-                  total score: {totalScore || authUser.score}
+                  Current score: {totalScore || authUser.score}
                 </div>
 
-                {!!authUser.roundsPlayed[currentRound] && (
+                {/* {!!authUser.roundsPlayed[currentRound] && (
                   <Button to="/quiz">Play Today</Button>
-                )}
-                <Button to="/leaderboard">Leaderboard</Button>
+                )} */}
+
+                {/* <Button to="/leaderboard">Leaderboard</Button> */}
 
                 {/* <SignOut /> */}
-                <h2>Past Rounds</h2>
+
+                {/* <h2>Past Rounds</h2>
                 <ul>
                   {authUser.roundsPlayed &&
                     archivedRounds &&
@@ -94,7 +100,7 @@ function HomePage() {
                         </li>
                       );
                     })}
-                </ul>
+                </ul> */}
               </div>
             </Layout>
           </div>

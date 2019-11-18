@@ -11,15 +11,12 @@ function fetchContent(dispatch) {
   client
     .getEntries({ content_type: CONTENT_TYPE, order: "-sys.createdAt" })
     .then(response => {
-      const [round, round2, round3, ...others] = response.items;
+      const [round, ...others] = response.items;
       const quizContent = formatContent(round);
-      const archivedRounds = [...others, round, round2, round3].reduce(
-        (acc, round, i) => {
-          acc[round.sys.id] = formatContent(round);
-          return acc;
-        },
-        {}
-      );
+      const archivedRounds = [...others, round].reduce((acc, round, i) => {
+        acc[round.sys.id] = formatContent(round);
+        return acc;
+      }, {});
 
       dispatch({
         type: CONTENT_RECEIVED,

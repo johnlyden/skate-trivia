@@ -54,7 +54,7 @@ function QuizContainer({ onGameOver, quizContent }) {
     if (question) {
       const time = Number(Number(timeLimit) * 1000 + 500);
       const timer = setTimeout(() => {
-        // selectedWrongAnswer(dispatch);
+        selectedWrongAnswer(dispatch);
       }, time);
 
       return () => {

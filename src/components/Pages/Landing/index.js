@@ -1,10 +1,10 @@
-import React from 'react';
-import logo from 'images/skatestompers.png';
-import Button from 'components/Button';
-import Layout from 'components/Layout';
-import PageTitle from 'components/PageTitle';
+import React from "react";
+import logo from "images/skatestompers.png";
+import Button from "components/Button";
+import Layout from "components/Layout";
+import PageTitle from "components/PageTitle";
 
-import * as styles from './Landing.module.scss';
+import * as styles from "./Landing.module.scss";
 
 function Landing() {
   return (
@@ -14,10 +14,10 @@ function Landing() {
         <div className={styles.logoContainer}>
           <img src={logo} alt="skate stumpers logo" />
         </div>
-        <Button to="/quiz">TakeQuiz</Button>
+        <Button to="/quiz">Play now</Button>
         <br />
         <Button to="/signin">Sign In</Button>
-        <p>New quiz everyday bitch</p>
+        <p style={{ textAlign: "center" }}>New quiz everyday bitch</p>
       </Layout>
     </div>
   );
