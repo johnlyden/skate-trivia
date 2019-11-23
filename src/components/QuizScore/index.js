@@ -1,8 +1,8 @@
 import React from "react";
-import Fade from "components/Animations/Fade";
+import Waggle from "components/Animations/Waggle";
 
 const QuizScore = ({ score }) => (
-  <Fade key={score}>
+  <Waggle key={score}>
     <div
       data-testid="quiz-score"
       style={{ fontSize: "0.8rem" }}
@@ -10,7 +10,7 @@ const QuizScore = ({ score }) => (
     >
       {score} points
     </div>
-  </Fade>
+  </Waggle>
 );
 
 export default QuizScore;
