@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useReducer } from "react";
+import UIfx from "uifx";
 
 import QuizHeader from "components/Quiz/QuizHeader";
 import QuizFooter from "components/Quiz/QuizFooter";
@@ -12,7 +13,11 @@ import {
   endQuizWithDelay
 } from "./actions";
 
+import beepMp3 from "sounds/right.mp3";
+
 export const DELAY = 1500;
+
+const right = new UIfx(beepMp3);
 
 function QuizContainer({ onGameOver, quizContent }) {
   const { roundName, roundQuestions, roundId } = quizContent;
@@ -23,6 +28,7 @@ function QuizContainer({ onGameOver, quizContent }) {
 
   const [question, setQuestion] = useState(roundQuestions[questionIndex]);
   const { body, answer, choices, timeLimit, pointValue } = question;
+  // const right = new UIfx(beepMp3);
 
   // LISTEN FOR WHEN A QUESTION HAS BEEN ANSWERED - ADVANCE OR END QUIZ
   useEffect(() => {
@@ -69,6 +75,7 @@ function QuizContainer({ onGameOver, quizContent }) {
     }
 
     if (answerGuess === answer) {
+      right.play();
       selectedCorrectAnswer(dispatch, { pointValue });
     } else {
       selectedWrongAnswer(dispatch);
