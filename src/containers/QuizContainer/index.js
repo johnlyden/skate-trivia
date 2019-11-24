@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useReducer } from "react";
-import UIfx from "uifx";
+import Confetti from "react-dom-confetti";
 
 import QuizHeader from "components/Quiz/QuizHeader";
 import QuizFooter from "components/Quiz/QuizFooter";
@@ -13,11 +13,20 @@ import {
   endQuizWithDelay
 } from "./actions";
 
-import beepMp3 from "sounds/right.mp3";
-
 export const DELAY = 1500;
 
-const right = new UIfx(beepMp3);
+const config = {
+  angle: 90,
+  spread: "69",
+  startVelocity: 45,
+  elementCount: "100",
+  dragFriction: 0.1,
+  duration: "2500",
+  stagger: 0,
+  width: "30px",
+  height: "10px",
+  colors: ["#a864fd", "#29cdff", "#78ff44", "#ff718d", "#fdff6a"]
+};
 
 function QuizContainer({ onGameOver, quizContent }) {
   const { roundName, roundQuestions, roundId } = quizContent;
@@ -27,6 +36,7 @@ function QuizContainer({ onGameOver, quizContent }) {
   const { hasAnswered, questionIndex, score, gameOver } = quizStore;
 
   const [question, setQuestion] = useState(roundQuestions[questionIndex]);
+  const [showConfetti, setShowConfetti] = useState(false);
   const { body, answer, choices, timeLimit, pointValue } = question;
   // const right = new UIfx(beepMp3);
 
@@ -45,6 +55,7 @@ function QuizContainer({ onGameOver, quizContent }) {
   useEffect(() => {
     if (questionIndex) {
       setQuestion(roundQuestions[questionIndex]);
+      setShowConfetti(false);
     }
   }, [questionIndex]);
 
@@ -75,8 +86,8 @@ function QuizContainer({ onGameOver, quizContent }) {
     }
 
     if (answerGuess === answer) {
-      right.play();
       selectedCorrectAnswer(dispatch, { pointValue });
+      setShowConfetti(true);
     } else {
       selectedWrongAnswer(dispatch);
     }
@@ -97,6 +108,7 @@ function QuizContainer({ onGameOver, quizContent }) {
         answered={hasAnswered}
         onAnswerSelected={handleAnswerSelect}
       />
+      <Confetti config={config} active={showConfetti} />
       <QuizFooter timeLimit={timeLimit} questionIndex={questionIndex} />
     </div>
   );

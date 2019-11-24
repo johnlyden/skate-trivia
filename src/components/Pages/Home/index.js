@@ -1,5 +1,4 @@
 import React, { useContext, useState, useEffect, createRef } from "react";
-import Confetti from "react-dom-confetti";
 import { withAuthorization } from "../../Session";
 import { AuthUserContext } from "../../Session";
 import Layout from "components/Layout";
@@ -10,19 +9,6 @@ import SignOut from "components/SignOut";
 import Button from "components/Button";
 
 import cx from "classnames";
-
-const config = {
-  angle: 90,
-  spread: "69",
-  startVelocity: 45,
-  elementCount: "100",
-  dragFriction: 0.1,
-  duration: "3690",
-  stagger: 0,
-  width: "30px",
-  height: "10px",
-  colors: ["#a864fd", "#29cdff", "#78ff44", "#ff718d", "#fdff6a"]
-};
 
 /**
  * in here show the leaderboard?  If you are logged in, it will show your stats also, if not it will have a link to play now
