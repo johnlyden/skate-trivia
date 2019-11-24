@@ -4,7 +4,7 @@ import Waggle from "components/Animations/Waggle";
 import * as styles from "./QuizScore.module.scss";
 
 const QuizScore = ({ score }) => (
-  <Waggle key={score}>
+  <Waggle id={score}>
     <div data-testid="quiz-score" className={styles.score}>
       {score} points
     </div>

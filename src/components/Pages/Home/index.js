@@ -55,7 +55,6 @@ function HomePage() {
                 <div>
                   <h3>Leaderboard</h3>
                 </div>
-                {totalScore && <Confetti config={config} active={BG} />}
                 {authUser && authUser.username && (
                   <div className={styles.circle}>
                     <h2>{authUser.username[0]}</h2>
