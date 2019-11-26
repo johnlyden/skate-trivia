@@ -1,5 +1,5 @@
-import React from "react";
-import * as styles from "./Waggle.module.scss";
+import React from 'react';
+import * as styles from './Waggle.module.scss';
 
 function Waggle({ children, id }) {
   return (

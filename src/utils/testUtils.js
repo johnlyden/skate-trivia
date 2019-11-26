@@ -1,6 +1,6 @@
-import React from "react";
-import { render } from "@testing-library/react";
-import { Context } from "store";
+import React from 'react';
+import { render } from '@testing-library/react';
+import { Context } from 'store';
 
 export const renderWithStore = (children, value) => {
   return render(<Context.Provider value={value}>{children}</Context.Provider>);
@@ -26,6 +26,16 @@ export const mockFirebase = {
               catch: jest.fn(() => {})
             };
           })
+        };
+      }),
+      catch: jest.fn(() => {})
+    };
+  }),
+  doPasswordUpdate: jest.fn(() => {
+    return {
+      then: jest.fn(() => {
+        return {
+          catch: jest.fn(() => {})
         };
       }),
       catch: jest.fn(() => {})
