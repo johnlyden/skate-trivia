@@ -1,14 +1,15 @@
-import React, { useContext, useState, useEffect, createRef } from "react";
-import { withAuthorization } from "../../Session";
-import { AuthUserContext } from "../../Session";
-import Layout from "components/Layout";
-import { Context } from "store";
-import styles from "./Home.module.scss";
-import { Link } from "react-router-dom";
-import SignOut from "components/SignOut";
-import Button from "components/Button";
+import React, { useContext, useState, useEffect, createRef } from 'react';
+import { withAuthorization } from '../../Session';
+import { AuthUserContext } from '../../Session';
+import Layout from 'components/Layout';
+import { Context } from 'store';
+import styles from './Home.module.scss';
+import { Link } from 'react-router-dom';
+import SignOut from 'components/SignOut';
+import Button from 'components/Button';
+import HomeHeader from 'components/HomeHeader';
 
-import cx from "classnames";
+import cx from 'classnames';
 
 /**
  * in here show the leaderboard?  If you are logged in, it will show your stats also, if not it will have a link to play now
@@ -34,7 +35,7 @@ function HomePage() {
   let allContent = {};
 
   if (quizContent) {
-    allContent = { [quizContent["roundId"]]: quizContent };
+    allContent = { [quizContent['roundId']]: quizContent };
   }
 
   if (archivedRounds) {
@@ -44,34 +45,35 @@ function HomePage() {
   return (
     <AuthUserContext.Consumer>
       {authUser => {
+        const hasPlayed = !!authUser.roundsPlayed[currentRound];
+
         return (
-          <div
-            className={styles.HomePage}
-            // className={cx(styles.homePage, { [styles.top]: BG === true })}
-            style={{ height: "100vh" }}
-          >
+          <div className={styles.HomePage} style={{ height: '100vh' }}>
             <Layout>
               <div className={styles.contentContainer}>
-                <div>
-                  <h3>Leaderboard</h3>
-                </div>
                 {authUser && authUser.username && (
-                  <div className={styles.circle}>
-                    <h2>{authUser.username[0]}</h2>
-                  </div>
+                  <HomeHeader name={authUser.username} />
                 )}
-                <div ref={scoreRef}>
-                  Current score: {totalScore || authUser.score}
+
+                <div>Current score: {totalScore || authUser.score}</div>
+
+                <div className={styles.ctaSection}>
+                  {hasPlayed && (
+                    <>
+                      <p>Damn, you've played the latest round</p>
+                      <p>maybe you can play an old one</p>
+                    </>
+                  )}
+                  {!hasPlayed ? (
+                    <Button to='/quiz'>Play latest</Button>
+                  ) : (
+                    <Button to='/archive'>Play an old one</Button>
+                  )}
                 </div>
-
-                {/* {!!authUser.roundsPlayed[currentRound] && (
-                  <Button to="/quiz">Play Today</Button>
-                )} */}
-
                 {/* <Button to="/leaderboard">Leaderboard</Button> */}
-
-                <SignOut />
-
+                <div className={styles.buttonContainer}>
+                  <SignOut />
+                </div>
                 {/* <h2>Past Rounds</h2>
                 <ul>
                   {authUser.roundsPlayed &&
