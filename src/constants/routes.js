@@ -6,3 +6,4 @@ export const ACCOUNT = '/account';
 export const ADMIN = '/admin';
 export const PASSWORD_FORGET = '/pw-forget';
 export const QUIZ_PAGE = '/quiz';
+export const ARCHIVE_PAGE = '/archive';

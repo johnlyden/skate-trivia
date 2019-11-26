@@ -10,6 +10,7 @@ import AccountPage from 'components/Pages/Account';
 import AdminPage from 'components/Pages/Admin';
 // import QuizPage from 'components/Pages/QuizPage';
 import QuizPageContainer from 'containers/QuizPageContainer';
+import ArchivePageContainer from 'containers/ArchivePageContainer';
 
 import * as ROUTES from 'constants/routes';
 import { withAuthentication } from 'components/Session';
@@ -37,7 +38,8 @@ function App() {
           atEnter={{ opacity: 0 }}
           atLeave={{ opacity: 0 }}
           atActive={{ opacity: 1 }}
-          className="switch-wrapper">
+          className='switch-wrapper'
+        >
           <Route exact path={ROUTES.LANDING} component={LandingPage} />
           <Route path={ROUTES.SIGN_UP} component={SignUpPageContainer} />
           <Route path={ROUTES.SIGN_IN} component={SignInPage} />
@@ -46,6 +48,7 @@ function App() {
           <Route path={ROUTES.ACCOUNT} component={AccountPage} />
           <Route path={ROUTES.ADMIN} component={AdminPage} />
           <Route path={ROUTES.QUIZ_PAGE} component={QuizPageContainer} />
+          <Route path={ROUTES.ARCHIVE_PAGE} component={ArchivePageContainer} />
         </AnimatedSwitch>
       </Router>
     </Context.Provider>
