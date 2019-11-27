@@ -48,6 +48,10 @@ function App() {
           <Route path={ROUTES.ACCOUNT} component={AccountPage} />
           <Route path={ROUTES.ADMIN} component={AdminPage} />
           <Route path={ROUTES.QUIZ_PAGE} component={QuizPageContainer} />
+          <Route
+            path={ROUTES.ARCHIVED_QUIZ_PAGE}
+            component={QuizPageContainer}
+          />
           <Route path={ROUTES.ARCHIVE_PAGE} component={ArchivePageContainer} />
         </AnimatedSwitch>
       </Router>

@@ -7,3 +7,4 @@ export const ADMIN = '/admin';
 export const PASSWORD_FORGET = '/pw-forget';
 export const QUIZ_PAGE = '/quiz';
 export const ARCHIVE_PAGE = '/archive';
+export const ARCHIVED_QUIZ_PAGE = '/archive/:id';

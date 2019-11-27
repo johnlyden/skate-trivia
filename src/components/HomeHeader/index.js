@@ -1,7 +1,7 @@
 import React from 'react';
 import * as styles from './HomeHeader.module.scss';
 
-function HomeHeader({ name }) {
+function HomeHeader({ name, totalScore }) {
   const firstLetter = name[0];
   return (
     <div className={styles.headerContainer}>
@@ -9,6 +9,7 @@ function HomeHeader({ name }) {
         <h2>{firstLetter}</h2>
       </div>
       <h3 className={styles.heading}>{name}</h3>
+      <div>Total score: {totalScore}</div>
     </div>
   );
 }

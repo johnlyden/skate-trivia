@@ -45,17 +45,22 @@ function HomePage() {
   return (
     <AuthUserContext.Consumer>
       {authUser => {
-        const hasPlayed = !!authUser.roundsPlayed[currentRound];
+        const hasPlayed = authUser.roundsPlayed
+          ? authUser.roundsPlayed[currentRound]
+          : null;
 
         return (
           <div className={styles.HomePage} style={{ height: '100vh' }}>
             <Layout>
               <div className={styles.contentContainer}>
                 {authUser && authUser.username && (
-                  <HomeHeader name={authUser.username} />
+                  <>
+                    <HomeHeader
+                      name={authUser.username}
+                      totalScore={totalScore || authUser.score}
+                    />
+                  </>
                 )}
-
-                <div>Current score: {totalScore || authUser.score}</div>
 
                 <div className={styles.ctaSection}>
                   {hasPlayed && (
@@ -70,8 +75,8 @@ function HomePage() {
                     <Button to='/archive'>Play an old one</Button>
                   )}
                 </div>
-                {/* <Button to="/leaderboard">Leaderboard</Button> */}
                 <div className={styles.buttonContainer}>
+                  <Button to='/leaderboard'>Leaderboard</Button>
                   <SignOut />
                 </div>
                 {/* <h2>Past Rounds</h2>

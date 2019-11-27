@@ -1,31 +1,31 @@
-import React, { useState, useEffect, useReducer } from "react";
-import Confetti from "react-dom-confetti";
+import React, { useState, useEffect, useReducer } from 'react';
+// import Confetti from "react-dom-confetti";
 
-import QuizHeader from "components/Quiz/QuizHeader";
-import QuizFooter from "components/Quiz/QuizFooter";
-import QuizBody from "components/Quiz/QuizBody";
+import QuizHeader from 'components/Quiz/QuizHeader';
+import QuizFooter from 'components/Quiz/QuizFooter';
+import QuizBody from 'components/Quiz/QuizBody';
 
-import { initialState, reducer } from "./reducer";
+import { initialState, reducer } from './reducer';
 import {
   selectedCorrectAnswer,
   selectedWrongAnswer,
   advanceQuizWithDelay,
-  endQuizWithDelay
-} from "./actions";
+  endQuizWithDelay,
+} from './actions';
 
 export const DELAY = 1500;
 
 const config = {
   angle: 90,
-  spread: "69",
+  spread: '69',
   startVelocity: 45,
-  elementCount: "100",
+  elementCount: '100',
   dragFriction: 0.1,
-  duration: "2500",
+  duration: '2500',
   stagger: 0,
-  width: "30px",
-  height: "10px",
-  colors: ["#a864fd", "#29cdff", "#78ff44", "#ff718d", "#fdff6a"]
+  width: '30px',
+  height: '10px',
+  colors: ['#a864fd', '#29cdff', '#78ff44', '#ff718d', '#fdff6a'],
 };
 
 function QuizContainer({ onGameOver, quizContent }) {
@@ -36,7 +36,7 @@ function QuizContainer({ onGameOver, quizContent }) {
   const { hasAnswered, questionIndex, score, gameOver } = quizStore;
 
   const [question, setQuestion] = useState(roundQuestions[questionIndex]);
-  const [showConfetti, setShowConfetti] = useState(false);
+  // const [showConfetti, setShowConfetti] = useState(false);
   const { body, answer, choices, timeLimit, pointValue } = question;
   // const right = new UIfx(beepMp3);
 
@@ -55,7 +55,7 @@ function QuizContainer({ onGameOver, quizContent }) {
   useEffect(() => {
     if (questionIndex) {
       setQuestion(roundQuestions[questionIndex]);
-      setShowConfetti(false);
+      // setShowConfetti(false);
     }
   }, [questionIndex]);
 
@@ -87,14 +87,14 @@ function QuizContainer({ onGameOver, quizContent }) {
 
     if (answerGuess === answer) {
       selectedCorrectAnswer(dispatch, { pointValue });
-      setShowConfetti(true);
+      // setShowConfetti(true);
     } else {
       selectedWrongAnswer(dispatch);
     }
   }
 
   return (
-    <div data-testid="quiz-container">
+    <div data-testid='quiz-container'>
       <QuizHeader
         quizLength={quizLength}
         title={roundName}
@@ -108,7 +108,7 @@ function QuizContainer({ onGameOver, quizContent }) {
         answered={hasAnswered}
         onAnswerSelected={handleAnswerSelect}
       />
-      <Confetti config={config} active={showConfetti} />
+      {/* <Confetti config={config} active={showConfetti} /> */}
       <QuizFooter timeLimit={timeLimit} questionIndex={questionIndex} />
     </div>
   );
