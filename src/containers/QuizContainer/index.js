@@ -55,7 +55,6 @@ function QuizContainer({ onGameOver, quizContent }) {
   useEffect(() => {
     if (questionIndex) {
       setQuestion(roundQuestions[questionIndex]);
-      // setShowConfetti(false);
     }
   }, [questionIndex]);
 
@@ -71,7 +70,7 @@ function QuizContainer({ onGameOver, quizContent }) {
     if (question) {
       const time = Number(Number(timeLimit) * 1000 + 500);
       const timer = setTimeout(() => {
-        selectedWrongAnswer(dispatch);
+        // selectedWrongAnswer(dispatch);
       }, time);
 
       return () => {
@@ -87,14 +86,13 @@ function QuizContainer({ onGameOver, quizContent }) {
 
     if (answerGuess === answer) {
       selectedCorrectAnswer(dispatch, { pointValue });
-      // setShowConfetti(true);
     } else {
       selectedWrongAnswer(dispatch);
     }
   }
 
   return (
-    <div data-testid='quiz-container'>
+    <div>
       <QuizHeader
         quizLength={quizLength}
         title={roundName}
@@ -108,7 +106,6 @@ function QuizContainer({ onGameOver, quizContent }) {
         answered={hasAnswered}
         onAnswerSelected={handleAnswerSelect}
       />
-      {/* <Confetti config={config} active={showConfetti} /> */}
       <QuizFooter timeLimit={timeLimit} questionIndex={questionIndex} />
     </div>
   );

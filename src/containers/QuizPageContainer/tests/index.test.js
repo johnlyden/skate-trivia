@@ -13,7 +13,7 @@ describe('QuizPageContainer', () => {
       <Router>
         <QuizPageContainer />
       </Router>,
-      { dispatch, store: initialState }
+      { dispatch, store: initialState },
     );
     expect(getByTestId('loading')).toBeDefined();
   });
@@ -24,8 +24,8 @@ describe('QuizPageContainer', () => {
       <Router>
         <QuizPageContainer />
       </Router>,
-      { dispatch, store: { ...initialState, quizContent } }
+      { dispatch, store: { ...initialState, quizContent } },
     );
-    expect(getByTestId('quiz-container')).toBeDefined();
+    expect(getByTestId('quiz-body')).toBeDefined();
   });
 });

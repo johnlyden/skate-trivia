@@ -49,8 +49,8 @@ function QuizPage({ firebase, history }) {
   }
 
   return (
-    <div className={quizPage} data-testid='quiz-page'>
-      <Layout>
+    <Layout>
+      <div className={quizPage} data-testid='quiz-page'>
         {archivedRoundId && <h2>dis is old</h2>}
         {quizContent ? (
           <QuizContainer
@@ -62,8 +62,8 @@ function QuizPage({ firebase, history }) {
         ) : (
           <LoadingSpinner />
         )}
-      </Layout>
-    </div>
+      </div>
+    </Layout>
   );
 }
 

@@ -73,7 +73,7 @@ function HomePage() {
                   {!hasPlayed ? (
                     <Button to='/quiz'>Play latest</Button>
                   ) : (
-                    <Button to='/archive'>Play an old one</Button>
+                    <Button to='/archive'>Play an oldie</Button>
                   )}
                 </div>
                 <div className={styles.buttonContainer}>
