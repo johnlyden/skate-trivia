@@ -45,6 +45,7 @@ function HomePage() {
   return (
     <AuthUserContext.Consumer>
       {authUser => {
+        console.log({ authUser });
         const hasPlayed = authUser.roundsPlayed
           ? authUser.roundsPlayed[currentRound]
           : null;
@@ -66,7 +67,7 @@ function HomePage() {
                   {hasPlayed && (
                     <>
                       <p>Damn, you've played the latest round</p>
-                      <p>maybe you can play an old one</p>
+                      <p>you can play an old one for fun</p>
                     </>
                   )}
                   {!hasPlayed ? (

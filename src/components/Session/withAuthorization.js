@@ -9,17 +9,23 @@ import AuthUserContext from './context';
 const withAuthorization = condition => Component => {
   class WithAuthorization extends React.Component {
     componentDidMount() {
+      console.log('withAuthorization is mounting');
+      // this should be a global listener - its attached and unattached and re-attached
+      // whenever user goes between pages that are auth required
+      // TODO: this needs to be moved into a hook or something
       this.listener = this.props.firebase.onAuthUserListener(
         authUser => {
+          console.log('asdfasdfsdfsdfsdf');
           if (!condition(authUser)) {
             this.props.history.push(ROUTES.SIGN_IN);
           }
         },
-        () => this.props.history.push(ROUTES.SIGN_IN)
+        () => this.props.history.push(ROUTES.SIGN_IN),
       );
     }
 
     componentWillUnmount() {
+      console.log('its umounting');
       this.listener();
     }
 
@@ -34,10 +40,7 @@ const withAuthorization = condition => Component => {
     }
   }
 
-  return compose(
-    withRouter,
-    withFirebase
-  )(WithAuthorization);
+  return compose(withRouter, withFirebase)(WithAuthorization);
 };
 
 export default withAuthorization;

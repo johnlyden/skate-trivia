@@ -11,6 +11,7 @@ import AdminPage from 'components/Pages/Admin';
 // import QuizPage from 'components/Pages/QuizPage';
 import QuizPageContainer from 'containers/QuizPageContainer';
 import ArchivePageContainer from 'containers/ArchivePageContainer';
+import LeaderboardPageContainer from 'containers/LeaderboardPageContainer';
 
 import * as ROUTES from 'constants/routes';
 import { withAuthentication } from 'components/Session';
@@ -46,6 +47,10 @@ function App() {
           <Route path={ROUTES.PASSWORD_FORGET} component={PasswordForgetPage} />
           <Route path={ROUTES.HOME} component={HomePage} />
           <Route path={ROUTES.ACCOUNT} component={AccountPage} />
+          <Route
+            path={ROUTES.LEADERBOARD}
+            component={LeaderboardPageContainer}
+          />
           <Route path={ROUTES.ADMIN} component={AdminPage} />
           <Route path={ROUTES.QUIZ_PAGE} component={QuizPageContainer} />
           <Route

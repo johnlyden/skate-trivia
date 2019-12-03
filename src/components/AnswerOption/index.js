@@ -12,7 +12,7 @@ function AnswerOption(props) {
     onAnswerSelected,
     rightAnswer,
     className,
-    answered
+    answered,
   } = props;
 
   const [answer, setAnswer] = useState('');
@@ -24,26 +24,26 @@ function AnswerOption(props) {
   }
 
   return (
-    <li>
+    <li tabIndex={0}>
       <input
-        data-testid="answer-option"
-        type="radio"
+        data-testid='answer-option'
+        type='radio'
         className={cx(
           radioCustomButton,
           {
             [styles.correct]: answer === rightAnswer || (answered && className),
-            [styles.wrong]: answer !== rightAnswer
+            [styles.wrong]: answer !== rightAnswer,
           },
-          className
+          className,
         )}
-        name="radioGroup"
+        name='radioGroup'
         checked={answerContent === answer}
         id={answerContent}
         value={answerContent}
         disabled={answer}
         onChange={handleChange}
       />
-      <label className="button2 b-green rot-135" htmlFor={answerContent}>
+      <label className='button2 b-green rot-135' htmlFor={answerContent}>
         {answerContent}
       </label>
     </li>
@@ -52,6 +52,6 @@ function AnswerOption(props) {
 
 AnswerOption.propTypes = {
   answerContent: PropTypes.string.isRequired,
-  onAnswerSelected: PropTypes.func.isRequired
+  onAnswerSelected: PropTypes.func.isRequired,
 };
 export default AnswerOption;
