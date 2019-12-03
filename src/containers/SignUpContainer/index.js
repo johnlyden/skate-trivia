@@ -1,19 +1,19 @@
-import React, { useState } from "react";
-import { compose } from "recompose";
-import { Link, withRouter } from "react-router-dom";
-import { withFirebase } from "components/Firebase";
-import * as ROUTES from "constants/routes";
+import React, { useState } from 'react';
+import { compose } from 'recompose';
+import { Link, withRouter } from 'react-router-dom';
+import { withFirebase } from 'components/Firebase';
+import * as ROUTES from 'constants/routes';
 
-import Input from "components/Input";
-import Button from "components/Button";
+import Input from 'components/Input';
+import Button from 'components/Button';
 
-import * as styles from "./SignUpContainer.module.scss";
+import * as styles from './SignUpContainer.module.scss';
 
 export function SignUpFormBase({ history, firebase, initialData }) {
-  const [username, setUsername] = useState("");
-  const [email, setEmail] = useState("");
-  const [passwordOne, setPasswordOne] = useState("");
-  const [passwordTwo, setPasswordTwo] = useState("");
+  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
+  const [passwordOne, setPasswordOne] = useState('');
+  const [passwordTwo, setPasswordTwo] = useState('');
   const [error, setError] = useState(null);
 
   function onSubmit(event) {
@@ -29,17 +29,17 @@ export function SignUpFormBase({ history, firebase, initialData }) {
           roles,
           score: initialData.totalScore || 0,
           roundsPlayed: {
-            [initialData.roundId]: initialData.totalScore
-          }
+            [initialData.roundId]: initialData.totalScore,
+          },
         });
       })
       .then(authUser => {
-        setUsername("");
-        setEmail("");
-        setPasswordOne("");
-        setPasswordTwo("");
+        setUsername('');
+        setEmail('');
+        setPasswordOne('');
+        setPasswordTwo('');
         setError(null);
-        history.push(ROUTES.ACCOUNT);
+        history.push(ROUTES.HOME);
       })
       .catch(err => {
         setError(err.message);
@@ -50,57 +50,57 @@ export function SignUpFormBase({ history, firebase, initialData }) {
 
   const isInvalid =
     passwordOne !== passwordTwo ||
-    passwordOne === "" ||
-    email === "" ||
-    username === "";
+    passwordOne === '' ||
+    email === '' ||
+    username === '';
 
   return (
     <form onSubmit={onSubmit} className={styles.form}>
       <div className={styles.inputContainer}>
         <Input
-          name="username"
+          name='username'
           value={username}
           onChange={e => setUsername(e.target.value)}
-          type="text"
-          label="Full Name"
+          type='text'
+          label='Full Name'
           required={true}
         />
       </div>
       <div className={styles.inputContainer}>
         <Input
-          name="email"
+          name='email'
           value={email}
           onChange={e => setEmail(e.target.value)}
-          type="text"
-          label="Email Address"
+          type='text'
+          label='Email Address'
           required={true}
         />
       </div>
       <div className={styles.inputContainer}>
         <Input
-          name="passwordOne"
+          name='passwordOne'
           value={passwordOne}
           onChange={e => setPasswordOne(e.target.value)}
-          type="password"
-          label="Password"
+          type='password'
+          label='Password'
           required={true}
         />
       </div>
       <div className={styles.inputContainer}>
         <Input
-          name="passwordTwo"
+          name='passwordTwo'
           value={passwordTwo}
           onChange={e => setPasswordTwo(e.target.value)}
-          type="password"
-          label="Confirm Password"
+          type='password'
+          label='Confirm Password'
           required={true}
         />
       </div>
-      <Button disabled={isInvalid} type="submit" data-testid="sign-up-button">
+      <Button disabled={isInvalid} type='submit' data-testid='sign-up-button'>
         Sign Up
       </Button>
 
-      {error && <p className="error-message">{error}</p>}
+      {error && <p className='error-message'>{error}</p>}
     </form>
   );
 }

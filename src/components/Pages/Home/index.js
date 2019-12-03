@@ -4,7 +4,6 @@ import { AuthUserContext } from '../../Session';
 import Layout from 'components/Layout';
 import { Context } from 'store';
 import styles from './Home.module.scss';
-import { Link } from 'react-router-dom';
 import SignOut from 'components/SignOut';
 import Button from 'components/Button';
 import HomeHeader from 'components/HomeHeader';
@@ -66,8 +65,9 @@ function HomePage() {
                 <div className={styles.ctaSection}>
                   {hasPlayed && (
                     <>
-                      <p>Damn, you've played the latest round</p>
-                      <p>you can play an old one for fun</p>
+                      <p className={styles.text}>
+                        Damn, you've played the latest round
+                      </p>
                     </>
                   )}
                   {!hasPlayed ? (
