@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { compose } from 'recompose';
 import { withRouter, useParams } from 'react-router-dom';
 
@@ -11,14 +11,37 @@ import Layout from 'components/Layout';
 import LoadingSpinner from 'components/LoadingSpinner';
 
 import { quizPage } from './QuizPageContainer.module.scss';
-import { UPDATE_TOTAL_SCORE } from '../../store/actions';
+import {
+  UPDATE_TOTAL_SCORE,
+  ADD_VALUES_TO_LEADERBOARD,
+} from '../../store/actions';
 
 function QuizPage({ firebase, history }) {
   const { dispatch, store } = useContext(Context);
   const authUser = useContext(AuthUserContext);
-  const { quizContent } = store;
+  const { quizContent, leaderboard } = store;
 
   const { id: archivedRoundId } = useParams();
+
+  useEffect(() => {
+    if (!leaderboard) {
+      firebase.leaderboard().on('value', snapshot => {
+        const leaderboardObject = snapshot.val();
+        if (leaderboardObject) {
+          dispatch({
+            type: ADD_VALUES_TO_LEADERBOARD,
+            payload: {
+              leaderboard: leaderboardObject,
+            },
+          });
+        }
+      });
+    }
+
+    return () => {
+      firebase.leaderboard().off();
+    };
+  });
 
   function handleOnGameOver({ finalScore, roundId }) {
     if (!authUser) {
@@ -31,6 +54,10 @@ function QuizPage({ firebase, history }) {
       // TODO: take to a page where they have to sign up to persist
       history.push('/signup');
       return;
+    }
+
+    // check if its a high score
+    if (leaderboard) {
     }
     return firebase.updateUserProgress(
       { finalScore, authUser, roundId },

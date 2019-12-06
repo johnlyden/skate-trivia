@@ -53,6 +53,19 @@ class Firebase {
       })
       .then(() => {
         localStorage.update('authUser', 'score', newScore);
+        // if don't have the
+        // [200, 150, 50, 30]
+        // if newScore is higher than any on these, then it should take that place
+        // turn the keys into
+        /**
+         *
+         * {
+         *  200 : {
+         *            username: 'Non Ya'
+         *        }
+         * }
+         *
+         */
         next();
       });
   };

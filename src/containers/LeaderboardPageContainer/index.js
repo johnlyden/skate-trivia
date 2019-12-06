@@ -1,19 +1,35 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 
 import { compose } from 'recompose';
 import { withRouter } from 'react-router-dom';
 import { withFirebase } from 'components/Firebase';
+import { Context } from 'store';
+import { ADD_VALUES_TO_LEADERBOARD } from '../../store/actions';
+
+import Layout from 'components/Layout';
 
 function LeaderboardPageContainer({ firebase }) {
-  const [leaderboard, setLeaderboard] = useState(null);
+  const [highScores, setHighScores] = useState(null);
+
+  const { dispatch, store } = useContext(Context);
+
+  // const { leaderboard } = store;j
 
   useEffect(() => {
-    console.log('leaderboad useeffect');
+    if (highScores) {
+      return;
+    }
+
     firebase.leaderboard().on('value', snapshot => {
       const leaderboardObject = snapshot.val();
       if (leaderboardObject) {
-        console.log({ leaderboardObject });
-        setLeaderboard(leaderboardObject);
+        setHighScores(leaderboardObject);
+        dispatch({
+          type: ADD_VALUES_TO_LEADERBOARD,
+          payload: {
+            leaderboard: leaderboardObject,
+          },
+        });
       }
     });
 
@@ -22,13 +38,19 @@ function LeaderboardPageContainer({ firebase }) {
     };
   }, []);
 
-  if (!leaderboard) {
-    return null;
-  }
   return (
     <>
-      {/* {leaderboard} */}
-      <h2>LeaderboardPageContainer</h2>
+      <div data-testid='leaderboard-page'>
+        <Layout>
+          <h2>Leaderboard</h2>
+          {highScores &&
+            Object.keys(highScores).map(highScore => (
+              <h2>
+                {highScore}: {highScores[highScore]}
+              </h2>
+            ))}
+        </Layout>
+      </div>
     </>
   );
 }
