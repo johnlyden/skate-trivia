@@ -39,10 +39,21 @@ class Firebase {
 
   users = () => this.db.ref('users');
 
+  // *** Leaderboard API ***
+  leaderboard = () => this.db.ref('leaderboard');
+
   updateUserProgress = (payload, next) => {
     // the authUser object is the authUser merged with the user data in realtime database
-    const { authUser, roundId, finalScore } = payload;
+    const { authUser, roundId, finalScore, hasNewHighScore } = payload;
     const newScore = authUser.score + finalScore;
+
+    // TODO this is not updating - its messing up
+    if (hasNewHighScore) {
+      this.leaderboard().update({
+        [newScore]: authUser.username,
+      });
+    }
+
     this.user(authUser.uid)
       .update({
         ...authUser,
@@ -54,25 +65,9 @@ class Firebase {
       })
       .then(() => {
         localStorage.update('authUser', 'score', newScore);
-        // if don't have the
-        // [200, 150, 50, 30]
-        // if newScore is higher than any on these, then it should take that place
-        // turn the keys into
-        /**
-         *
-         * {
-         *  200 : {
-         *            username: 'Non Ya'
-         *        }
-         * }
-         *
-         */
         next();
       });
   };
-
-  // *** Leaderboard API ***
-  leaderboard = () => this.db.ref('leaderboard').orderByKey();
 
   updateLeaderboard = (next, fallback) =>
     this.leaderboard()

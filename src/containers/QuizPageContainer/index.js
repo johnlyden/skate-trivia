@@ -9,6 +9,8 @@ import { Context } from 'store';
 import QuizContainer, { DELAY } from 'containers/QuizContainer';
 import Layout from 'components/Layout';
 import LoadingSpinner from 'components/LoadingSpinner';
+// import { formatScore } from '../../utils/helpers';
+import { formatScores } from 'utils/helpers';
 
 import { quizPage } from './QuizPageContainer.module.scss';
 import {
@@ -25,7 +27,7 @@ function QuizPage({ firebase, history }) {
 
   useEffect(() => {
     if (!leaderboard) {
-      firebase.leaderboard().on('value', snapshot => {
+      firebase.leaderboard().once('value', snapshot => {
         const leaderboardObject = snapshot.val();
         if (leaderboardObject) {
           dispatch({
@@ -57,12 +59,19 @@ function QuizPage({ firebase, history }) {
     }
 
     // check if its a high score
+    let hasNewHighScore = false;
+
     if (leaderboard) {
-      const highScores = Object.keys(leaderboard).sort();
-      console.log(highScores);
+      const highScores = formatScores(leaderboard);
+      const userHighScore = authUser.score + finalScore;
+
+      if (userHighScore > highScores[highScores.length - 1][0]) {
+        hasNewHighScore = true;
+      }
     }
+
     return firebase.updateUserProgress(
-      { finalScore, authUser, roundId },
+      { finalScore, authUser, roundId, hasNewHighScore },
       () => {
         setTimeout(() => {
           dispatch({
