@@ -15,7 +15,6 @@ const withAuthorization = condition => Component => {
       // TODO: this needs to be moved into a hook or something
       this.listener = this.props.firebase.onAuthUserListener(
         authUser => {
-          console.log('asdfasdfsdfsdfsdf');
           if (!condition(authUser)) {
             this.props.history.push(ROUTES.SIGN_IN);
           }
@@ -25,7 +24,6 @@ const withAuthorization = condition => Component => {
     }
 
     componentWillUnmount() {
-      console.log('its umounting');
       this.listener();
     }
 

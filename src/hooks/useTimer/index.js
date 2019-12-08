@@ -10,7 +10,6 @@ function useTimer(time, cb) {
     }, time + 500);
 
     return () => {
-      console.log('fuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuu');
       clearTimeout(timer);
     };
   });

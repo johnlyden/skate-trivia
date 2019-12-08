@@ -42,6 +42,8 @@ class Firebase {
   // *** Leaderboard API ***
   leaderboard = () => this.db.ref('leaderboard');
 
+  // leader = uid => this.db.ref(`leaderboard/${uid}`);
+
   updateUserProgress = (payload, next) => {
     // the authUser object is the authUser merged with the user data in realtime database
     const { authUser, roundId, finalScore, hasNewHighScore } = payload;
@@ -50,7 +52,7 @@ class Firebase {
     // TODO this is not updating - its messing up
     if (hasNewHighScore) {
       this.leaderboard().update({
-        [newScore]: authUser.username,
+        [authUser.username]: newScore,
       });
     }
 
@@ -78,16 +80,12 @@ class Firebase {
 
   // when score updates
   onAuthUserScoreUpdateListener = (userId, next, fallback) =>
-    this.user(userId).on('child_changed', function(data) {
-      console.log('------------------', data);
-    });
+    this.user(userId).on('child_changed', function(data) {});
 
   // Merge Auth and DB User API
   onAuthUserListener = (next, fallback) =>
     this.auth.onAuthStateChanged(authUser => {
-      console.log('authstatechanged');
       if (authUser) {
-        console.log('ur auth');
         this.user(authUser.uid)
           .once('value')
           // TODO: A READ FROM THE DB - look up the authUser's data from real time database

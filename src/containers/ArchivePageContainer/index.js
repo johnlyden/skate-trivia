@@ -18,8 +18,6 @@ function ArchivePage({ firebase, history }) {
   const { roundsPlayed } = authUser;
   const { archivedRounds } = store;
 
-  console.log({ store });
-  console.log({ authUser });
   // function handleOnGameOver({ finalScore, roundId }) {
   //   if (!authUser) {
   //     dispatch({

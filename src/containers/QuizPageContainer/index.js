@@ -9,7 +9,6 @@ import { Context } from 'store';
 import QuizContainer, { DELAY } from 'containers/QuizContainer';
 import Layout from 'components/Layout';
 import LoadingSpinner from 'components/LoadingSpinner';
-// import { formatScore } from '../../utils/helpers';
 import { formatScores } from 'utils/helpers';
 
 import { quizPage } from './QuizPageContainer.module.scss';
@@ -64,11 +63,25 @@ function QuizPage({ firebase, history }) {
     if (leaderboard) {
       const highScores = formatScores(leaderboard);
       const userHighScore = authUser.score + finalScore;
-
       if (userHighScore > highScores[highScores.length - 1][0]) {
         hasNewHighScore = true;
+
+        let place = '';
+        highScores.reverse().forEach((s, i) => {
+          if (userHighScore > s[0]) {
+            place = i;
+            return;
+          }
+        });
+
+        console.log({ place });
+        // newSecond = [[userHighScore, "authUser.username"]]
+        // [130, 'dave']
+        // [[100, "john"], [200, "leader"]]
       }
     }
+
+    const ranking = 'third';
 
     return firebase.updateUserProgress(
       { finalScore, authUser, roundId, hasNewHighScore },
@@ -80,7 +93,7 @@ function QuizPage({ firebase, history }) {
               totalScore: authUser.score + finalScore,
             },
           });
-          history.push('/home');
+          history.push(`/leaderboard?place=${ranking}`);
         }, DELAY);
       },
     );

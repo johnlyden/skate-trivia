@@ -17,17 +17,11 @@ function LeaderboardPageContainer({ firebase }) {
   const { leaderboard } = store;
 
   useEffect(() => {
-    // don't attach listener if we already have the data
-    // if (leaderboard) {
-    //   return;
-    // }
-
     // Listen for updates when leaderboard changes to update in real time
     firebase.leaderboard().on('value', snapshot => {
       const leaderboardObject = snapshot.val();
 
       if (leaderboardObject) {
-        console.log({ leaderboardObject });
         dispatch({
           type: ADD_VALUES_TO_LEADERBOARD,
           payload: {
