@@ -9,21 +9,19 @@ import { ADD_VALUES_TO_LEADERBOARD } from '../../store/actions';
 import Layout from 'components/Layout';
 
 function LeaderboardPageContainer({ firebase }) {
-  const [highScores, setHighScores] = useState(null);
-
   const { dispatch, store } = useContext(Context);
 
-  // const { leaderboard } = store;j
+  const { leaderboard } = store;
 
   useEffect(() => {
-    if (highScores) {
+    if (leaderboard) {
       return;
     }
 
     firebase.leaderboard().on('value', snapshot => {
       const leaderboardObject = snapshot.val();
+
       if (leaderboardObject) {
-        setHighScores(leaderboardObject);
         dispatch({
           type: ADD_VALUES_TO_LEADERBOARD,
           payload: {
@@ -38,19 +36,41 @@ function LeaderboardPageContainer({ firebase }) {
     };
   }, []);
 
+  if (!leaderboard) {
+    return null;
+  }
+
+  function formatScores(objectOfScores) {
+    return Object.keys(objectOfScores)
+      .map(s => [parseInt(s, 10), objectOfScores[s]])
+      .sort()
+      .reverse();
+  }
+
+  const scores = formatScores(leaderboard);
+
   return (
     <>
       <div data-testid='leaderboard-page'>
         <Layout>
-          <h2>Leaderboard</h2>
-          {highScores &&
-            Object.keys(highScores).map(highScore => (
-              <h2>
-                {highScore}: {highScores[highScore]}
-              </h2>
-            ))}
+          <Leaderboard scores={scores} />
         </Layout>
       </div>
+    </>
+  );
+}
+
+function Leaderboard({ scores }) {
+  return (
+    <>
+      <h2>Leaderboard</h2>
+      {scores.map((score, i) => {
+        return (
+          <h2 key={i}>
+            {score[0]}: {score[1]}
+          </h2>
+        );
+      })}
     </>
   );
 }

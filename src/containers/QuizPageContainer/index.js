@@ -58,6 +58,8 @@ function QuizPage({ firebase, history }) {
 
     // check if its a high score
     if (leaderboard) {
+      const highScores = Object.keys(leaderboard).sort();
+      console.log(highScores);
     }
     return firebase.updateUserProgress(
       { finalScore, authUser, roundId },

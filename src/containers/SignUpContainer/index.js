@@ -23,6 +23,7 @@ export function SignUpFormBase({ history, firebase, initialData }) {
       .doCreateUserWithEmailAndPassword(email, passwordOne)
       .then(authUser => {
         // Create a user in your Firebase realtime database
+        // this is where we are creating a new record, maybe we don't use set?
         return firebase.user(authUser.user.uid).set({
           username,
           email,

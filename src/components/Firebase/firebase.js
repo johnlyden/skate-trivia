@@ -40,6 +40,7 @@ class Firebase {
   users = () => this.db.ref('users');
 
   updateUserProgress = (payload, next) => {
+    // the authUser object is the authUser merged with the user data in realtime database
     const { authUser, roundId, finalScore } = payload;
     const newScore = authUser.score + finalScore;
     this.user(authUser.uid)
@@ -71,7 +72,7 @@ class Firebase {
   };
 
   // *** Leaderboard API ***
-  leaderboard = () => this.db.ref('leaderboard');
+  leaderboard = () => this.db.ref('leaderboard').orderByKey();
 
   updateLeaderboard = (next, fallback) =>
     this.leaderboard()
@@ -94,7 +95,7 @@ class Firebase {
         console.log('ur auth');
         this.user(authUser.uid)
           .once('value')
-          // TODO: A READ FROM THE DB - happens
+          // TODO: A READ FROM THE DB - look up the authUser's data from real time database
           .then(snapshot => {
             const dbUser = snapshot.val();
 
