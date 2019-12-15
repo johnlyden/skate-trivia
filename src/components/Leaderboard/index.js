@@ -1,14 +1,15 @@
 import React from 'react';
+import * as styles from './Leaderboard.module.scss';
 
 function Leaderboard({ scores }) {
   return (
     <>
-      <h2>Leaderboard</h2>
+      <h2 className={styles.headline}>Leaderboard</h2>
       {scores.map((score, i) => {
         return (
-          <h2 key={i}>
-            {score[0]}: {score[1]}
-          </h2>
+          <h3 className={styles.scoreItem} key={i}>
+            {score[1]}: {score[0]}
+          </h3>
         );
       })}
     </>

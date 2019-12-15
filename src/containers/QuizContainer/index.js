@@ -28,7 +28,7 @@ const config = {
   colors: ['#a864fd', '#29cdff', '#78ff44', '#ff718d', '#fdff6a'],
 };
 
-function QuizContainer({ onGameOver, quizContent }) {
+function QuizContainer({ onGameOver, quizContent, isArchivedRound }) {
   const { roundName, roundQuestions, roundId } = quizContent;
   const quizLength = roundQuestions.length;
 
@@ -98,6 +98,7 @@ function QuizContainer({ onGameOver, quizContent }) {
         title={roundName}
         score={score}
         questionIndex={questionIndex + 1}
+        showScore={!isArchivedRound}
       />
       <QuizBody
         question={body}

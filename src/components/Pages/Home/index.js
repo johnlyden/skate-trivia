@@ -7,7 +7,7 @@ import styles from './Home.module.scss';
 import SignOut from 'components/SignOut';
 import Button from 'components/Button';
 import HomeHeader from 'components/HomeHeader';
-
+import localStorage from 'services/localStorage';
 import cx from 'classnames';
 
 /**
@@ -41,13 +41,16 @@ function HomePage() {
     allContent = { ...allContent, ...archivedRounds };
   }
 
+  const localData = localStorage.get('authUser');
+  const { roundsPlayed } = localData;
+
+  console.log({ localData });
+  console.log({ roundsPlayed });
   return (
     <AuthUserContext.Consumer>
       {authUser => {
-        console.log({ authUser });
-        const hasPlayed = authUser.roundsPlayed
-          ? authUser.roundsPlayed[currentRound]
-          : null;
+        const hasPlayed =
+          localData.roundsPlayed && localData.roundsPlayed[currentRound];
 
         return (
           <div className={styles.HomePage} style={{ height: '100vh' }}>

@@ -11,10 +11,10 @@ export const mockFirebase = {
     return {
       then: jest.fn(() => {
         return {
-          catch: jest.fn(() => {})
+          catch: jest.fn(() => {}),
         };
       }),
-      catch: jest.fn(() => {})
+      catch: jest.fn(() => {}),
     };
   }),
   doCreateUserWithEmailAndPassword: jest.fn(() => {
@@ -23,22 +23,27 @@ export const mockFirebase = {
         return {
           then: jest.fn(() => {
             return {
-              catch: jest.fn(() => {})
+              catch: jest.fn(() => {}),
             };
-          })
+          }),
         };
       }),
-      catch: jest.fn(() => {})
+      catch: jest.fn(() => {}),
     };
   }),
   doPasswordUpdate: jest.fn(() => {
     return {
       then: jest.fn(() => {
         return {
-          catch: jest.fn(() => {})
+          catch: jest.fn(() => {}),
         };
       }),
-      catch: jest.fn(() => {})
+      catch: jest.fn(() => {}),
     };
-  })
+  }),
+  leaderboard: jest.fn(() => {
+    return {
+      once: jest.fn(() => {}),
+    };
+  }),
 };

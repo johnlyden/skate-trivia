@@ -65,22 +65,19 @@ class Firebase {
         },
         score: newScore,
       })
-      .then(() => {
+      .then(u => {
         localStorage.update('authUser', 'score', newScore);
+        localStorage.update('authUser', 'roundsPlayed', {
+          ...authUser.roundsPlayed,
+          [roundId]: finalScore,
+        });
         next();
       });
   };
 
-  updateLeaderboard = (next, fallback) =>
-    this.leaderboard()
-      .set({
-        leader: 'johnny',
-      })
-      .then(() => {});
-
   // when score updates
-  onAuthUserScoreUpdateListener = (userId, next, fallback) =>
-    this.user(userId).on('child_changed', function(data) {});
+  // onAuthUserScoreUpdateListener = (userId, next, fallback) =>
+  //   this.user(userId).on('child_changed', function(data) {});
 
   // Merge Auth and DB User API
   onAuthUserListener = (next, fallback) =>

@@ -16,6 +16,7 @@ function ArchivePage({ firebase, history }) {
   const authUser = useContext(AuthUserContext);
 
   const { roundsPlayed } = authUser;
+  console.log({ authUser });
   const { archivedRounds } = store;
 
   // function handleOnGameOver({ finalScore, roundId }) {
@@ -51,16 +52,19 @@ function ArchivePage({ firebase, history }) {
   }
 
   return (
-    <div data-testid='archive-page'>
-      <Layout>
-        <h3>Play some old shit</h3>
-        {Object.keys(archivedRounds).map(round => {
-          return <RoundListItem round={archivedRounds[round]} />;
-        })}
-      </Layout>
-    </div>
+    <Layout>
+      <div data-testid='archive-page' className={styles.archivePage}>
+        <div>
+          <h2 className={styles.headline}>Play an old round</h2>
+          <p className={styles.subHeadline}>you won't get points for it tho</p>
+          {Object.keys(archivedRounds).map(round => {
+            return <RoundListItem round={archivedRounds[round]} />;
+          })}
+        </div>
+        <Button to='/home'>Home</Button>
+      </div>
+    </Layout>
   );
-  return <h2>ArchivePage</h2>;
 }
 
 function RoundListItem({ round }) {
