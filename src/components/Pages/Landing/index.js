@@ -28,9 +28,7 @@ function Landing() {
             )
           }
         </AuthUserContext.Consumer>
-        <p style={{ textAlign: 'center', color: '#fff', marginBottom: '0' }}>
-          New quiz everyday, bich
-        </p>
+        <p className={styles.subtext}>New quiz everyday, bich</p>
       </div>
     </Layout>
   );

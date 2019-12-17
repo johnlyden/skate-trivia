@@ -1,7 +1,10 @@
 import React, { useContext } from 'react';
 import Layout from 'components/Layout';
+import Button from 'components/Button';
+import SignUpHeader from 'components/SignUpHeader';
 import SignUpForm from 'containers/SignUpContainer';
 import { Context } from 'store';
+
 function SignUpPageContainer() {
   const { store } = useContext(Context);
   const { totalScore, quizContent } = store;
@@ -12,15 +15,12 @@ function SignUpPageContainer() {
   }
 
   return (
-    <div>
-      <Layout>
-        {totalScore && (
-          <p>you scored {totalScore} points - sign up to save ur progress</p>
-        )}
-        <h1>SignUp</h1>
-        <SignUpForm initialData={{ totalScore, roundId }} />
-      </Layout>
-    </div>
+    <Layout>
+      <SignUpHeader score={totalScore} />
+      <SignUpForm initialData={{ totalScore, roundId }} />
+      <p style={{ textAlign: 'center' }}>already a player?</p>
+      <Button to='/signin'>Sign In</Button>
+    </Layout>
   );
 }
 

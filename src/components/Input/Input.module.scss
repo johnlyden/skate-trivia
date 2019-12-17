@@ -6,12 +6,16 @@
     position: absolute;
     top: 0;
     left: 0;
-    font-size: 1.2em;
+    font-size: 0.75rem;
     font-weight: 500;
     -webkit-transition: all 0.15s ease-in-out;
     -moz-transition: all 0.15s ease-in-out;
     transition: all 0.15s ease-in-out;
     pointer-events: none;
+  }
+
+  input {
+    border-radius: 8px;
   }
 
   input[type='text'],
@@ -27,7 +31,7 @@
     transition: all 0.2s ease-in-out;
     border: none;
     border-bottom: 1px solid #cdcdcd;
-    padding: 0.3em 0.5em 0.2em 0.5em;
+    padding: 0.5rem;
     text-decoration: none;
     outline: 0;
     line-height: 1em;
@@ -49,7 +53,8 @@
   input[type='password']:valid ~ label {
     top: -1.6rem;
     position: absolute;
-    font-size: 1em;
+    font-size: 0.9rem;
+    color: blue;
     -webkit-transition: all 0.15s ease-in-out;
     -moz-transition: all 0.15s ease-in-out;
     transition: all 0.15s ease-in-out;
@@ -57,6 +62,6 @@
 
   input:invalid:not(:focus) ~ label {
     left: 8px;
-    top: 2px;
+    top: 12px;
   }
 }

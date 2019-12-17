@@ -63,7 +63,7 @@ export function SignUpFormBase({ history, firebase, initialData }) {
           value={username}
           onChange={e => setUsername(e.target.value)}
           type='text'
-          label='Full Name'
+          label='Username'
           required={true}
         />
       </div>
