@@ -37,7 +37,7 @@
     line-height: 1.4rem;
     margin: 0;
     width: 100%;
-    font-size: 0.9rem;
+    font-size: 1rem;
     font-weight: 400;
     color: black;
   }
@@ -53,7 +53,7 @@
   input[type='password']:valid ~ label {
     top: -1.6rem;
     position: absolute;
-    font-size: 0.9rem;
+    font-size: 1rem;
     color: blue;
     -webkit-transition: all 0.15s ease-in-out;
     -moz-transition: all 0.15s ease-in-out;
