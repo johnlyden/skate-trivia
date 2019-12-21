@@ -9,7 +9,7 @@ function HomeHeader({ name, totalScore }) {
         <h2>{firstLetter}</h2>
       </div>
       <h3 className={styles.heading}>{name}</h3>
-      <div>Total score: {totalScore}</div>
+      <div className={styles.scoreContainer}>Total score: {totalScore}</div>
     </div>
   );
 }

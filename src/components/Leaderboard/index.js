@@ -3,7 +3,7 @@ import * as styles from './Leaderboard.module.scss';
 
 function Leaderboard({ scores }) {
   return (
-    <>
+    <div className={styles.leaderboard}>
       <h2 className={styles.headline}>Leaderboard</h2>
       {scores.map((score, i) => {
         return (
@@ -12,7 +12,7 @@ function Leaderboard({ scores }) {
           </h3>
         );
       })}
-    </>
+    </div>
   );
 }
 

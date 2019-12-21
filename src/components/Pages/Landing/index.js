@@ -11,7 +11,7 @@ function Landing() {
   return (
     <Layout>
       <div className={styles.landingPage}>
-        <PageTitle>Skate Stompers</PageTitle>
+        <PageTitle text='Skate Stumpers' />
         <div className={styles.logoContainer}>
           <img src={logo} alt='skate stumpers logo' />
         </div>
@@ -28,7 +28,7 @@ function Landing() {
             )
           }
         </AuthUserContext.Consumer>
-        <p className={styles.subtext}>New quiz everyday, bich</p>
+        <p className={styles.subtext}>New questions daily, bich</p>
       </div>
     </Layout>
   );

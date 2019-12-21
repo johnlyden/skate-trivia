@@ -58,8 +58,12 @@ export function QuizPageBase({ firebase, history }) {
       return;
     }
 
+    if (archivedRoundId) {
+      history.push('/archive');
+      return;
+    }
     // check if its a high score
-    let hasNewHighScore = false;
+    let hasNewHighScore = true;
     let ranking = '';
     let redirectUrl = `/leaderboard`;
 
@@ -105,7 +109,7 @@ export function QuizPageBase({ firebase, history }) {
       },
     );
   }
-  console.log('heeeeeeeeeeeeeeeeeee', quizContent);
+
   return (
     <Layout>
       <div className={quizPage} data-testid='quiz-page'>
