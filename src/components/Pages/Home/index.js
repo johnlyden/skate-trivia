@@ -44,8 +44,6 @@ function HomePage() {
   const localData = localStorage.get('authUser');
   const { roundsPlayed } = localData;
 
-  console.log({ localData });
-  console.log({ roundsPlayed });
   return (
     <AuthUserContext.Consumer>
       {authUser => {
@@ -70,6 +68,9 @@ function HomePage() {
                     <>
                       <p className={styles.text}>
                         Damn, you've played the latest round
+                      </p>
+                      <p className={styles.smallText}>
+                        keep an eye out for the next one
                       </p>
                     </>
                   )}
