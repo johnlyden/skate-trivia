@@ -51,6 +51,7 @@ class Firebase {
 
     // TODO this is not updating - its messing up
     if (hasNewHighScore) {
+      console.log('update leaderboard');
       this.leaderboard().update({
         [authUser.username]: newScore,
       });

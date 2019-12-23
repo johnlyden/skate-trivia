@@ -2,6 +2,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+  position: relative;
   // font-size: 1.3rem;
   padding: 16px 16px 8px;
   border-bottom: solid 1px skyblue;
@@ -15,6 +16,17 @@
   margin: 0 auto;
 
   max-width: 33%;
+  img {
+    width: 100%;
+  }
+}
+
+.logoContainer {
+  width: 12%;
+  left: 50%;
+
+  top: 0;
+  position: absolute;
   img {
     width: 100%;
   }
