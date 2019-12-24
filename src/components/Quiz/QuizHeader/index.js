@@ -5,6 +5,7 @@ import QuizTitle from 'components/QuizTitle';
 import QuizScore from 'components/QuizScore';
 import styles, { quizHeader } from './QuizHeader.module.scss';
 import logo from 'images/skatestompers.png';
+import Move from 'components/Animations/Move';
 
 function QuizHeader({ title, score, questionIndex, quizLength, showScore }) {
   return (
@@ -19,11 +20,13 @@ function QuizHeader({ title, score, questionIndex, quizLength, showScore }) {
 
 function Logo() {
   return (
-    <Link to='/'>
-      <div className={styles.logoContainer}>
-        <img src={logo} alt='skate stumpers logo' />
-      </div>
-    </Link>
+    <Move>
+      <Link to='/'>
+        <div className={styles.logoContainer}>
+          <img src={logo} alt='skate stumpers logo' />
+        </div>
+      </Link>
+    </Move>
   );
 }
 
