@@ -62,7 +62,7 @@ export function SignInFormBase({ history, firebase }) {
       </div>
       {error && <p className='error-message'>{error}</p>}
       <Button disabled={isInvalid} type='submit' data-testid='sign-in-button'>
-        Sign In binch
+        Sign In
       </Button>
     </form>
   );

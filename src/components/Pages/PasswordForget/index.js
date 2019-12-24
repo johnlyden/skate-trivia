@@ -82,7 +82,7 @@ const PasswordForgetLink = () => (
     tabIndex='0'
     className={StyleSheet.headline}
   >
-    Forgot Password bich?
+    Forgot Password?
   </Link>
 );
 

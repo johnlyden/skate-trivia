@@ -28,7 +28,7 @@ function Landing() {
             )
           }
         </AuthUserContext.Consumer>
-        <p className={styles.subtext}>New questions daily, bich</p>
+        <p className={styles.subtext}>New questions daily (possibly)</p>
       </div>
     </Layout>
   );
