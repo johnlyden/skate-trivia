@@ -12,7 +12,7 @@ function QuizHeader({ title, score, questionIndex, quizLength, showScore }) {
     <div className={quizHeader}>
       {/* <QuizTitle title={title} /> */}
       <QuestionCount currentQuestion={questionIndex} quizLength={quizLength} />
-      <Logo />
+      {/* <Logo /> */}
       {showScore && <QuizScore score={score} />}
     </div>
   );

@@ -7,16 +7,20 @@ import Input from 'components/Input';
 import Button from 'components/Button';
 import Layout from 'components/Layout';
 
+import styles from './PasswordForget.module.scss';
+
 const PasswordForgetPage = () => (
   <Layout>
-    <h1>PasswordForget</h1>
+    <h1 className={styles.headline} style={{ marginBottom: '2rem' }}>
+      PasswordForget
+    </h1>
     <PasswordForgetForm />
   </Layout>
 );
 
 const INITIAL_STATE = {
   email: '',
-  error: null
+  error: null,
 };
 
 class PasswordForgetFormBase extends Component {
@@ -73,7 +77,11 @@ class PasswordForgetFormBase extends Component {
 }
 
 const PasswordForgetLink = () => (
-  <Link to={ROUTES.PASSWORD_FORGET} tabIndex='0'>
+  <Link
+    to={ROUTES.PASSWORD_FORGET}
+    tabIndex='0'
+    className={StyleSheet.headline}
+  >
     Forgot Password bich?
   </Link>
 );
