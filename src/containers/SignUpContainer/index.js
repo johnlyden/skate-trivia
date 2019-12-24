@@ -34,10 +34,9 @@ export function SignUpFormBase({ history, firebase, initialData }) {
           },
         });
       })
-      .then(authUser => {
-        console.log('updatenn the leaderboard');
+      .then(() => {
         firebase.leaderboard().update({
-          [authUser.username]: initialData.totalScore,
+          [username]: initialData.totalScore,
         });
         setUsername('');
         setEmail('');
