@@ -22,7 +22,7 @@ import {
 export function QuizPageBase({ firebase, history }) {
   const { dispatch, store } = useContext(Context);
   const authUser = useContext(AuthUserContext);
-  const { quizContent, leaderboard } = store;
+  const { quizContent, leaderboard, archivedRounds } = store;
 
   const { id: archivedRoundId } = useParams();
 
@@ -110,17 +110,21 @@ export function QuizPageBase({ firebase, history }) {
     );
   }
 
+  console.log({ archivedRounds });
+
   return (
     <Layout>
       <div className={quizPage} data-testid='quiz-page'>
         {quizContent ? (
           <>
             {archivedRoundId && (
-              <ArchivedIndicator archivedDate={quizContent.roundName} />
+              <ArchivedIndicator
+                archivedDate={archivedRounds[archivedRoundId].roundName}
+              />
             )}
             <QuizContainer
               onGameOver={handleOnGameOver}
-              quizContent={quizContent}
+              quizContent={archivedRounds[archivedRoundId]}
               authUser={authUser}
               isArchivedRound={archivedRoundId}
             />
