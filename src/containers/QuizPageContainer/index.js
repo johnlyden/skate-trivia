@@ -110,7 +110,19 @@ export function QuizPageBase({ firebase, history }) {
     );
   }
 
-  console.log({ archivedRounds });
+  if (archivedRoundId && !archivedRounds) {
+    return (
+      <Layout>
+        <LoadingSpinner></LoadingSpinner>
+      </Layout>
+    );
+  }
+
+  let round = quizContent;
+
+  if (archivedRounds && archivedRoundId) {
+    round = archivedRounds[archivedRoundId];
+  }
 
   return (
     <Layout>
@@ -118,11 +130,11 @@ export function QuizPageBase({ firebase, history }) {
         {quizContent ? (
           <>
             {archivedRoundId && (
-              <ArchivedIndicator archivedDate={quizContent.roundName} />
+              <ArchivedIndicator archivedDate={round.roundName} />
             )}
             <QuizContainer
               onGameOver={handleOnGameOver}
-              quizContent={quizContent}
+              quizContent={round}
               authUser={authUser}
               isArchivedRound={archivedRoundId}
             />

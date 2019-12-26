@@ -1,6 +1,9 @@
 import React, { useContext } from 'react';
 import { compose } from 'recompose';
 import { withRouter } from 'react-router-dom';
+import compareAsc from 'date-fns/compareAsc';
+import parse from 'date-fns/parse';
+import compareDesc from 'date-fns/compareDesc';
 
 import { AuthUserContext } from 'components/Session';
 import { withFirebase } from 'components/Firebase';
@@ -16,7 +19,6 @@ function ArchivePage({ firebase, history }) {
   const authUser = useContext(AuthUserContext);
 
   const { roundsPlayed } = authUser;
-  console.log({ authUser });
   const { archivedRounds } = store;
 
   // function handleOnGameOver({ finalScore, roundId }) {
@@ -57,9 +59,16 @@ function ArchivePage({ firebase, history }) {
         <div>
           <h2 className={styles.headline}>Play an old round</h2>
           <p className={styles.subHeadline}>you won't get points for it tho</p>
-          {Object.keys(archivedRounds).map(round => {
-            return <RoundListItem round={archivedRounds[round]} />;
-          })}
+          {Object.keys(archivedRounds)
+            .sort((a, b) =>
+              compareDesc(
+                parse(archivedRounds[a].roundName, 'MM/dd/yyyy', new Date()),
+                parse(archivedRounds[b].roundName, 'MM/dd/yyyy', new Date()),
+              ),
+            )
+            .map(round => {
+              return <RoundListItem round={archivedRounds[round]} />;
+            })}
         </div>
         <Button to='/home'>Home</Button>
       </div>
