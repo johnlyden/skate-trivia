@@ -118,13 +118,11 @@ export function QuizPageBase({ firebase, history }) {
         {quizContent ? (
           <>
             {archivedRoundId && (
-              <ArchivedIndicator
-                archivedDate={archivedRounds[archivedRoundId].roundName}
-              />
+              <ArchivedIndicator archivedDate={quizContent.roundName} />
             )}
             <QuizContainer
               onGameOver={handleOnGameOver}
-              quizContent={archivedRounds[archivedRoundId]}
+              quizContent={quizContent}
               authUser={authUser}
               isArchivedRound={archivedRoundId}
             />

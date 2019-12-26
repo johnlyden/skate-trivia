@@ -57,11 +57,9 @@ function ArchivePage({ firebase, history }) {
         <div>
           <h2 className={styles.headline}>Play an old round</h2>
           <p className={styles.subHeadline}>you won't get points for it tho</p>
-          {Object.keys(archivedRounds)
-            .sort((a, b) => a - b)
-            .map(round => {
-              return <RoundListItem round={archivedRounds[round]} />;
-            })}
+          {Object.keys(archivedRounds).map(round => {
+            return <RoundListItem round={archivedRounds[round]} />;
+          })}
         </div>
         <Button to='/home'>Home</Button>
       </div>
