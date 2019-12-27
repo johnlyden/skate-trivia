@@ -4,10 +4,11 @@ $medium: 1024px;
 $large: 1100px;
 
 .question {
-  font-size: 1rem;
+  font-size: 0.8rem;
   text-align: center;
-  margin: 1rem 0;
-  min-height: 28vw;
+  margin: 0.5rem 0 1rem;
+  min-height: 16vw;
+  padding: 1rem;
   background-color: rgba(255, 255, 255, 0.5);
   border-radius: 4px;
   display: flex;
