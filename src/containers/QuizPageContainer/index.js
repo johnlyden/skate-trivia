@@ -125,7 +125,7 @@ export function QuizPageBase({ firebase, history }) {
   }
 
   return (
-    <Layout>
+    <Layout bottomLogo>
       <div className={quizPage} data-testid='quiz-page'>
         {quizContent ? (
           <>

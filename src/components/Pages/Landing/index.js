@@ -4,15 +4,15 @@ import { AuthUserContext } from '../../Session';
 import { Context } from 'store';
 import Button from 'components/Button';
 import Layout from 'components/Layout';
+
 import localStorage from 'services/localStorage';
 import PageTitle from 'components/PageTitle';
-
 import * as styles from './Landing.module.scss';
 
 function Landing() {
   const { store } = useContext(Context);
   const { quizContent } = store;
-  const localData = localStorage.get('authUser');
+  const localData = localStorage.get('authUser') || {};
   const { roundsPlayed } = localData;
 
   if (!quizContent) {
@@ -21,7 +21,7 @@ function Landing() {
   const { roundId: currentRound } = quizContent;
 
   return (
-    <Layout>
+    <Layout hideLogo>
       <div className={styles.landingPage}>
         <PageTitle text='Skate Stumpers' />
         <div className={styles.logoContainer}>

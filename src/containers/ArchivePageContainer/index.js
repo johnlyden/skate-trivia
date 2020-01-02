@@ -54,7 +54,7 @@ function ArchivePage({ firebase, history }) {
   }
 
   return (
-    <Layout>
+    <Layout bottomLogo>
       <div data-testid='archive-page' className={styles.archivePage}>
         <div>
           <h2 className={styles.headline}>Play an old round</h2>

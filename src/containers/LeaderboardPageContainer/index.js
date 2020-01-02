@@ -51,9 +51,9 @@ function LeaderboardPageContainer({ firebase }) {
   const scores = formatScores(leaderboard);
 
   return (
-    <Layout>
+    <Layout bottomLogo>
       <div data-testid='leaderboard-page' className={styles.leaderboardPage}>
-        <div>
+        <div style={{ marginBottom: '24px' }}>
           {rank && <h3>{rank}</h3>}
           <Leaderboard scores={scores} />
         </div>

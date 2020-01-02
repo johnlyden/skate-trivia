@@ -1,0 +1,13 @@
+.logoContainer {
+  width: 45px;
+  position: absolute;
+  left: 24px;
+
+  img {
+    width: 100%;
+  }
+
+  &.bottom {
+    bottom: 8px;
+  }
+}

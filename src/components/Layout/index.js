@@ -2,15 +2,17 @@ import React from 'react';
 import { container, footerText } from './Layout.module.scss';
 import Div100vh from 'react-div-100vh';
 import useMedia from 'use-media';
+import Logo from 'components/Logo';
 
 function Layout(props) {
-  const { children } = props;
+  const { children, hideLogo, bottomLogo } = props;
 
   const isLargerThanPhone = useMedia({ minWidth: 600 });
 
   return (
     <Div100vh>
       <div className={container}>
+        {!hideLogo && <Logo bottomPlacement={bottomLogo} />}
         {!isLargerThanPhone ? (
           children
         ) : (
