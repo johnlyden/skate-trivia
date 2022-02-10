@@ -8,7 +8,7 @@
     "date-fns": "^2.8.1",
     "firebase": "^5.11.1",
     "mdbreact": "^4.19.2",
-    "node-sass": "^4.12.0",
+    "node-sass": "^7.0.0",
     "query-string": "^6.9.0",
     "react": "^16.9.0",
     "react-circular-progressbar": "^2.0.2",
